@@ -4,7 +4,9 @@ const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
 
+
 const config: Config = {
+  
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -18,10 +20,22 @@ const config: Config = {
           100: "#000319",
         },
       },
+      screens: {
+        'sm': '576px',
+        // => @media (min-width: 576px) { ... }
+  
+        'md': '982px',
+        // => @media (min-width: 960px) { ... }
+  
+        'lg': '1504px',
+        // => @media (min-width: 1440px) { ... }
+      },
     },
   },
   plugins: [addVariablesForColors],
 };
+
+
 
 
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).

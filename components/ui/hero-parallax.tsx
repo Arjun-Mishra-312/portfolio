@@ -32,7 +32,7 @@ export const HeroParallax = ({
   const springConfig = { stiffness: 300, damping: 30, bounce: 100 };
 
   const translateX = useSpring(
-    useTransform(scrollYProgress, [0, 1], [-500, 500]),
+    useTransform(scrollYProgress, [0, 0.1], [-250, 0]),
     springConfig
   );
   const translateXReverse = useSpring(
@@ -40,25 +40,25 @@ export const HeroParallax = ({
     springConfig
   );
   const rotateX = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [15, 0]),
+    useTransform(scrollYProgress, [0, 0.1], [15, 0]),
     springConfig
   );
   const opacity = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [0.2, 1]),
+    useTransform(scrollYProgress, [0, 0.1], [0.2, 1]),
     springConfig
   );
   const rotateZ = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [20, 0]),
+    useTransform(scrollYProgress, [0, 0.1], [20, 0]),
     springConfig
   );
   const translateY = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [-700, 500]),
+    useTransform(scrollYProgress, [0, 0.1], [-700, 300]),
     springConfig
   );
   return (
     <div
       ref={ref}
-      className="h-[300vh] py-40 overflow-hidden  antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
+      className="pb-0 overflow-hidden  antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
     >
       <Header />
       <motion.div
@@ -66,20 +66,21 @@ export const HeroParallax = ({
           rotateX,
           rotateZ,
           translateY,
+          translateX,
           opacity,
         }}
         className=""
       >
-        <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
-          {firstRow.map((product) => (
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1  place-items-center">
+          {products.map((product) => (
             <ProductCard
               product={product}
               translate={translateX}
               key={product.title}
             />
           ))}
-        </motion.div>
-        <motion.div className="flex flex-row  mb-20 space-x-20 ">
+        </div>
+        {/* <motion.div className="flex flex-row  mb-20 space-x-10 ">
           {secondRow.map((product) => (
             <ProductCard
               product={product}
@@ -96,15 +97,16 @@ export const HeroParallax = ({
               key={product.title}
             />
           ))}
-        </motion.div>
+        </motion.div> */}
       </motion.div>
+      <div className="h-[20rem]"></div>
     </div>
   );
 };
 
 export const Header = () => {
   return (
-    <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full  left-0 top-0">
+    <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full left-0 top-0">
       <h1 className="text-2xl md:text-7xl font-bold dark:text-white">
         The Ultimate <br /> development studio
       </h1>
@@ -129,69 +131,49 @@ export const ProductCard = ({
   translate: MotionValue<number>;
 }) => {
   return (
-    <motion.div
-      style={{
-        x: 0,
-      }}
-      whileHover={{
-        y: -20,
-      }}
-    //   key={product.title}
-      className="group/product h-96 w-[30rem] relative flex-shrink-0"
-    >
-      {/* <Link
-        href={product.link}
-        className="block group-hover/product:shadow-2xl "
-      > */}
-        <CardContainer className="inter-var">
-          <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  ">
-            <CardItem
-              translateZ="50"
-              className="text-xl font-bold text-neutral-600 dark:text-white"
-            >
-              Make things float in air
-            </CardItem>
-            <CardItem
-              as="p"
-              translateZ="60"
-              className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
-            >
-              Hover over this card to unleash the power of CSS perspective
-            </CardItem>
-            <CardItem translateZ="100" className="w-full mt-4">
-              <Image
-                src={product.thumbnail}
-                height="800"
-                width="800"
-                className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
-                alt="thumbnail"
-              />
-            </CardItem>
-            <div className="flex justify-between items-center mt-10">
-              <CardItem
-                translateZ={20}
-                as={Link}
-                href="https://twitter.com/mannupaaji"
-                target="__blank"
-                className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
-              >
-                Try now →
-              </CardItem>
-              <CardItem
-                translateZ={20}
-                as="button"
-                className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
-              >
-                Sign up
-              </CardItem>
-            </div>
-          </CardBody>
-        </CardContainer>
-      {/* </Link> */}
-      {/* <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none"></div>
-      <h2 className="absolute bottom-4 left-4 opacity-0 group-hover/product:opacity-100 text-white">
-        {product.title}
-      </h2> */}
-    </motion.div>
+    <CardContainer className="inter-var">
+      <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  ">
+        <CardItem
+          translateZ="50"
+          className="text-xl font-bold text-neutral-600 dark:text-white"
+        >
+          Make things float in air
+        </CardItem>
+        <CardItem
+          as="p"
+          translateZ="60"
+          className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+        >
+          Hover over this card to unleash the power of CSS perspective
+        </CardItem>
+        <CardItem translateZ="100" className="w-full mt-4">
+          <Image
+            src={product.thumbnail}
+            height="800"
+            width="800"
+            className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
+            alt="thumbnail"
+          />
+        </CardItem>
+        <div className="flex justify-between items-center mt-10">
+          <CardItem
+            translateZ={20}
+            as={Link}
+            href="https://twitter.com/mannupaaji"
+            target="__blank"
+            className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
+          >
+            Try now →
+          </CardItem>
+          <CardItem
+            translateZ={20}
+            as="button"
+            className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
+          >
+            Sign up
+          </CardItem>
+        </div>
+      </CardBody>
+    </CardContainer>
   );
 };
