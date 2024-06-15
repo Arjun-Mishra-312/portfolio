@@ -71,7 +71,7 @@ export const HeroParallax = ({
         }}
         className=""
       >
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1  place-items-center">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 place-items-center">
           {products.map((product) => (
             <ProductCard
               product={product}
