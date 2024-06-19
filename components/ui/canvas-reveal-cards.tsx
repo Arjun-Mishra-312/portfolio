@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, color, motion } from "framer-motion";
 import { CanvasRevealEffect } from "@/components/ui/canvas-reveal-effect";
 
 import {
@@ -28,35 +28,33 @@ import {
   IconBrandNextjs,
   IconCloudCode,
 } from "@tabler/icons-react";
+import { Meteors } from "./meteors";
 
 export function CanvasRevealEffectDemo() {
   return (
     <>
       <div className="py-20 flex flex-col lg:flex-row items-center justify-center bg-white dark:bg-black-100 w-full gap-4 mx-auto px-8">
-        <Card skills={frontend} icon="Frontend">
+        <Card skills={frontend} icon="Frontend" bgColor="#059669">
           <CanvasRevealEffect
-            animationSpeed={5.1}
-            containerClassName="bg-emerald-900"
+            animationSpeed={0}
+            containerClassName="bg-emerald-600"
           />
         </Card>
-        <Card skills={backend} icon="Backend">
+        <Card skills={backend} icon="Backend" bgColor="#06b6d4">
           <CanvasRevealEffect
-            animationSpeed={4}
-            containerClassName="bg-orange-900"
-            colors={[
-              [210, 156, 64],
-            ]}
+            animationSpeed={0}
+            containerClassName="bg-cyan-500"
+            
             // dotSize={2}
           />
 
           {/* Radial gradient for the cute fade */}
           {/* <div className="absolute inset-0 [mask-image:radial-gradient(400px_at_center,white,transparent)] bg-gray-900 dark:gray-900" /> */}
         </Card>
-        <Card skills={others} icon="Languages & Addional Skills">
+        <Card skills={others} icon="Languages & Addional Skills" bgColor="#0ea5e9">
           <CanvasRevealEffect
-            animationSpeed={3}
-            containerClassName="bg-sky-600"
-            colors={[[125, 211, 252]]}
+            animationSpeed={0}
+            containerClassName="bg-sky-500"
           />
         </Card>
       </div>
@@ -187,6 +185,7 @@ const Card = ({
   skills,
   icon,
   children,
+  bgColor,
 }: {
   skills: {
     title: string;
@@ -195,14 +194,16 @@ const Card = ({
   }[];
   icon: React.ReactNode;
   children?: React.ReactNode;
+  bgColor?: string;
 }) => {
   const [hovered, setHovered] = React.useState(false);
   return (
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="border border-black/[0.2] group/canvas-card flex items-center justify-center dark:border-white/[0.2]  max-w-sm w-full mx-auto p-4 relative h-[30rem]"
+      className="border shadow-xl bg-gray-900 border-gray-800 group/canvas-card overflow-hidden flex items-center justify-center  max-w-sm w-full mx-auto p-4 relative h-[30rem]"
     >
+      <Meteors number={30} className="max-w-sm group-hover/canvas-card:-translate-y-4 group-hover/canvas-card:opacity-0 transition duration-200"/>
       <Icon className="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-black" />
       <Icon className="absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-black" />
       <Icon className="absolute h-6 w-6 -top-3 -right-3 dark:text-white text-black" />
@@ -233,11 +234,13 @@ const Card = ({
               />
             ))}
           </div>
-          <div className=" absolute dark:text-white text-center group-hover/canvas-card:-translate-y-4 group-hover/canvas-card:opacity-0 transition duration-200 w-full  mx-auto flex items-center justify-center inset-0">
+          <div className=" absolute text-center group-hover/canvas-card:-translate-y-4 group-hover/canvas-card:opacity-0 transition duration-200 w-full  mx-auto flex items-center justify-center inset-0"
+          style={{color: bgColor,fontSize:20, fontFamily: "cursive",}}>
             {icon}
           </div>
         </div>
       </div>
+      
     </div>
   );
 };
@@ -252,8 +255,9 @@ export const SkillCard = ({
   bgColor?: string;
 }) => {
   return (
-    <div className="h-[5rem] w-[5rem] border border-gray-200 rounded-3xl shadow-md flex flex-col justify-center items-center p-2"
-    style={{ backgroundColor: "", 
+    <div className="h-[5rem] w-[5rem] border rounded-3xl shadow-md flex flex-col justify-center items-center p-2"
+    style={{ backgroundColor: "",
+      borderColor: bgColor, 
       opacity: 0.7,
       backdropFilter: "blur(20px)",
       backgroundClip: "padding-box",
