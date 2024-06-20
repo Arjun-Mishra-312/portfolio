@@ -7,7 +7,7 @@ export function Experiences() {
   return (
     <div className="p-10 grid grid-cols-1 lg:grid-cols-3 gap-4 max-w-7xl mx-auto w-full">
       <WobbleCard
-        containerClassName="col-span-1 lg:col-span-2 h-full bg-blue-900  min-h-[700px] lg:min-h-[700px]"
+        containerClassName="col-span-1 lg:col-span-2 h-full bg-blue-900  min-h-[880px] lg:min-h-[600px]"
         className=""
       >
         <Image
@@ -39,13 +39,13 @@ export function Experiences() {
           </p>
         </div>
 
-        {/* <Image
-          src="/linear.webp"
+        <Image
+          src="/code.png"
           width={500}
           height={500}
           alt="linear demo image"
-          className="absolute -right-4 lg:-right-[40%] grayscale filter -bottom-10 object-contain rounded-2xl"
-        /> */}
+          className="absolute -right-4 lg:-right-[20%] filter -bottom-10 object-contain rounded-2xl"
+        />
       </WobbleCard>
       <WobbleCard containerClassName="col-span-1 row-span-1 min-h-[600px]">
         <h2 className="max-w-80  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
@@ -73,9 +73,16 @@ export function Experiences() {
           className="relative -right-[70%] -bottom-10 object-contain rounded-xl"
         />
       </WobbleCard>
-      <WobbleCard containerClassName="col-span-1 lg:col-span-2 bg-pink-800 min-h-[600px] lg:min-h-[600px] xl:min-h-[600px]">
+      <WobbleCard containerClassName="col-span-1 lg:col-span-2 bg-pink-800 min-h-[820px] lg:min-h-[700px] xl:min-h-[700px]">
         <div className="max-w-sm pb-8">
-          <h2 className="max-w-sm md:max-w-lg  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
+        <Image
+          src="/a2d logo.jpg"
+          width={100}
+          height={100}
+          alt="linear demo image"
+          className="lg:absolute sm:relative lg:right-4 sm:right-4 object-contain rounded-2xl"
+        />
+          <h2 className="max-w-sm md:max-w-lg  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white pt-5">
             Flutter Developer Intern| A2D Innovations Pvt Ltd| Lucknow, UP,
             India (Remote)
           </h2>
@@ -94,12 +101,19 @@ export function Experiences() {
             personalized APIs and data models in Flutter.
           </p>
         </div>
-        <Image
+        {/* <Image
           src="/a2d logo.jpg"
           width={100}
           height={100}
           alt="linear demo image"
-          className="absolute right-4 bottom-5 object-contain rounded-xl"
+          className="absolute right-4 top-5 object-contain rounded-xl"
+        /> */}
+        <Image
+          src="/github.png"
+          width={500}
+          height={500}
+          alt="linear demo image"
+          className="absolute -right-10 md:-right-[20%] lg:-right-[20%] -bottom-10 object-contain rounded-2xl"
         />
       </WobbleCard>
     </div>
