@@ -32,7 +32,19 @@ export function TypewriterEffectSmoothDemo() {
         Thank you for visiting my portfolio
       </p>
       <TypewriterEffectSmooth words={words} />
-      <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
+      <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 px-4">
+              <Link href="/Resume.pdf">
+                <button className="bg-black dark:bg-white w-40 h-10 rounded-xl text-white dark:text-black">
+                  Resume
+                </button>
+              </Link>
+              <Link href="/transcript.pdf">
+                <button className="bg-black dark:bg-white w-40 h-10 rounded-xl text-white dark:text-black">
+                  Transcript
+                </button>
+              </Link>
+            </div>
+      <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 pt-4">
         <Link href="https://www.linkedin.com/in/-arjun-mishra/">
           <button className="w-40 h-10 rounded-xl bg-black border dark:border-blue-400 border-transparent dark:text-blue-400 text-sm">
             Connect on LinkedIn

@@ -32,24 +32,14 @@ export function Intro() {
               <br />
               Welcome to my portfolio!
             </div>
-            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 pt-2">
-              <Link href="/Resume.pdf">
-                <button className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2">
-                  Resume
-                </button>
-              </Link>
-              <Link href="https://devpost.com/software/covinet" passHref legacyBehavior>
-                <button className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2">
-                  Transcript
-                </button>
-              </Link>
-            </div>
+           
           </div>
             <div className="relative w-60 h-60 sm:mt-10">
               <Image
                 src="/pfp.png" // Replace with the path to your photo
                 alt="Your Name"
                 layout="fill"
+                sizes="100%"
                 className="object-cover"
                 style={{borderRadius: "50px" }}
               />
@@ -58,7 +48,7 @@ export function Intro() {
       </motion.div>
       
 
-      <BackgroundBeams className="h-screen" />
+      <BackgroundBeams className="h-screen" />py-20 flex items-center justify-center
     </div>
   );
 };
