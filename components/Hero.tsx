@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { BackgroundBeams } from "./ui/background-beams";
 import Link from "next/link";
 import Image from "next/image";
 import { FlipWords } from "./ui/flip-words";
@@ -46,9 +45,6 @@ export function Intro() {
             </div>
           {/* </div> */}
       </motion.div>
-      
-
-      <BackgroundBeams className="h-screen" />py-20 flex items-center justify-center
     </div>
   );
 };
