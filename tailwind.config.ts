@@ -19,6 +19,10 @@ const config: Config = {
           DEFAULT: "#000",
           100: "#000319",
         },
+        white: {
+          DEFAULT: "#fff",
+          100: "#f6f5f3",
+        },
       },
       screens: {
         'sm': '576px',
