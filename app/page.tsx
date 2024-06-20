@@ -1,7 +1,7 @@
 import Hero from "@/components/Hero";
-import Checking from "@/components/checking";
 import { TypewriterEffectSmoothDemo } from "@/components/contact";
 import { Experiences } from "@/components/experiences";
+import Projects from "@/components/projects";
 import { CanvasRevealEffectDemo } from "@/components/ui/canvas-reveal-cards";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import Image from "next/image";
@@ -17,7 +17,7 @@ export default function Home() {
         <CanvasRevealEffectDemo />
         <TextGenerateEffect words="Experiences" />
         <Experiences />
-        <Checking/>
+        <Projects/>
         <TypewriterEffectSmoothDemo />
       </div>
     </main>
