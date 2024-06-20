@@ -44,6 +44,7 @@ export function TypewriterEffectSmoothDemo() {
           </button>
         </Link>
       </div>
+      
     </div>
   );
 }

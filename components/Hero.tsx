@@ -4,13 +4,13 @@ import { motion } from "framer-motion";
 import { BackgroundBeams } from "./ui/background-beams";
 import Link from "next/link";
 import Image from "next/image";
+import { FlipWords } from "./ui/flip-words";
 
-
-
-const Hero = () => {
+export function Intro() {
+  const words = ["Website\u00A0Developer", "App\u00A0Developer", "Team\u00A0Player", "Passionate\u00A0Individual"];
   return (
     <div className="h-screen pb-20 pt-36">
-        <motion.div
+      <motion.div
         initial={{ opacity: 0.0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{
@@ -18,42 +18,49 @@ const Hero = () => {
           duration: 0.8,
           ease: "easeInOut",
         }}
-        className="relative flex flex-col gap-4 items-center justify-center px-4"
+        className="relative flex lg:flex-row flex-col gap-4 items-center justify-center px-4"
       >
-        <div className="flex items-center justify-center mt-8">
-      <div className="relative w-32 h-32">
-        <Image
-          src="/path/to/your/photo.jpg" // Replace with the path to your photo
-          alt="Your Name"
-          layout="fill"
-          className="rounded-full object-cover"
-        />
-      </div>
-    </div>
-        <div className="text-3xl md:text-7xl font-bold dark:text-white text-center">
-          Arjun Mishra
-        </div>
-        <div className="font-extralight text-base md:text-4xl dark:text-neutral-200 py-4">
-          And this, is chemical burn.
-        </div>
-        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
-        <Link href="https://www.linkedin.com/in/-arjun-mishra/">
-        <button className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2">
-          Resume
-        </button>
-        </Link>
-        <Link href={""}>
-        <button className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2">
-          Transcript
-        </button>
-        </Link>
-      </div>
-        
+        {/* <div className="relative flex sm:flex-col md:flex-col lg:flex-row items-center justify-evenly w-screen"> */}
+          <div>
+            <div className="text-3xl md:text-7xl font-bold dark:text-white text-start">
+              Arjun Mishra
+            </div>
+            <div className="font-extralight text-base md:text-3xl dark:text-neutral-200 py-4">
+              Hi there! I am a 
+              <FlipWords words={words} /> <br />
+              I build captivating digital experiences as a developer and designer.
+              <br />
+              Welcome to my portfolio!
+            </div>
+            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 pt-2">
+              <Link href="/Resume.pdf">
+                <button className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2">
+                  Resume
+                </button>
+              </Link>
+              <Link href="https://devpost.com/software/covinet" passHref legacyBehavior>
+                <button className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2">
+                  Transcript
+                </button>
+              </Link>
+            </div>
+          </div>
+            <div className="relative w-60 h-60 sm:mt-10">
+              <Image
+                src="/pfp.png" // Replace with the path to your photo
+                alt="Your Name"
+                layout="fill"
+                className="object-cover"
+                style={{borderRadius: "50px" }}
+              />
+            </div>
+          {/* </div> */}
       </motion.div>
       
-        <BackgroundBeams className="h-screen"/>
+
+      <BackgroundBeams className="h-screen" />
     </div>
   );
 };
 
-export default Hero;
+

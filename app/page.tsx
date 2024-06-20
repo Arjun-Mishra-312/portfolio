@@ -1,4 +1,4 @@
-import Hero from "@/components/Hero";
+import {Intro} from "@/components/Hero";
 import { TypewriterEffectSmoothDemo } from "@/components/contact";
 import { Experiences } from "@/components/experiences";
 import Projects from "@/components/projects";
@@ -12,7 +12,7 @@ export default function Home() {
     <main className="w-full relative bg-black-100 flex justify-center 
     items-center flex-col overflow-hidden ">
       <div className="max-2-7xl w-full justify-centers items-center flex flex-col">
-        <Hero />
+        <Intro />
         <TextGenerateEffect words="Skills | Hover to Reveal" />
         <CanvasRevealEffectDemo />
         <TextGenerateEffect words="Experiences" />
