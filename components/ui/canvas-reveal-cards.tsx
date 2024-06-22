@@ -33,7 +33,7 @@ import { Meteors } from "./meteors";
 export function CanvasRevealEffectDemo() {
   return (
     <>
-      <div className="py-20 flex flex-col lg:flex-row items-center justify-center bg-white dark:bg-black-100 w-full gap-4 mx-auto px-8">
+      <div className="py-20 flex flex-col lg:flex-row items-center justify-center bg-black-100 w-full gap-4 mx-auto px-8">
         <Card skills={frontend} icon="Frontend" bgColor="#059669">
           <CanvasRevealEffect
             animationSpeed={0}
@@ -204,10 +204,10 @@ const Card = ({
       className="border shadow-xl bg-gray-900 border-gray-800 group/canvas-card overflow-hidden flex items-center justify-center  max-w-sm w-full mx-auto p-4 relative h-[30rem]"
     >
       <Meteors number={30} className="max-w-sm group-hover/canvas-card:-translate-y-4 group-hover/canvas-card:opacity-0 transition duration-200"/>
-      <Icon className="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-black" />
-      <Icon className="absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-black" />
-      <Icon className="absolute h-6 w-6 -top-3 -right-3 dark:text-white text-black" />
-      <Icon className="absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-black" />
+      <Icon className="absolute h-6 w-6 -top-3 -left-3 text-white" />
+      <Icon className="absolute h-6 w-6 -bottom-3 -left-3 text-white " />
+      <Icon className="absolute h-6 w-6 -top-3 -right-3 text-white " />
+      <Icon className="absolute h-6 w-6 -bottom-3 -right-3 text-white " />
 
       <AnimatePresence>
         {hovered && (

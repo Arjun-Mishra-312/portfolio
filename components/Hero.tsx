@@ -21,10 +21,10 @@ export function Intro() {
       >
         {/* <div className="relative flex sm:flex-col md:flex-col lg:flex-row items-center justify-evenly w-screen"> */}
           <div>
-            <div className="text-3xl md:text-7xl font-bold dark:text-white text-start">
+            <div className="text-3xl md:text-7xl font-bold text-white text-start">
               Arjun Mishra
             </div>
-            <div className="font-extralight text-base md:text-3xl dark:text-neutral-200 py-4">
+            <div className="font-extralight text-base md:text-3xl text-neutral-200 py-4">
               Hi there! I am a 
               <FlipWords words={words} /> <br />
               I build captivating digital experiences as a developer and designer.
