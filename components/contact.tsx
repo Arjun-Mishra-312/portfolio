@@ -66,7 +66,7 @@ export function TypewriterEffectSmoothDemo() {
             </div>
           </button>
         </Link>
-        <Link href="mailto:arjun.mishra.work@gmail.com">
+        <Link href="mailto:arjun03@student.ubc.ca">
         <button className="relative w-40 inline-flex h-12 overflow-hidden rounded-full p-[1px] bg-teal-500 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-teal-500">
             {/* <div className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#80CBC4_0%,#009688_50%,#80CBC4_100%)]" /> */}
             <div className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-black-100 px-3 py-1 text-sm font-medium text-teal-500 backdrop-blur-3xl">
