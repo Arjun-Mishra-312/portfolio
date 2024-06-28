@@ -201,13 +201,13 @@ const Card = ({
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="border shadow-xl bg-gray-900 border-gray-800 group/canvas-card overflow-hidden flex items-center justify-center  max-w-sm w-full mx-auto p-4 relative h-[30rem]"
+      className="border rounded-2xl shadow-xl bg-gray-900 border-gray-800 group/canvas-card overflow-hidden flex items-center justify-center  max-w-sm w-full mx-auto p-4 relative h-[30rem]"
     >
       <Meteors number={30} className="max-w-sm group-hover/canvas-card:-translate-y-4 group-hover/canvas-card:opacity-0 transition duration-200"/>
-      <Icon className="absolute h-6 w-6 -top-3 -left-3 text-white" />
+      {/* <Icon className="absolute h-6 w-6 -top-3 -left-3 text-white" />
       <Icon className="absolute h-6 w-6 -bottom-3 -left-3 text-white " />
       <Icon className="absolute h-6 w-6 -top-3 -right-3 text-white " />
-      <Icon className="absolute h-6 w-6 -bottom-3 -right-3 text-white " />
+      <Icon className="absolute h-6 w-6 -bottom-3 -right-3 text-white " /> */}
 
       <AnimatePresence>
         {hovered && (
