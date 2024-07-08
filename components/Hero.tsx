@@ -32,13 +32,15 @@ export function Intro() {
           <div className="font-extralight text-base md:text-3xl text-neutral-200 py-4">
             Hi there! I am a
             <FlipWords words={words} /> <br />
-            I am a junior Computer Science Major at UBC,
+            <br />
+            I am a junior Computer Science major at UBC,
             <br />
             passionate about building captivating digital experiences
             <br />
             as a developer.
+            {/* <br /> */}
             <br />
-            Welcome to my portfolio!
+            Welcome to my portfolio!!
           </div>
         </div>
         <div className="relative w-60 h-60 sm:mt-10">
