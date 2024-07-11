@@ -33,7 +33,7 @@ export default function Home() {
     <main className="w-full relative bg-black-100 flex justify-center 
     items-center flex-col overflow-hidden scroll-smooth ">
       <div className="max-2-7xl w-full justify-centers items-center flex flex-col">
-      <FloatingNav navItems={navItems} />
+      {/* <FloatingNav navItems={navItems} /> */}
         <Intro />
         <TextGenerateEffect words="Skills | Hover to Reveal" />
         <CanvasRevealEffectDemo />
