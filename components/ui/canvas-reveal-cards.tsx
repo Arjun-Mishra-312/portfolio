@@ -235,7 +235,7 @@ const Card = ({
             ))}
           </div>
           <div className=" absolute text-center group-hover/canvas-card:-translate-y-4 group-hover/canvas-card:opacity-0 transition duration-200 w-full  mx-auto flex items-center justify-center inset-0"
-          style={{color: bgColor,fontSize:20, fontFamily: "cursive",}}>
+          style={{color: bgColor,fontSize:20, fontFamily: "montserrat",}}>
             {icon}
           </div>
         </div>

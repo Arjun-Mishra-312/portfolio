@@ -14,6 +14,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'montserrat': ['Montserrat'],
+        'lato': ['Lato'],
+        'garamond': ['Garamond']
+    },
       colors: {
         black: {
           DEFAULT: "#000",
