@@ -256,10 +256,11 @@ export const SkillCard = ({
 }) => {
   return (
     <div className="h-[5rem] w-[5rem] border rounded-3xl shadow-md flex flex-col justify-center items-center p-2"
-    style={{ backgroundColor: "",
+    style={{ backgroundColor: "#000319",
       borderColor: bgColor, 
-      opacity: 0.7,
-      backdropFilter: "blur(20px)",
+      opacity: 1,
+      // backdropFilter: "blur(20px)",
+      borderWidth: "2px",
       backgroundClip: "padding-box",
     }}>
       {icon}
