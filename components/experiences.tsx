@@ -7,7 +7,7 @@ export function Experiences() {
   return (
     <div className="p-10 grid grid-cols-1 lg:grid-cols-3 gap-4 max-w-7xl mx-auto w-full">
       <WobbleCard
-        containerClassName="col-span-1 lg:col-span-2 h-full bg-blue-900  min-h-[880px] lg:min-h-[600px]"
+        containerClassName="col-span-1 lg:col-span-3 h-full bg-blue-900  min-h-[880px] lg:min-h-[600px]"
         className=""
       >
         <Image
@@ -44,10 +44,10 @@ export function Experiences() {
           width={500}
           height={500}
           alt="linear demo image"
-          className="absolute -right-4 lg:-right-[20%] filter -bottom-10 object-contain rounded-2xl"
+          className="absolute -right-4 lg:-right-[0%] filter -bottom-10 object-contain rounded-2xl"
         />
       </WobbleCard>
-      <WobbleCard containerClassName="col-span-1 row-span-1 min-h-[600px]">
+      {/* <WobbleCard containerClassName="col-span-1 row-span-1 min-h-[600px]">
         <h2 className="max-w-80  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
           Software Developer Intern| MorningStar Technologies| Lucknow, UP,
           India
@@ -72,8 +72,8 @@ export function Experiences() {
           alt="linear demo image"
           className="relative -right-[70%] -bottom-10 object-contain rounded-xl"
         />
-      </WobbleCard>
-      <WobbleCard containerClassName="col-span-1 lg:col-span-2 bg-pink-800 min-h-[820px] lg:min-h-[700px] xl:min-h-[700px]">
+      </WobbleCard> */}
+      <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-pink-800 min-h-[820px] lg:min-h-[700px] xl:min-h-[700px]">
         <div className="max-w-sm pb-8">
         <Image
           src="/a2d logo.jpg"
@@ -113,7 +113,7 @@ export function Experiences() {
           width={500}
           height={500}
           alt="linear demo image"
-          className="absolute -right-10 md:-right-[20%] lg:-right-[20%] -bottom-10 object-contain rounded-2xl"
+          className="absolute -right-10 md:-right-[20%] lg:-right-[0%] -bottom-10 object-contain rounded-2xl"
         />
       </WobbleCard>
     </div>
