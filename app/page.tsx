@@ -35,7 +35,7 @@ export default function Home() {
       <div className="max-2-7xl w-full justify-centers items-center flex flex-col">
       {/* <FloatingNav navItems={navItems} /> */}
         <Intro />
-        <TextGenerateEffect words="Skills | Hover to Reveal" />
+        <TextGenerateEffect words="Skills | Hover to Reveal" className="pt-10"/>
         <CanvasRevealEffectDemo />
         <TextGenerateEffect words="Experiences" />
         <Experiences />
