@@ -15,7 +15,7 @@ export const products = [
     thumbnail: "/JobGeek.png",
   },
   {
-    title: "Covninet",
+    title: "Covinet",
     description:
       "Changing the way we handle covid. When you don’t know where to test, or who to talk to when you’re dealing with covid, CoviNet has you covered.",
     link: "https://devpost.com/software/covinet",
