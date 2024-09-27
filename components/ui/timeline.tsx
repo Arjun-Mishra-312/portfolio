@@ -21,7 +21,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
   useEffect(() => {
     if (ref.current) {
       const rect = ref.current.getBoundingClientRect();
-      setHeight(rect.height);
+      setHeight(rect.height - 100);
     }
   }, [ref]);
 
@@ -99,8 +99,7 @@ export function TimelineDemo() {
           <p className="text-neutral-800 dark:text-neutral-100 text-l md:text-sm font-bold mb-8">
             Undergraduate Teaching Assistant | UBC | Vancouver, BC
           </p>
-          <p className="text-neutral-800 dark:text-neutral-200 text-s md:text-sm font-normal mb-8">
-            <ul className="list-disc list-inside">
+            <ul className="list-disc list-inside text-neutral-800 dark:text-neutral-200 text-s md:text-sm font-normal mb-8">
               <li>
                 Teaching Assistant for upper-year level Computer Networking
                 course (CPSC 317), focusing on network protocols, architecture,
@@ -112,10 +111,10 @@ export function TimelineDemo() {
                 explaining complex networking concepts
               </li>
             </ul>
-          </p>
+          
           <div className="grid grid-cols-1 gap-4">
             <Image
-              src="/UBC_CS_logo.jpg"
+              src="/UBC_CS_logo.png"
               width={300}
               height={300}
               //   style={{objectFit:"contain"}}
@@ -133,8 +132,8 @@ export function TimelineDemo() {
           <p className="text-neutral-800 dark:text-neutral-100 text-l md:text-sm font-bold mb-8">
             Tech Associate | Dyne | Vancouver, BC
           </p>
-          <p className="text-neutral-800 dark:text-neutral-200 text-s md:text-sm font-normal mb-8">
-            <ul className="list-disc list-inside">
+
+            <ul className="list-disc list-inside text-neutral-800 dark:text-neutral-200 text-s md:text-sm font-normal mb-8">
               <li>
                 Automated 40% of testing processes using Flutter and Katalon
                 Studios, reducing manual testing time by 60% and improving
@@ -146,7 +145,6 @@ export function TimelineDemo() {
                 performance.
               </li>
             </ul>
-          </p>
           <div className="grid grid-cols-1 gap-4">
             <Image
               src="/dyne logo.png"
@@ -167,8 +165,7 @@ export function TimelineDemo() {
             Flutter Developer Intern| A2D Innovations Pvt Ltd| Lucknow, UP,
             India (Remote)
           </p>
-          <p className="text-neutral-800 dark:text-neutral-200 text-s md:text-sm font-normal mb-8">
-            <ul className="list-disc list-inside">
+            <ul className="list-disc list-inside text-neutral-800 dark:text-neutral-200 text-s md:text-sm font-normal mb-8">
               <li>
                 Implemented 10+ new modules and libraries, contributing to a 40%
                 increase in app functionality.
@@ -182,7 +179,6 @@ export function TimelineDemo() {
                 backend-to-frontend data flow efficiency by 40%.
               </li>
             </ul>
-          </p>
           <div className="grid grid-cols-1 gap-4">
             <Image
               src="/a2d logo.jpg"
