@@ -5,6 +5,7 @@ import Projects from "@/components/projects";
 import { CanvasRevealEffectDemo } from "@/components/ui/canvas-reveal-cards";
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import { TimelineDemo } from "@/components/ui/timeline";
 import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
 import Image from "next/image";
 
@@ -38,7 +39,7 @@ export default function Home() {
         <TextGenerateEffect words="Skills | Hover to Reveal" className="pt-10"/>
         <CanvasRevealEffectDemo />
         <TextGenerateEffect words="Experiences" />
-        <Experiences />
+        <TimelineDemo />
         <Projects/>
         <TypewriterEffectSmoothDemo />
       </div>
