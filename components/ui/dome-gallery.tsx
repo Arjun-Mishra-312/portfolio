@@ -171,6 +171,32 @@ export default function DomeGallery({
 
   const items = useMemo(() => buildItems(images, segments), [images, segments]);
 
+  // Preload a critical subset of images to avoid white flash before showing the gallery
+  useEffect(() => {
+    const criticalCount = Math.min(32, items.length);
+    const critical = items.slice(0, criticalCount).map(it => it.src).filter(Boolean);
+    if (critical.length === 0) return;
+
+    let resolved = 0;
+    const done = () => {
+      resolved++;
+      if (resolved >= critical.length) {
+        try {
+          window.dispatchEvent(new CustomEvent('portfolio:gallery-critical-ready'));
+        } catch {}
+      }
+    };
+
+    critical.forEach(src => {
+      const img = new Image();
+      img.decoding = 'async';
+      img.loading = 'eager' as any;
+      img.onload = done;
+      img.onerror = done;
+      img.src = src;
+    });
+  }, [items]);
+
   const applyTransform = (xDeg: number, yDeg: number) => {
     const el = sphereRef.current;
     if (el) {
@@ -768,7 +794,7 @@ export default function DomeGallery({
                   }
                 >
                   <div
-                    className="item__image absolute block overflow-hidden cursor-pointer bg-gray-200 transition-transform duration-300"
+                    className="item__image absolute block overflow-hidden cursor-pointer bg-gray-800/30 transition-transform duration-300"
                     role="button"
                     tabIndex={0}
                     aria-label={it.alt || 'Open image'}
@@ -791,9 +817,17 @@ export default function DomeGallery({
                       draggable={false}
                       alt={it.alt}
                       className="w-full h-full object-cover pointer-events-none"
+                      loading="lazy"
+                      decoding="async"
                       style={{
                         backfaceVisibility: 'hidden',
-                        filter: `var(--image-filter, ${grayscale ? 'grayscale(1)' : 'none'})`
+                        filter: `var(--image-filter, ${grayscale ? 'grayscale(1)' : 'none'})`,
+                        opacity: 0,
+                        transition: 'opacity 250ms ease-out'
+                      }}
+                      onLoad={e => {
+                        const img = e.currentTarget as HTMLImageElement;
+                        img.style.opacity = '1';
                       }}
                     />
                   </div>

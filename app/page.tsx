@@ -11,12 +11,15 @@ import Experiences from "@/components/experiences";
 import EnhancedContact from "@/components/enhanced-contact";
 import DomeGalleryServer from "@/components/ui/dome-gallery-server";
 import { IconUsers } from "@tabler/icons-react";
+import ScrollReset from "@/components/ui/scroll-reset";
 
 export default function Home() {
   return (
     <>
       {/* Initial Loading Screen */}
       <InitialLoader />
+      {/* Ensure viewport starts at top on reload/navigation */}
+      <ScrollReset />
       
       <PageTransition>
         <main className="w-full relative min-h-screen pt-0">

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { FlipWords } from "./ui/flip-words";
@@ -15,11 +15,6 @@ import {
 } from "@tabler/icons-react";
 
 export function EnhancedHero() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const aiSpecialties = [
     "GenAI\u00A0Specialist",
@@ -51,8 +46,6 @@ export function EnhancedHero() {
       label: "Hackathon Wins"
     }
   ];
-
-  if (!mounted) return null;
 
   return (
     <section id="home" className="relative min-h-screen flex items-start sm:items-center justify-center overflow-hidden pt-20 sm:pt-24 lg:pt-8">

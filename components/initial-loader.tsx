@@ -7,6 +7,8 @@ export function InitialLoader() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentText, setCurrentText] = useState(0);
   const [dimensions, setDimensions] = useState({ width: 1200, height: 800 });
+  const [criticalReady, setCriticalReady] = useState(false);
+  const [minTimeElapsed, setMinTimeElapsed] = useState(false);
 
   const loadingTexts = [
     "Initializing AI Systems...",
@@ -24,21 +26,37 @@ export function InitialLoader() {
       });
     }
 
-    // Text rotation effect
+    // Rotate status text
     const textInterval = setInterval(() => {
       setCurrentText((prev) => (prev + 1) % loadingTexts.length);
     }, 800);
 
-    // Total loading time
-    const loadingTimer = setTimeout(() => {
-      setIsLoading(false);
-    }, 3200); // 3.2 seconds
+    // Minimum visible time so it doesn't flash
+    const minTimer = setTimeout(() => setMinTimeElapsed(true), 1200);
+
+    // Fallback max wait (in case critical event never fires)
+    const maxTimer = setTimeout(() => {
+      setCriticalReady(true);
+      setMinTimeElapsed(true);
+    }, 5000);
+
+    // Listen for critical gallery readiness to avoid white flash
+    const onReady = () => setCriticalReady(true);
+    window.addEventListener('portfolio:gallery-critical-ready', onReady as EventListener);
 
     return () => {
       clearInterval(textInterval);
-      clearTimeout(loadingTimer);
+      clearTimeout(minTimer);
+      clearTimeout(maxTimer);
+      window.removeEventListener('portfolio:gallery-critical-ready', onReady as EventListener);
     };
   }, []);
+
+  useEffect(() => {
+    if (minTimeElapsed && criticalReady) {
+      setIsLoading(false);
+    }
+  }, [minTimeElapsed, criticalReady]);
 
   return (
     <AnimatePresence>
