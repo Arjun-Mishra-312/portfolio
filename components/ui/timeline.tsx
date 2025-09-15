@@ -107,7 +107,7 @@ export function TimelineDemo() {
               </li>
               <li>
                 Leading weekly tutorials for 35+ students and supported lectures
-                with 140+ attendance, guiding practical exercises, and
+                with 250+ attendance, guiding practical exercises, and
                 explaining complex networking concepts
               </li>
             </ul>
@@ -157,40 +157,40 @@ export function TimelineDemo() {
         </div>
       ),
     },
-    {
-      title: "Feb 2021 - May 2021",
-      content: (
-        <div>
-          <p className="text-neutral-800 dark:text-neutral-100 text-l md:text-sm font-bold mb-8">
-            Flutter Developer Intern| A2D Innovations Pvt Ltd| Lucknow, UP,
-            India (Remote)
-          </p>
-            <ul className="list-disc list-inside text-neutral-800 dark:text-neutral-200 text-s md:text-sm font-normal mb-8">
-              <li>
-                Implemented 10+ new modules and libraries, contributing to a 40%
-                increase in app functionality.
-              </li>
-              <li>
-                Collaborated with a team of 4 developers on GitHub, improving
-                code quality and reducing merge conflicts by 30%.
-              </li>
-              <li>
-                Implemented custom APIs and data models in Flutter, improving
-                backend-to-frontend data flow efficiency by 40%.
-              </li>
-            </ul>
-          <div className="grid grid-cols-1 gap-4">
-            <Image
-              src="/a2d logo.jpg"
-              width={500}
-              height={500}
-              alt="linear demo image"
-              className="rounded-lg object-contain h-30 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-            />
-          </div>
-        </div>
-      ),
-    },
+    // {
+    //   title: "Feb 2021 - May 2021",
+    //   content: (
+    //     <div>
+    //       <p className="text-neutral-800 dark:text-neutral-100 text-l md:text-sm font-bold mb-8">
+    //         Flutter Developer Intern| A2D Innovations Pvt Ltd| Lucknow, UP,
+    //         India (Remote)
+    //       </p>
+    //         <ul className="list-disc list-inside text-neutral-800 dark:text-neutral-200 text-s md:text-sm font-normal mb-8">
+    //           <li>
+    //             Implemented 10+ new modules and libraries, contributing to a 40%
+    //             increase in app functionality.
+    //           </li>
+    //           <li>
+    //             Collaborated with a team of 4 developers on GitHub, improving
+    //             code quality and reducing merge conflicts by 30%.
+    //           </li>
+    //           <li>
+    //             Implemented custom APIs and data models in Flutter, improving
+    //             backend-to-frontend data flow efficiency by 40%.
+    //           </li>
+    //         </ul>
+    //       <div className="grid grid-cols-1 gap-4">
+    //         <Image
+    //           src="/a2d logo.jpg"
+    //           width={500}
+    //           height={500}
+    //           alt="linear demo image"
+    //           className="rounded-lg object-contain h-30 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
+    //         />
+    //       </div>
+    //     </div>
+    //   ),
+    // },
   ];
   return (
     <div className="w-full">
