@@ -1,8 +1,20 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+  weight: ["400", "500", "600", "700"]
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono",
+  weight: ["400", "500", "600"]
+});
 
 export const metadata: Metadata = {
   title: "Arjun Mishra | AI Research Assistant & Full-Stack Developer",
@@ -53,12 +65,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/icon.ico" />
       </head>
-      <body className={`${inter.className} font-inter antialiased`}>
+      <body className={`${inter.className} ${jetbrainsMono.variable} antialiased`}>
         {children}
       </body>
     </html>

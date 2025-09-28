@@ -1,4 +1,4 @@
-import DomeGallery from './dome-gallery';
+import LazyDomeGallery from './lazy-dome-gallery';
 
 // Helper to list all images in public/experiences_photos. In Next.js, files under public
 // are served from the root, so we reference them by "/experiences_photos/<name>".
@@ -57,7 +57,8 @@ const EXPERIENCE_IMAGES = [
   'IMG-20250915-WA0054.jpg',
   'IMG-20250915-WA0055.jpg',
   'IMG-20250915-WA0056.jpg',
-  'IMG-20250915-WA0057.jpg'
+  'IMG-20250915-WA0057.jpg',
+  'IMG-20250915-WA0058.jpg'
 ];
 
 function mapToPublicPaths() {
@@ -78,15 +79,13 @@ function shuffle<T>(input: T[]): T[] {
 export default function DomeGalleryServer() {
   const images = shuffle(mapToPublicPaths());
   return (
-    <div className="w-full h-[70vh] sm:h-[65vh] lg:h-auto lg:aspect-[2/1] max-w-[1400px] mx-auto my-16">
-      <DomeGallery
-        images={images}
-        fit={0.55}
-        segments={35}
-        grayscale={false}
-        overlayBlurColor="transparent"
-      />
-    </div>
+    <LazyDomeGallery
+      images={images}
+      fit={0.55}
+      segments={35}
+      grayscale={false}
+      overlayBlurColor="transparent"
+    />
   );
 }
 

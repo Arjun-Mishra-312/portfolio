@@ -47,8 +47,8 @@ export function Intro() {
           <Image
             src="/pfp.png" // Replace with the path to your photo
             alt="Your Name"
-            layout="fill"
-            sizes="100%"
+            fill
+            sizes="(max-width: 640px) 240px, 240px"
             className="object-cover"
             style={{ borderRadius: "50px" }}
           />

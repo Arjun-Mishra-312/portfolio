@@ -32,6 +32,26 @@ interface Experience {
 
 const experiences: Experience[] = [
   {
+    id: "ifs-copperleaf-ai",
+    title: "AI Engineering Co-op",
+    company: "IFS Copperleaf",
+    location: "Vancouver, BC",
+    duration: "Oct 2025 - Present",
+    type: "Industry",
+    description: "Collaborating with the Technology & AI team to identify and automate repetitive tasks using scripting and workflow automation, enhancing operational efficiency. Assisting in exploring and implementing AI-assisted tools to streamline IT processes.",
+    achievements: [
+      "Collaborate with the Technology & AI team to identify and automate repetitive tasks using scripting and workflow automation, enhancing operational efficiency",
+      "Assist in exploring and implementing AI-assisted tools to streamline IT processes like ticket handling and user self-service",
+      "Contribute to organization-wide rollout of LLM solutions by developing adoption strategies & establishing best practices"
+    ],
+    technologies: ["Python", "Scripting", "Workflow Automation", "AI Tools", "LLM Solutions", "IT Process Optimization"],
+    metrics: ["Process Automation", "AI Implementation", "LLM Rollout"],
+    logo: "/copperleaf-logo.png",
+    icon: <IconBrain className="w-6 h-6" />,
+    color: "from-emerald-500 to-green-500",
+    current: true
+  },
+  {
     id: "socius-research",
     title: "Undergraduate Research Assistant (HCI/AI) Co-op (May 2025 - Aug 2025)",
     company: "SOCIUS Lab, UBC",
@@ -164,7 +184,7 @@ function Experiences() {
                       src={exp.logo}
                       alt={`${exp.company} logo`}
                       fill
-                      // sizes="(min-width:1024px) 256px, (min-width:640px) 224px, 192px"
+                      sizes="(min-width:1024px) 256px, (min-width:640px) 224px, 192px"
                       className="object-contain rounded-md"
                     />
                   </div>

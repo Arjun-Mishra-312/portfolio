@@ -35,6 +35,12 @@ const navItems: NavItem[] = [
     icon: <IconBriefcase className="w-4 h-4" />,
   },
   {
+    name: "Personal",
+    link: "#personal",
+    section: "personal",
+    icon: <IconUser className="w-4 h-4" />,
+  },
+  {
     name: "Skills",
     link: "#skills",
     section: "skills",
@@ -66,34 +72,81 @@ export const ModernNavbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
+    // Handle navbar visibility on scroll
+    let ticking = false;
     const handleScroll = () => {
-      const scrolled = window.scrollY;
-      setVisible(scrolled > 100);
-
-      // Update active section based on scroll position
-      const sections = navItems.map(item => item.section);
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(section);
-            break;
-          }
-        }
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrolled = window.scrollY;
+          setVisible(scrolled > 100);
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Call once to set initial state
+    // Set initial navbar visibility
+    setVisible(window.scrollY > 100);
+    
+    // Add scroll listener for navbar visibility
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Intersection Observer for accurate section detection
+  useEffect(() => {
+    const sections = [
+      { id: "home", element: document.getElementById("home") },
+      { id: "experience", element: document.getElementById("experience") },
+      { id: "personal", element: document.getElementById("personal") },
+      { id: "skills", element: document.getElementById("skills") },
+      { id: "projects", element: document.getElementById("projects") },
+      { id: "awards", element: document.getElementById("awards") },
+      { id: "contact", element: document.getElementById("contact") }
+    ].filter(section => section.element); // Only include sections that exist
+
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Find the section with the highest intersection ratio
+        let maxRatio = 0;
+        let activeId = "home";
+        
+        entries.forEach((entry) => {
+          if (entry.intersectionRatio > maxRatio) {
+            maxRatio = entry.intersectionRatio;
+            activeId = entry.target.id;
+          }
+        });
+        
+        // Only update if we have a significant intersection
+        if (maxRatio > 0.1) {
+          setActiveSection(activeId);
+        }
+      },
+      {
+        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+        rootMargin: "-20% 0px -20% 0px" // Only consider center 60% of viewport
+      }
+    );
+
+    // Observe all sections
+    sections.forEach(section => {
+      if (section.element) {
+        observer.observe(section.element);
+      }
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ 
-        behavior: "smooth",
+        behavior: "auto",
         block: "start" 
       });
     }

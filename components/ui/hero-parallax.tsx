@@ -156,8 +156,9 @@ export const ProductCard = ({
           <CardItem translateZ="100" className="w-full mt-4">
             <Image
               src={product.thumbnail}
-              height="800"
-              width="800"
+              height={800}
+              width={800}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
               className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
               alt="thumbnail"
             />

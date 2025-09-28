@@ -50,7 +50,7 @@ export function InitialLoader() {
       clearTimeout(maxTimer);
       window.removeEventListener('portfolio:gallery-critical-ready', onReady as EventListener);
     };
-  }, []);
+  }, [loadingTexts.length]);
 
   useEffect(() => {
     if (minTimeElapsed && criticalReady) {

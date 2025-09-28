@@ -2,7 +2,7 @@
 
 import { cn } from "@/utils/cn";
 import { motion, stagger, useAnimate, useInView } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 
 export const TypewriterEffect = ({
   words,
@@ -26,7 +26,8 @@ export const TypewriterEffect = ({
 
   const [scope, animate] = useAnimate();
   const isInView = useInView(scope);
-  useEffect(() => {
+
+  const triggerAnimation = useCallback(() => {
     if (isInView) {
       animate(
         "span",
@@ -42,7 +43,11 @@ export const TypewriterEffect = ({
         }
       );
     }
-  }, [isInView]);
+  }, [isInView, animate]);
+
+  useEffect(() => {
+    triggerAnimation();
+  }, [triggerAnimation]);
 
   const renderWords = () => {
     return (
