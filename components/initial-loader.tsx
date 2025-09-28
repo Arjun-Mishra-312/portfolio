@@ -11,9 +11,9 @@ export function InitialLoader() {
   const [minTimeElapsed, setMinTimeElapsed] = useState(false);
 
   const loadingTexts = [
-    "Initializing AI Systems...",
-    "Loading Neural Networks...", 
-    "Preparing Portfolio...",
+    "Warming up portfolio...",
+    "Loading content...",
+    "Setting up experience...",
     "Almost Ready!"
   ];
 
