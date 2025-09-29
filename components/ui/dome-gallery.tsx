@@ -129,6 +129,8 @@ export default function DomeGallery({
   openedImageBorderRadius = '30px',
   grayscale = true
 }: DomeGalleryProps) {
+  // Detect mobile devices
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const rootRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
   const sphereRef = useRef<HTMLDivElement>(null);
@@ -322,7 +324,8 @@ export default function DomeGallery({
           inertiaRAF.current = null;
           return;
         }
-        const nextX = clamp(rotationRef.current.x - vY / 200, -maxVerticalRotationDeg, maxVerticalRotationDeg);
+        const effectiveMaxVerticalRotationDeg = isMobile ? 0 : maxVerticalRotationDeg;
+        const nextX = clamp(rotationRef.current.x - vY / 200, -effectiveMaxVerticalRotationDeg, effectiveMaxVerticalRotationDeg);
         const nextY = wrapAngleSigned(rotationRef.current.y + vX / 200);
         rotationRef.current = { x: nextX, y: nextY };
         applyTransform(nextX, nextY);
@@ -342,9 +345,13 @@ export default function DomeGallery({
 
         const evt = event as PointerEvent;
         pointerTypeRef.current = (evt.pointerType as any) || 'mouse';
-        if (pointerTypeRef.current === 'touch') evt.preventDefault();
-        if (pointerTypeRef.current === 'touch') lockScroll();
-        draggingRef.current = true;
+        
+        // On mobile, don't start dragging immediately - wait to see direction
+        if (!isMobile) {
+          draggingRef.current = true;
+          if (pointerTypeRef.current === 'touch') lockScroll();
+        }
+        
         cancelTapRef.current = false;
         movedRef.current = false;
         startRotRef.current = { ...rotationRef.current };
@@ -353,11 +360,9 @@ export default function DomeGallery({
         tapTargetRef.current = potential || null;
       },
       onDrag: ({ event, last, velocity: velArr = [0, 0], direction: dirArr = [0, 0], movement }) => {
-        if (focusedElRef.current || !draggingRef.current || !startPosRef.current) return;
+        if (focusedElRef.current || !startPosRef.current) return;
 
         const evt = event as PointerEvent;
-        if (pointerTypeRef.current === 'touch') evt.preventDefault();
-
         const dxTotal = evt.clientX - startPosRef.current.x;
         const dyTotal = evt.clientY - startPosRef.current.y;
 
@@ -366,10 +371,40 @@ export default function DomeGallery({
           if (dist2 > 16) movedRef.current = true;
         }
 
+        // Detect if this is primarily vertical scrolling (allow page scroll) or horizontal dragging (rotate gallery)
+        const absDx = Math.abs(dxTotal);
+        const absDy = Math.abs(dyTotal);
+
+        // On mobile, determine intent based on initial movement direction
+        if (isMobile && !draggingRef.current) {
+          if (absDy > absDx && absDy > 15) {
+            // This is vertical scrolling - don't start dragging, allow page scroll
+            return;
+          } else if (absDx > 15) {
+            // This is horizontal dragging - start gallery interaction
+            draggingRef.current = true;
+            if (pointerTypeRef.current === 'touch') {
+              evt.preventDefault();
+              lockScroll();
+            }
+          } else {
+            // Not enough movement yet to determine intent
+            return;
+          }
+        }
+
+        // If we're not dragging yet, don't continue
+        if (!draggingRef.current) return;
+
+        // For horizontal dragging or desktop interaction, handle gallery rotation
+        if (pointerTypeRef.current === 'touch') evt.preventDefault();
+
+        // On mobile, disable vertical rotation to prevent scroll conflicts
+        const effectiveMaxVerticalRotationDeg = isMobile ? 0 : maxVerticalRotationDeg;
         const nextX = clamp(
           startRotRef.current.x - dyTotal / dragSensitivity,
-          -maxVerticalRotationDeg,
-          maxVerticalRotationDeg
+          -effectiveMaxVerticalRotationDeg,
+          effectiveMaxVerticalRotationDeg
         );
         const nextY = startRotRef.current.y + dxTotal / dragSensitivity;
 
@@ -416,7 +451,7 @@ export default function DomeGallery({
           tapTargetRef.current = null;
 
           if (cancelTapRef.current) setTimeout(() => (cancelTapRef.current = false), 120);
-          if (pointerTypeRef.current === 'touch') unlockScroll();
+          if (pointerTypeRef.current === 'touch' && draggingRef.current) unlockScroll();
           if (movedRef.current) lastDragEndAt.current = performance.now();
           movedRef.current = false;
         }

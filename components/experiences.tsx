@@ -151,16 +151,16 @@ function Experiences() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8 sm:mb-12 md:mb-16"
         >
-          <div className="flex items-center justify-center space-x-3 mb-4">
-            <IconUsers className="w-8 h-8 text-ai-cyan" />
-            <h2 className="text-4xl md:text-5xl font-bold text-white">
+          <div className="flex items-center justify-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
+            <IconUsers className="w-6 h-6 sm:w-8 sm:h-8 text-ai-cyan" />
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">
               Professional <span className="text-gradient">Experience</span>
-          </h2>
+            </h2>
           </div>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            From cutting-edge AI research at UBC to teaching the next generation of developers, 
+          <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">
+            From cutting-edge AI research at UBC to teaching the next generation of developers,
             building real-world applications that make a difference.
           </p>
         </motion.div>
@@ -174,22 +174,22 @@ function Experiences() {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="glass-card p-8 rounded-2xl hover:scale-[1.02] transition-all-smooth"
+              className="glass-card p-4 sm:p-6 md:p-8 rounded-2xl hover:scale-[1.02] transition-all-smooth"
             >
-              <div className="grid lg:grid-cols-4 gap-6">
-                {/* Company Logo & Type (icons removed) */}
-                <div className="flex lg:flex-col items-start lg:items-center space-x-4 lg:space-x-0 lg:space-y-4">
-                  <div className="relative w-44 h-44 sm:w-48 sm:h-48 lg:w-64 lg:h-64">
+              <div className="grid md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+                {/* Company Logo & Type */}
+                <div className="flex flex-col items-center space-y-2 md:space-y-3">
+                  <div className="relative w-48 h-48 sm:w-52 sm:h-52 md:w-60 md:h-60 lg:w-72 lg:h-72 flex-shrink-0">
                     <Image
                       src={exp.logo}
                       alt={`${exp.company} logo`}
                       fill
-                      sizes="(min-width:1024px) 256px, (min-width:640px) 224px, 192px"
-                      className="object-contain rounded-md"
+                      sizes="(min-width:1024px) 288px, (min-width:768px) 240px, (min-width:640px) 208px, 192px"
+                      className="object-contain rounded-lg"
                     />
                   </div>
-                  <div className="lg:text-center">
-                    <span className={`px-3 py-1 text-xs font-medium rounded-full ${
+                  <div className="flex flex-col items-center space-y-1 text-center">
+                    <span className={`px-4 py-2 text-sm font-medium rounded-full ${
                       exp.type === 'Research' ? 'bg-blue-500/20 text-blue-400' :
                       exp.type === 'Teaching' ? 'bg-green-500/20 text-green-400' :
                       exp.type === 'Industry' ? 'bg-purple-500/20 text-purple-400' :
@@ -198,53 +198,53 @@ function Experiences() {
                       {exp.type}
                     </span>
                     {exp.current && (
-                      <div className="text-xs text-green-400 mt-1 font-medium">Current</div>
+                      <div className="text-sm text-green-400 font-medium">Current</div>
                     )}
                   </div>
                 </div>
 
                 {/* Experience Details */}
-                <div className="lg:col-span-3">
-                  <div className="mb-4">
-                    <h3 className="text-xl font-bold text-white mb-2">{exp.title}</h3>
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400 mb-3">
+                <div className="md:col-span-3">
+                  <div className="mb-3 sm:mb-4">
+                    <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{exp.title}</h3>
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-400 mb-3">
                       <span className="flex items-center space-x-1">
-                        <IconBuilding className="w-4 h-4" />
+                        <IconBuilding className="w-3 h-3 sm:w-4 sm:h-4" />
                         <span className="text-ai-cyan font-medium">{exp.company}</span>
                       </span>
                       <span className="flex items-center space-x-1">
-                        <IconMapPin className="w-4 h-4" />
+                        <IconMapPin className="w-3 h-3 sm:w-4 sm:h-4" />
                         <span>{exp.location}</span>
                       </span>
                       <span className="flex items-center space-x-1">
-                        <IconCalendar className="w-4 h-4" />
+                        <IconCalendar className="w-3 h-3 sm:w-4 sm:h-4" />
                         <span>{exp.duration}</span>
                       </span>
                     </div>
-                    <p className="text-gray-300 leading-relaxed mb-4">{exp.description}</p>
+                    <p className="text-sm sm:text-base text-gray-300 leading-relaxed mb-3 sm:mb-4">{exp.description}</p>
                   </div>
 
                   {/* Key Achievements */}
-                  <div className="mb-4">
-                    <h4 className="text-white font-semibold mb-3 flex items-center space-x-2">
-                      <IconTrophy className="w-4 h-4 text-ai-cyan" />
-                      <span>Key Achievements</span>
+                  <div className="mb-3 sm:mb-4">
+                    <h4 className="text-white font-semibold mb-2 sm:mb-3 flex items-center space-x-2">
+                      <IconTrophy className="w-3 h-3 sm:w-4 sm:h-4 text-ai-cyan" />
+                      <span className="text-sm sm:text-base">Key Achievements</span>
                     </h4>
-                    <ul className="space-y-2">
+                    <ul className="space-y-1.5 sm:space-y-2">
                       {exp.achievements.map((achievement, idx) => (
-                        <li key={idx} className="text-gray-300 text-sm flex items-start">
+                        <li key={idx} className="text-gray-300 text-xs sm:text-sm flex items-start">
                           <span className="text-ai-cyan mr-2 mt-1">▪</span>
-                          {achievement}
+                          <span className="leading-relaxed">{achievement}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
                   {/* Technologies & Metrics */}
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
                     {exp.technologies && (
                       <div>
-                        <h4 className="text-white font-semibold mb-2 text-sm">Technologies</h4>
+                        <h4 className="text-white font-semibold mb-2 text-xs sm:text-sm">Technologies</h4>
                         <div className="flex flex-wrap gap-1">
                           {exp.technologies.slice(0, 5).map((tech) => (
                             <span key={tech} className="px-2 py-1 text-xs glass rounded text-gray-300">
@@ -262,7 +262,7 @@ function Experiences() {
 
                     {exp.metrics && (
                       <div>
-                        <h4 className="text-white font-semibold mb-2 text-sm">Impact Metrics</h4>
+                        <h4 className="text-white font-semibold mb-2 text-xs sm:text-sm">Impact Metrics</h4>
                         <div className="flex flex-wrap gap-1">
                           {exp.metrics.map((metric) => (
                             <span key={metric} className="px-2 py-1 text-xs bg-ai-blue/20 text-ai-blue rounded">
@@ -285,32 +285,32 @@ function Experiences() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
           viewport={{ once: true }}
-          className="mt-16"
+          className="mt-8 sm:mt-12 md:mt-16"
         >
-          <div className="glass-card p-8 rounded-2xl">
-            <h3 className="text-2xl font-bold text-white mb-6 text-center">
+          <div className="glass-card p-4 sm:p-6 md:p-8 rounded-2xl">
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 sm:mb-6 text-center">
               Experience Highlights
             </h3>
-            <div className="grid md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
               <div className="text-center">
-                <IconBrain className="w-8 h-8 text-ai-blue mx-auto mb-3" />
-                <div className="text-xl font-bold text-white">Research</div>
-                <div className="text-sm text-gray-400">AI/HCI Systems</div>
+                <IconBrain className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-ai-blue mx-auto mb-2 sm:mb-3" />
+                <div className="text-base sm:text-lg md:text-xl font-bold text-white">Research</div>
+                <div className="text-xs sm:text-sm text-gray-400">AI/HCI Systems</div>
               </div>
               <div className="text-center">
-                <IconSchool className="w-8 h-8 text-ai-green mx-auto mb-3" />
-                <div className="text-xl font-bold text-white">Teaching</div>
-                <div className="text-sm text-gray-400">250+ Students</div>
+                <IconSchool className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-ai-green mx-auto mb-2 sm:mb-3" />
+                <div className="text-base sm:text-lg md:text-xl font-bold text-white">Teaching</div>
+                <div className="text-xs sm:text-sm text-gray-400">250+ Students</div>
               </div>
               <div className="text-center">
-                <IconCode className="w-8 h-8 text-ai-purple mx-auto mb-3" />
-                <div className="text-xl font-bold text-white">Development</div>
-                <div className="text-sm text-gray-400">Production Apps</div>
+                <IconCode className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-ai-purple mx-auto mb-2 sm:mb-3" />
+                <div className="text-base sm:text-lg md:text-xl font-bold text-white">Development</div>
+                <div className="text-xs sm:text-sm text-gray-400">Production Apps</div>
               </div>
               <div className="text-center">
-                <IconUsers className="w-8 h-8 text-ai-cyan mx-auto mb-3" />
-                <div className="text-xl font-bold text-white">Collaboration</div>
-                <div className="text-sm text-gray-400">Cross-functional Teams</div>
+                <IconUsers className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-ai-cyan mx-auto mb-2 sm:mb-3" />
+                <div className="text-base sm:text-lg md:text-xl font-bold text-white">Collaboration</div>
+                <div className="text-xs sm:text-sm text-gray-400">Cross-functional Teams</div>
               </div>
             </div>
         </div>

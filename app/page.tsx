@@ -70,14 +70,14 @@ export default function Home() {
             <div id="personal">
               <SectionTransition delay={0.1} direction="up">
                 <div className="w-full py-10">
-                  <div className="text-center mb-6">
-                    <div className="flex items-center justify-center space-x-3 mb-4">
-                      <IconUsers className="w-8 h-8 text-ai-cyan" />
-                      <h2 className="text-4xl md:text-5xl font-bold text-white">
+                  <div className="text-center mb-4 sm:mb-6 px-4">
+                    <div className="flex items-center justify-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
+                      <IconUsers className="w-6 h-6 sm:w-8 sm:h-8 text-ai-cyan" />
+                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">
                         Personal <span className="text-gradient">Experience</span>
                       </h2>
                     </div>
-                    <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                    <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
                       A glimpse into the moments, projects, and milestones that shaped my journey.
                     </p>
                   </div>

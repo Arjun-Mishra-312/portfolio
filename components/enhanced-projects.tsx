@@ -188,15 +188,15 @@ const EnhancedProjects = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-8 sm:mb-12 lg:mb-16 px-4"
+          className="text-center mb-6 sm:mb-8 md:mb-12 lg:mb-16 px-4"
         >
-          <div className="flex items-center justify-center space-x-3 mb-4">
-            <IconRocket className="w-8 h-8 text-ai-cyan" />
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+          <div className="flex items-center justify-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
+            <IconRocket className="w-6 h-6 sm:w-8 sm:h-8 text-ai-cyan" />
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white">
               Featured <span className="text-gradient">Projects</span>
             </h2>
           </div>
-          <p className="text-base sm:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Production AI systems • Award-winning projects • Real-world impact
           </p>
         </motion.div>
@@ -207,15 +207,15 @@ const EnhancedProjects = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
-          className="flex justify-center mb-8 sm:mb-12 px-4"
+          className="flex justify-center mb-6 sm:mb-8 md:mb-12 px-4"
         >
-          <div className="glass-card p-1 sm:p-2 rounded-full">
-            <div className="flex space-x-0.5 sm:space-x-1">
+          <div className="glass-card p-1 sm:p-2 rounded-full w-full max-w-md sm:max-w-none">
+            <div className="flex flex-wrap justify-center gap-1 sm:gap-0.5 sm:space-x-0">
               {categories.map((category) => (
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-3 sm:px-4 lg:px-6 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all-smooth ${selectedCategory === category
+                  className={`px-2 sm:px-3 md:px-4 lg:px-6 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all-smooth whitespace-nowrap ${selectedCategory === category
                       ? "ai-gradient text-white"
                       : "text-gray-400 hover:text-white hover:bg-white/5"
                     }`}
@@ -234,7 +234,7 @@ const EnhancedProjects = () => {
               <IconTrophy className="w-6 h-6 text-yellow-400 mr-2" />
               Featured AI/ML Projects
             </h3>
-            <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
+            <div className="grid md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
               {featuredProjects.map((project, index) => (
                 <ProjectCard
                   key={project.id}
@@ -295,7 +295,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       viewport={{ once: true }}
-      className="glass-card p-6 rounded-2xl hover:scale-[1.02] transition-all-smooth"
+      className="glass-card p-4 sm:p-6 rounded-2xl hover:scale-[1.02] transition-all-smooth"
     >
       {/* Project Header */}
       <div className="flex items-start justify-between mb-4">
@@ -322,13 +322,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
 
       {/* Project Image */}
-      <div className="relative mb-4 rounded-xl overflow-hidden">
+      <div className="relative mb-3 sm:mb-4 rounded-xl overflow-hidden">
         <Image
           src={project.thumbnail}
           alt={project.title}
           width={400}
           height={compact ? 150 : 200}
-          className="w-full h-32 sm:h-40 object-cover"
+          className="w-full h-28 sm:h-32 md:h-40 object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
       </div>
