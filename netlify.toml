@@ -2,9 +2,8 @@
   # Use Ubuntu 22.04 Jammy build image instead of Focal (Ubuntu 20.04)
   image = "jammy"
 
-  # Build configuration
+  # Build configuration for Next.js with Netlify plugin
   command = "npm run build"
-  publish = "out"
 
 [build.environment]
   # Explicitly set Node.js version to 20.x
@@ -12,8 +11,3 @@
 
 # Optional: Add any build environment variables
 # NODE_OPTIONS = "--max-old-space-size=4096"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200

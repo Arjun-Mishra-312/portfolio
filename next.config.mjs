@@ -4,6 +4,7 @@ const nextConfig = {
   experimental: {
     // optimizeCss: true, // Temporarily disabled due to critters module issue
   },
+
   
   // Image optimization
   images: {
