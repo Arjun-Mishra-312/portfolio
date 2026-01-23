@@ -474,7 +474,7 @@ const LLMProMaxContent = () => (
       <SectionTitle icon={<IconTrophy className="w-6 h-6" />} title="Hackathon Experience" />
       <div className="space-y-4">
         <InfoBox title="Hack the North 2024">
-          <p className="mb-2">Won the Codegen track at Canada's premier hackathon:</p>
+          <p className="mb-2">Won the Codegen track at Canada&apos;s premier hackathon:</p>
           <FeatureList items={[
             "Built entire platform in 36 hours",
             "Successfully integrated multiple complex systems (RAG, vector DB, visualization)",
@@ -798,7 +798,7 @@ const CoviNetContent = () => (
         <InfoBox title="COVID Case Alerts">
           <FeatureList items={[
             "Regional case tracking using synthetic datasets from Gretel",
-            "Alerts for COVID cases in user's area",
+            "Alerts for COVID cases in user&apos;s area",
             "Data visualization for case trends",
             "Stay informed about local pandemic status"
           ]} />
@@ -814,7 +814,7 @@ const CoviNetContent = () => (
           <FeatureList items={[
             "Cross-platform mobile app (iOS and Android from single codebase)",
             "Responsive UI design for all screen sizes",
-            "Native performance with Flutter's rendering engine",
+            "Native performance with Flutter&apos;s rendering engine",
             "Smooth animations and transitions"
           ]} />
         </InfoBox>
@@ -880,7 +880,7 @@ const CoviNetContent = () => (
             "How to use Flutter to create mobile apps",
             "Linking multiple APIs to mobile applications",
             "Using databases to store user information",
-            "Accessing and implementing Firestore's real-time database",
+            "Accessing and implementing Firestore&apos;s real-time database",
             "Using Gretel to create synthetic datasets",
             "Mobile app development best practices"
           ]} />
