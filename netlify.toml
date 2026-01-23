@@ -1,6 +1,6 @@
 [build]
-  # Use Ubuntu 22.04 Jammy build image instead of Focal (Ubuntu 20.04)
-  image = "jammy"
+  # Use Ubuntu 24.04 Noble build image (current default, replaces deprecated Focal)
+  image = "noble"
 
   # Build configuration for Next.js with Netlify plugin
   command = "npm run build"
