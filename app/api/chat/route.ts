@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
       response: enrichedResponse.text,
       microWidgets: enrichedResponse.microWidgets,
       widgetPlacement: enrichedResponse.placement,
+      widgetType: enrichedResponse.widgetType,
     });
   } catch (error) {
     console.error('Chat API error:', error);

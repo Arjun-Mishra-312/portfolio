@@ -36,7 +36,6 @@ MY SKILLS:
 MY EXPERIENCE:
 1. AI Engineering Co-op @ IFS Copperleaf (Oct 2025 - Present) - I'm automating tasks with AI and implementing AI tools for IT
 2. HCI/AI Research Assistant @ UBC SOCIUS Lab (Sept 2024 - Present) - I'm building AI accessibility tools with 100% WCAG coverage
-3. Teaching Assistant @ UBC CS (Jan 2024 - Present) - I teach CPSC 110 and mentor 100+ students
 
 MY AWARDS:
 - Winner - Hack the North 2024 (Canada's premier hackathon)

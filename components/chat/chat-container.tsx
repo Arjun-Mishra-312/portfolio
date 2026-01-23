@@ -158,12 +158,33 @@ function ChatContainerInner() {
       await new Promise(resolve => setTimeout(resolve, 500));
       setTyping(false);
       
+      // Add assistant message with text response
       addMessage({
         type: 'assistant',
         content: data.response,
         microWidgets: data.microWidgets,
         widgetPlacement: data.widgetPlacement,
       });
+      
+      // If a full widget is detected, add it as a separate widget message
+      if (data.widgetType) {
+        const validWidgetTypes: WidgetType[] = ['me', 'projects', 'skills', 'experience', 'awards', 'fun', 'contact'];
+        const widgetType = validWidgetTypes.includes(data.widgetType) ? data.widgetType as WidgetType : null;
+        
+        if (widgetType) {
+          const widgetMessages: Record<WidgetType, string> = {
+            me: "Here's a bit about me! 👨‍💻",
+            projects: "Check out some of my projects! 🚀",
+            skills: "Here are my skills and expertise! 🧠",
+            experience: "My professional journey! 💼",
+            awards: "Some achievements I'm proud of! 🏆",
+            fun: "Let's explore some fun stuff! 🎨",
+            contact: "Let's get in touch! 📧",
+          };
+          
+          addWidgetMessage(widgetType, widgetMessages[widgetType]);
+        }
+      }
     } catch (error) {
       console.error('Error:', error);
       setTyping(false);

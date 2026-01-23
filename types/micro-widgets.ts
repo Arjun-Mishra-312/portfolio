@@ -17,4 +17,5 @@ export interface EnrichedResponse {
   text: string;
   microWidgets?: MicroWidget[];
   placement?: WidgetPlacement;
+  widgetType?: import('@/lib/chat-context').WidgetType;
 }

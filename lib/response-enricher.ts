@@ -1,18 +1,22 @@
 import { MicroWidget, MicroWidgetType, EnrichedResponse, WidgetPlacement } from '@/types/micro-widgets';
-import { getMicroWidgetMatches } from './keyword-detector';
+import { getMicroWidgetMatches, getFullWidgetMatch } from './keyword-detector';
 
 /**
- * Enrich AI response with micro-widgets based on detected keywords
+ * Enrich AI response with micro-widgets and full widgets based on detected keywords
  */
 export function enrichResponse(
   aiText: string,
   userMessage: string,
   detectedWidgets?: MicroWidgetType[]
 ): EnrichedResponse {
-  // Use provided widgets or auto-detect
+  // Detect full widget first (takes priority)
+  const fullWidgetType = getFullWidgetMatch(userMessage, aiText);
+  
+  // Use provided widgets or auto-detect micro-widgets
   const widgetTypes = detectedWidgets || getMicroWidgetMatches(userMessage, aiText);
   
-  if (widgetTypes.length === 0) {
+  // If no widgets detected, return basic response (but still check for full widget)
+  if (widgetTypes.length === 0 && !fullWidgetType) {
     return { text: aiText };
   }
 
@@ -27,8 +31,9 @@ export function enrichResponse(
 
   return {
     text: aiText,
-    microWidgets,
+    microWidgets: microWidgets.length > 0 ? microWidgets : undefined,
     placement,
+    widgetType: fullWidgetType || undefined,
   };
 }
 

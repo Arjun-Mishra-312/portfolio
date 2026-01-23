@@ -10,13 +10,13 @@ interface KeywordMatch {
 
 // Keyword mapping for full widgets
 const FULL_WIDGET_KEYWORDS: Record<WidgetType, string[]> = {
-  me: ['about', 'who are you', 'yourself', 'introduce', 'bio', 'background'],
-  projects: ['project', 'portfolio', 'built', 'created', 'work on', 'developed', 'app'],
-  skills: ['skill', 'technology', 'tech stack', 'know', 'programming', 'proficient', 'expertise'],
-  experience: ['experience', 'work', 'job', 'role', 'worked at', 'position', 'employment'],
-  awards: ['award', 'achievement', 'win', 'won', 'prize', 'recognition', 'honor'],
-  fun: ['fun', 'hobby', 'interest', 'personal', 'gallery', 'photo'],
-  contact: ['contact', 'reach', 'email', 'get in touch', 'connect', 'message'],
+  me: ['about', 'who are you', 'yourself', 'introduce', 'bio', 'background', 'about me', 'about you', 'tell me about yourself'],
+  projects: ['project', 'portfolio', 'built', 'created', 'work on', 'developed', 'app', 'show me your projects', 'your projects', 'tell me about your projects', 'what projects', 'show projects'],
+  skills: ['skill', 'technology', 'tech stack', 'know', 'programming', 'proficient', 'expertise', 'what skills', 'your skills', 'show me your skills', 'tell me about your skills'],
+  experience: ['experience', 'work', 'job', 'role', 'worked at', 'position', 'employment', 'work experience', 'your experience', 'show me your experience', 'tell me about your experience'],
+  awards: ['award', 'achievement', 'win', 'won', 'prize', 'recognition', 'honor', 'your awards', 'show me your awards', 'tell me about your awards', 'achievements'],
+  fun: ['fun', 'hobby', 'interest', 'personal', 'gallery', 'photo', 'fun section', 'show me fun', 'what\'s the fun section', 'show fun section', 'tell me about fun'],
+  contact: ['contact', 'reach', 'email', 'get in touch', 'connect', 'message', 'contact you', 'how to contact', 'show me contact', 'contact information'],
 };
 
 // Keyword mapping for micro widgets
