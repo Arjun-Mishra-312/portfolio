@@ -147,29 +147,88 @@ export function EnhancedHero() {
               </a>
             </motion.div>
 
-            {/* Social Links */}
+            {/* Social Links with Tooltips */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2, duration: 0.6 }}
-              className="flex space-x-3 sm:space-x-4 justify-center lg:justify-start"
+              className="flex space-x-8 sm:space-x-12 justify-center lg:justify-start"
             >
-              <a
-                href="https://linkedin.com/in/-arjun-mishra/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glass p-3 rounded-full text-gray-400 hover:text-ai-blue transition-all-smooth hover:scale-110"
-              >
-                <IconBrandLinkedin className="w-6 h-6" />
-              </a>
-              <a
-                href="https://github.com/Arjun-Mishra-312"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glass p-3 rounded-full text-gray-400 hover:text-white transition-all-smooth hover:scale-110"
-              >
-                <IconBrandGithub className="w-6 h-6" />
-              </a>
+              {/* LinkedIn */}
+              <div className="tooltip-container">
+                <div className="tooltip">
+                  <div className="tooltip-profile">
+                    <div className="tooltip-user">
+                      <div className="tooltip-img linkedin" style={{ borderColor: 'var(--ai-blue)', color: 'var(--ai-blue)' }}>
+                        A
+                      </div>
+                      <div className="tooltip-details">
+                        <div className="tooltip-name" style={{ color: 'var(--ai-blue)' }}>
+                          LinkedIn
+                        </div>
+                        <div className="tooltip-about">
+                          Connect with me
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a
+                  href="https://linkedin.com/in/-arjun-mishra/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-icon-link linkedin"
+                >
+                  <div className="icon-layer">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span className="icon-content">
+                      <IconBrandLinkedin className="w-7 h-7" />
+                    </span>
+                  </div>
+                  <span className="icon-text">LinkedIn</span>
+                </a>
+              </div>
+
+              {/* GitHub */}
+              <div className="tooltip-container">
+                <div className="tooltip">
+                  <div className="tooltip-profile">
+                    <div className="tooltip-user">
+                      <div className="tooltip-img github" style={{ borderColor: '#E0E0E0', color: '#E0E0E0' }}>
+                        A
+                      </div>
+                      <div className="tooltip-details">
+                        <div className="tooltip-name" style={{ color: '#E0E0E0' }}>
+                          GitHub
+                        </div>
+                        <div className="tooltip-about">
+                          @Arjun-Mishra-312
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a
+                  href="https://github.com/Arjun-Mishra-312"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-icon-link github"
+                >
+                  <div className="icon-layer">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span className="icon-content">
+                      <IconBrandGithub className="w-7 h-7" />
+                    </span>
+                  </div>
+                  <span className="icon-text">GitHub</span>
+                </a>
+              </div>
             </motion.div>
           </motion.div>
 

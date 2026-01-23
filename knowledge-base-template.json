@@ -1,0 +1,192 @@
+{
+  "me": {
+    "me-1": {
+      "question": "Who are you? (The real story)",
+      "answer": "[Your answer here - 1-2 paragraphs about who you are, your background, what drives you]"
+    },
+    "me-2": {
+      "question": "What makes you tick?",
+      "answer": "[Your answer here - what motivates you, what gets you excited, your core values]"
+    },
+    "me-3": {
+      "question": "What are your passions?",
+      "answer": "[Your answer here - your interests, hobbies, things you're passionate about]"
+    },
+    "me-4": {
+      "question": "How did you get started in tech?",
+      "answer": "[Your answer here - your journey into technology, what sparked your interest]"
+    },
+    "me-5": {
+      "question": "Where do you see yourself in 5 years?",
+      "answer": "[Your answer here - your career goals, aspirations, vision for the future]"
+    },
+    "me-6": {
+      "question": "What's your origin story?",
+      "answer": "[Your answer here - your background, how you got to where you are today]"
+    },
+    "me-easter": {
+      "question": "What's something nobody asks but should?",
+      "answer": "[Your answer here - something interesting about you that people don't usually ask]"
+    }
+  },
+  "professional": {
+    "pro-1": {
+      "question": "Can I see your resume?",
+      "answer": "[Your answer here - mention your experience widget or provide a brief summary of your professional background]"
+    },
+    "pro-2": {
+      "question": "Why should I hire you?",
+      "answer": "[Your answer here - your unique value proposition, key strengths, what sets you apart]"
+    },
+    "pro-3": {
+      "question": "What makes you a valuable team member?",
+      "answer": "[Your answer here - your collaboration skills, contributions, team-oriented qualities]"
+    },
+    "pro-4": {
+      "question": "Where are you working now?",
+      "answer": "[Your answer here - your current positions, companies, roles]"
+    },
+    "pro-5": {
+      "question": "What's your educational background?",
+      "answer": "[Your answer here - your education, degrees, relevant coursework]"
+    },
+    "pro-6": {
+      "question": "Tell me about your work philosophy",
+      "answer": "[Your answer here - your approach to work, principles, methodology]"
+    },
+    "pro-easter": {
+      "question": "What's your biggest professional failure?",
+      "answer": "[Your answer here - a failure you learned from, growth experience]"
+    }
+  },
+  "projects": {
+    "proj-1": {
+      "question": "What projects are you most proud of?",
+      "answer": "[Your answer here - highlight 2-3 key projects, why you're proud of them, impact]"
+    },
+    "proj-2": {
+      "question": "Show me something impressive",
+      "answer": "[Your answer here - your most impressive project, what makes it stand out]"
+    },
+    "proj-3": {
+      "question": "Tell me about your AI/ML projects",
+      "answer": "[Your answer here - your AI/ML work, specific projects, technologies used]"
+    },
+    "proj-4": {
+      "question": "What's your biggest technical challenge?",
+      "answer": "[Your answer here - a challenging project or problem you solved, what you learned]"
+    },
+    "proj-5": {
+      "question": "Which project taught you the most?",
+      "answer": "[Your answer here - a project that was a learning experience, key takeaways]"
+    },
+    "proj-6": {
+      "question": "What are you building right now?",
+      "answer": "[Your answer here - current projects, work in progress, what you're developing]"
+    },
+    "proj-easter": {
+      "question": "What project idea keeps you up at night?",
+      "answer": "[Your answer here - an exciting project idea you're passionate about]"
+    }
+  },
+  "skills": {
+    "skill-1": {
+      "question": "What are your skills?",
+      "answer": "[Your answer here - overview of your technical skills, areas of expertise]"
+    },
+    "skill-2": {
+      "question": "What's your tech stack?",
+      "answer": "[Your answer here - your preferred technologies, tools, frameworks you use]"
+    },
+    "skill-3": {
+      "question": "What technologies do you work with?",
+      "answer": "[Your answer here - list of technologies, languages, tools you're proficient in]"
+    },
+    "skill-4": {
+      "question": "What's your favorite programming language?",
+      "answer": "[Your answer here - your favorite language and why]"
+    },
+    "skill-5": {
+      "question": "What are you learning right now?",
+      "answer": "[Your answer here - current learning goals, new technologies you're exploring]"
+    },
+    "skill-6": {
+      "question": "Frontend or backend?",
+      "answer": "[Your answer here - your preference, full-stack experience, what you enjoy]"
+    },
+    "skill-easter": {
+      "question": "What skill do you secretly want to learn?",
+      "answer": "[Your answer here - a skill you're curious about or want to explore]"
+    }
+  },
+  "fun": {
+    "fun-2": {
+      "question": "What's the craziest thing you've ever done?",
+      "answer": "[Your answer here - an adventurous or interesting experience]"
+    },
+    "fun-3": {
+      "question": "Tell me something fun about you",
+      "answer": "[Your answer here - something interesting, fun fact, quirky detail]"
+    },
+    "fun-4": {
+      "question": "What are your hobbies?",
+      "answer": "[Your answer here - your hobbies, interests outside of work]"
+    },
+    "fun-5": {
+      "question": "Got any adventure stories?",
+      "answer": "[Your answer here - an adventure or interesting story from your life]"
+    },
+    "fun-6": {
+      "question": "Mac or PC?",
+      "answer": "[Your answer here - your preference and why]"
+    },
+    "fun-7": {
+      "question": "Coffee or tea?",
+      "answer": "[Your answer here - your preference, any interesting details]"
+    },
+    "fun-easter": {
+      "question": "What's your most embarrassing tech moment?",
+      "answer": "[Your answer here - a funny or embarrassing tech-related story]"
+    }
+  },
+  "contact": {
+    "contact-1": {
+      "question": "How can I reach you?",
+      "answer": "[Your answer here - email, LinkedIn, GitHub, preferred contact method]"
+    },
+    "contact-2": {
+      "question": "Let's work together!",
+      "answer": "[Your answer here - your openness to collaboration, types of projects you're interested in]"
+    },
+    "contact-3": {
+      "question": "What kind of project would make you say 'yes' immediately?",
+      "answer": "[Your answer here - types of projects that excite you, what you're looking for]"
+    },
+    "contact-4": {
+      "question": "Where are you located?",
+      "answer": "[Your answer here - your location, remote work availability]"
+    },
+    "contact-5": {
+      "question": "Are you open to opportunities?",
+      "answer": "[Your answer here - your availability, types of opportunities you're interested in]"
+    },
+    "contact-6": {
+      "question": "What's your ideal next role?",
+      "answer": "[Your answer here - what you're looking for in your next position, career goals]"
+    },
+    "contact-easter": {
+      "question": "What would make you relocate?",
+      "answer": "[Your answer here - conditions under which you'd consider relocating]"
+    }
+  },
+  "special": {
+    "surprise-me": {
+      "question": "Surprise me!",
+      "answer": "[Your answer here - a varied, interesting response that could be about anything - a fun fact, recent achievement, interesting project, or something unexpected about you]"
+    },
+    "tell-me-a-secret": {
+      "question": "Tell me a secret",
+      "answer": "[Your answer here - something interesting, surprising, or fun that people might not know about you]"
+    }
+  }
+}

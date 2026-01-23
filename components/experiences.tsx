@@ -166,7 +166,12 @@ function Experiences() {
         </motion.div>
 
         {/* Experience Timeline */}
-        <div className="space-y-8">
+        <div className="relative space-y-8">
+          {/* Timeline Line */}
+          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-ai-cyan via-ai-purple to-ai-pink" 
+               style={{ transform: 'translateX(-50%)' }} 
+          />
+          
           {experiences.map((exp, index) => (
             <motion.div
               key={exp.id}
@@ -174,31 +179,63 @@ function Experiences() {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="glass-card p-4 sm:p-6 md:p-8 rounded-2xl hover:scale-[1.02] transition-all-smooth"
+              className="relative"
             >
+              {/* Timeline Dot */}
+              <div className={`absolute left-6 md:left-1/2 top-8 w-4 h-4 rounded-full ${exp.current ? 'bg-green-500 animate-pulse' : 'bg-ai-cyan'} border-4 border-neutral-900 z-10`}
+                   style={{ transform: 'translateX(-50%)' }}
+              />
+              
+              <div className={`group glass-card p-4 sm:p-6 md:p-8 rounded-2xl hover:scale-[1.02] transition-all-smooth hover:shadow-2xl relative overflow-hidden ${
+                index % 2 === 0 ? 'md:mr-[52%]' : 'md:ml-[52%]'
+              } ml-16 md:ml-0`}
+              >
+              {/* Gradient Border */}
+              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${exp.color} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`} />
+              
               <div className="grid md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
                 {/* Company Logo & Type */}
                 <div className="flex flex-col items-center space-y-2 md:space-y-3">
-                  <div className="relative w-48 h-48 sm:w-52 sm:h-52 md:w-60 md:h-60 lg:w-72 lg:h-72 flex-shrink-0">
-                    <Image
-                      src={exp.logo}
-                      alt={`${exp.company} logo`}
-                      fill
-                      sizes="(min-width:1024px) 288px, (min-width:768px) 240px, (min-width:640px) 208px, 192px"
-                      className="object-contain rounded-lg"
-                    />
-                  </div>
+                  <motion.div 
+                    className="relative w-48 h-48 sm:w-52 sm:h-52 md:w-60 md:h-60 lg:w-72 lg:h-72 flex-shrink-0 group"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    {/* Glowing effect on hover */}
+                    <div className={`absolute inset-0 rounded-lg bg-gradient-to-r ${exp.color} opacity-0 group-hover:opacity-30 blur-2xl transition-opacity duration-300`} />
+                    <div className="relative w-full h-full bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10">
+                      <Image
+                        src={exp.logo}
+                        alt={`${exp.company} logo`}
+                        fill
+                        sizes="(min-width:1024px) 288px, (min-width:768px) 240px, (min-width:640px) 208px, 192px"
+                        className="object-contain rounded-lg"
+                      />
+                    </div>
+                  </motion.div>
                   <div className="flex flex-col items-center space-y-1 text-center">
-                    <span className={`px-4 py-2 text-sm font-medium rounded-full ${
-                      exp.type === 'Research' ? 'bg-blue-500/20 text-blue-400' :
-                      exp.type === 'Teaching' ? 'bg-green-500/20 text-green-400' :
-                      exp.type === 'Industry' ? 'bg-purple-500/20 text-purple-400' :
-                      'bg-yellow-500/20 text-yellow-400'
-                    }`}>
-                      {exp.type}
-                    </span>
+                    <motion.span 
+                      className={`px-4 py-2 text-sm font-medium rounded-full border ${
+                        exp.type === 'Research' ? 'bg-blue-500/20 text-blue-400 border-blue-400/30' :
+                        exp.type === 'Teaching' ? 'bg-green-500/20 text-green-400 border-green-400/30' :
+                        exp.type === 'Industry' ? 'bg-purple-500/20 text-purple-400 border-purple-400/30' :
+                        'bg-yellow-500/20 text-yellow-400 border-yellow-400/30'
+                      }`}
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: "spring", stiffness: 400 }}
+                    >
+                      {exp.icon}
+                      <span className="ml-2">{exp.type}</span>
+                    </motion.span>
                     {exp.current && (
-                      <div className="text-sm text-green-400 font-medium">Current</div>
+                      <motion.div 
+                        className="text-sm text-green-400 font-medium flex items-center space-x-1"
+                        animate={{ opacity: [0.5, 1, 0.5] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                        <span>Current</span>
+                      </motion.div>
                     )}
                   </div>
                 </div>
@@ -206,36 +243,56 @@ function Experiences() {
                 {/* Experience Details */}
                 <div className="md:col-span-3">
                   <div className="mb-3 sm:mb-4">
-                    <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{exp.title}</h3>
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent mb-2 group-hover:from-ai-cyan group-hover:to-ai-purple transition-all duration-300">
+                      {exp.title}
+                    </h3>
                     <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-400 mb-3">
-                      <span className="flex items-center space-x-1">
+                      <motion.span 
+                        className="flex items-center space-x-1 hover:text-ai-cyan transition-colors"
+                        whileHover={{ x: 2 }}
+                      >
                         <IconBuilding className="w-3 h-3 sm:w-4 sm:h-4" />
                         <span className="text-ai-cyan font-medium">{exp.company}</span>
-                      </span>
-                      <span className="flex items-center space-x-1">
+                      </motion.span>
+                      <motion.span 
+                        className="flex items-center space-x-1 hover:text-white transition-colors"
+                        whileHover={{ x: 2 }}
+                      >
                         <IconMapPin className="w-3 h-3 sm:w-4 sm:h-4" />
                         <span>{exp.location}</span>
-                      </span>
-                      <span className="flex items-center space-x-1">
+                      </motion.span>
+                      <motion.span 
+                        className="flex items-center space-x-1 hover:text-white transition-colors"
+                        whileHover={{ x: 2 }}
+                      >
                         <IconCalendar className="w-3 h-3 sm:w-4 sm:h-4" />
                         <span>{exp.duration}</span>
-                      </span>
+                      </motion.span>
                     </div>
-                    <p className="text-sm sm:text-base text-gray-300 leading-relaxed mb-3 sm:mb-4">{exp.description}</p>
+                    <p className="text-sm sm:text-base text-gray-300 leading-relaxed mb-3 sm:mb-4 group-hover:text-gray-200 transition-colors">
+                      {exp.description}
+                    </p>
                   </div>
 
                   {/* Key Achievements */}
                   <div className="mb-3 sm:mb-4">
                     <h4 className="text-white font-semibold mb-2 sm:mb-3 flex items-center space-x-2">
-                      <IconTrophy className="w-3 h-3 sm:w-4 sm:h-4 text-ai-cyan" />
+                      <IconTrophy className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400 animate-pulse" />
                       <span className="text-sm sm:text-base">Key Achievements</span>
                     </h4>
                     <ul className="space-y-1.5 sm:space-y-2">
                       {exp.achievements.map((achievement, idx) => (
-                        <li key={idx} className="text-gray-300 text-xs sm:text-sm flex items-start">
-                          <span className="text-ai-cyan mr-2 mt-1">▪</span>
-                          <span className="leading-relaxed">{achievement}</span>
-                        </li>
+                        <motion.li 
+                          key={idx} 
+                          className="text-gray-300 text-xs sm:text-sm flex items-start group"
+                          initial={{ opacity: 0, x: -20 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.1 }}
+                          viewport={{ once: true }}
+                        >
+                          <span className="text-ai-cyan mr-2 mt-1 group-hover:scale-125 transition-transform">✦</span>
+                          <span className="leading-relaxed group-hover:text-white transition-colors">{achievement}</span>
+                        </motion.li>
                       ))}
                     </ul>
                   </div>
@@ -243,16 +300,27 @@ function Experiences() {
                   {/* Technologies & Metrics */}
                   <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
                     {exp.technologies && (
-                      <div>
-                        <h4 className="text-white font-semibold mb-2 text-xs sm:text-sm">Technologies</h4>
-                        <div className="flex flex-wrap gap-1">
-                          {exp.technologies.slice(0, 5).map((tech) => (
-                            <span key={tech} className="px-2 py-1 text-xs glass rounded text-gray-300">
+                      <div className="space-y-2">
+                        <h4 className="text-white font-semibold mb-2 text-xs sm:text-sm flex items-center space-x-2">
+                          <IconCode className="w-3 h-3 text-ai-purple" />
+                          <span>Technologies</span>
+                        </h4>
+                        <div className="flex flex-wrap gap-1.5">
+                          {exp.technologies.slice(0, 5).map((tech, idx) => (
+                            <motion.span 
+                              key={tech} 
+                              className="px-2.5 py-1 text-xs glass rounded-lg text-gray-300 border border-white/10 hover:border-ai-purple/50 hover:bg-ai-purple/10 transition-all cursor-default"
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: idx * 0.05 }}
+                              viewport={{ once: true }}
+                              whileHover={{ scale: 1.05, y: -2 }}
+                            >
                               {tech}
-                            </span>
+                            </motion.span>
                           ))}
                           {exp.technologies.length > 5 && (
-                            <span className="px-2 py-1 text-xs text-gray-400">
+                            <span className="px-2.5 py-1 text-xs text-gray-400 flex items-center">
                               +{exp.technologies.length - 5} more
                             </span>
                           )}
@@ -261,19 +329,30 @@ function Experiences() {
                     )}
 
                     {exp.metrics && (
-                      <div>
-                        <h4 className="text-white font-semibold mb-2 text-xs sm:text-sm">Impact Metrics</h4>
-                        <div className="flex flex-wrap gap-1">
-                          {exp.metrics.map((metric) => (
-                            <span key={metric} className="px-2 py-1 text-xs bg-ai-blue/20 text-ai-blue rounded">
+                      <div className="space-y-2">
+                        <h4 className="text-white font-semibold mb-2 text-xs sm:text-sm flex items-center space-x-2">
+                          <IconTrophy className="w-3 h-3 text-yellow-400" />
+                          <span>Impact Metrics</span>
+                        </h4>
+                        <div className="flex flex-wrap gap-1.5">
+                          {exp.metrics.map((metric, idx) => (
+                            <motion.span 
+                              key={metric} 
+                              className={`px-2.5 py-1 text-xs rounded-lg bg-gradient-to-r ${exp.color} text-white font-medium border border-white/20 hover:scale-105 transition-transform cursor-default`}
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: idx * 0.05 }}
+                              viewport={{ once: true }}
+                            >
                               {metric}
-                            </span>
+                            </motion.span>
                           ))}
                         </div>
                       </div>
                     )}
                   </div>
                 </div>
+              </div>
               </div>
             </motion.div>
           ))}
@@ -287,30 +366,51 @@ function Experiences() {
           viewport={{ once: true }}
           className="mt-8 sm:mt-12 md:mt-16"
         >
-          <div className="glass-card p-4 sm:p-6 md:p-8 rounded-2xl">
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 sm:mb-6 text-center">
-              Experience Highlights
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-              <div className="text-center">
-                <IconBrain className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-ai-blue mx-auto mb-2 sm:mb-3" />
-                <div className="text-base sm:text-lg md:text-xl font-bold text-white">Research</div>
-                <div className="text-xs sm:text-sm text-gray-400">AI/HCI Systems</div>
-              </div>
-              <div className="text-center">
-                <IconSchool className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-ai-green mx-auto mb-2 sm:mb-3" />
-                <div className="text-base sm:text-lg md:text-xl font-bold text-white">Teaching</div>
-                <div className="text-xs sm:text-sm text-gray-400">250+ Students</div>
-              </div>
-              <div className="text-center">
-                <IconCode className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-ai-purple mx-auto mb-2 sm:mb-3" />
-                <div className="text-base sm:text-lg md:text-xl font-bold text-white">Development</div>
-                <div className="text-xs sm:text-sm text-gray-400">Production Apps</div>
-              </div>
-              <div className="text-center">
-                <IconUsers className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-ai-cyan mx-auto mb-2 sm:mb-3" />
-                <div className="text-base sm:text-lg md:text-xl font-bold text-white">Collaboration</div>
-                <div className="text-xs sm:text-sm text-gray-400">Cross-functional Teams</div>
+          <div className="glass-card p-4 sm:p-6 md:p-8 rounded-2xl relative overflow-hidden">
+            {/* Animated Background */}
+            <div className="absolute inset-0 bg-gradient-to-r from-ai-blue/5 via-ai-purple/5 to-ai-pink/5 animate-pulse" />
+            
+            <div className="relative z-10">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4 sm:mb-6 text-center">
+                Experience <span className="text-gradient">Highlights</span>
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+                <motion.div 
+                  className="text-center p-4 rounded-xl glass hover:scale-105 transition-transform group cursor-default"
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <IconBrain className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-ai-blue mx-auto mb-2 sm:mb-3 group-hover:scale-110 transition-transform" />
+                  <div className="text-base sm:text-lg md:text-xl font-bold text-white">Research</div>
+                  <div className="text-xs sm:text-sm text-gray-400">AI/HCI Systems</div>
+                </motion.div>
+                <motion.div 
+                  className="text-center p-4 rounded-xl glass hover:scale-105 transition-transform group cursor-default"
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <IconSchool className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-ai-green mx-auto mb-2 sm:mb-3 group-hover:scale-110 transition-transform" />
+                  <div className="text-base sm:text-lg md:text-xl font-bold text-white">Teaching</div>
+                  <div className="text-xs sm:text-sm text-gray-400">250+ Students</div>
+                </motion.div>
+                <motion.div 
+                  className="text-center p-4 rounded-xl glass hover:scale-105 transition-transform group cursor-default"
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <IconCode className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-ai-purple mx-auto mb-2 sm:mb-3 group-hover:scale-110 transition-transform" />
+                  <div className="text-base sm:text-lg md:text-xl font-bold text-white">Development</div>
+                  <div className="text-xs sm:text-sm text-gray-400">Production Apps</div>
+                </motion.div>
+                <motion.div 
+                  className="text-center p-4 rounded-xl glass hover:scale-105 transition-transform group cursor-default"
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <IconUsers className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-ai-cyan mx-auto mb-2 sm:mb-3 group-hover:scale-110 transition-transform" />
+                  <div className="text-base sm:text-lg md:text-xl font-bold text-white">Collaboration</div>
+                  <div className="text-xs sm:text-sm text-gray-400">Cross-functional Teams</div>
+                </motion.div>
               </div>
             </div>
         </div>

@@ -1,0 +1,192 @@
+{
+  "me": {
+    "me-1": {
+      "question": "Who are you? (The real story)",
+      "answer": "I am a technologist passionate about leveraging modern tools to create impactful solutions. My journey started small—with a simple Python chatbot—but quickly grew into a fascination with modern AI, Large Language Models, and the intersection of industry engineering and HCI research. I bring a 'builder's mindset' to my work, inspired by my childhood favorites: LEGO and Transformers. I was always mesmerized by how small LEGO bricks could join to form a complex structure, and how a figure like Optimus Prime could shift seamlessly from robot to vehicle. I apply that same curiosity to my career: I love diving into the small details and engineering mechanics to ensure they come together to build something sophisticated, adaptable, and impact-driven."
+    },
+    "me-2": {
+      "question": "What makes you tick?",
+      "answer": "I am driven by the boundless potential of the current technology landscape. We are living in a transformative era where AI is reshaping our daily reality, and that evolution is what excites me. It’s not just about the code; it’s about opening 'new windows' for creativity and utility. What truly makes me tick is the opportunity to bridge the gap between complex technology and real human needs. I am motivated by impact—I want to contribute to this shift, ensuring that the tools we build today genuinely improve the way people experience the world tomorrow."
+    },
+    "me-3": {
+      "question": "What are your passions?",
+      "answer": "Beyond my obsession with AI and technology, I am a builder at heart. I never stopped playing with LEGO; the sets just evolved from hundreds of pieces to thousands. I believe that you don't stop playing because you grow up, you grow up because you stop playing—so I keep that creative inner child alive by tackling complex builds. I share a similar fascination with Transformers, constantly amazed by the engineering required to make a figure like Optimus Prime detailed and functional in both modes. (Check out the 'Fun' section for a glimpse of my collection!) When I step away from the desk, I enjoy Chess—I play at roughly a 1200 ELO level, though let's not talk about my official online rating! Lately, living in Vancouver has also sparked a growing passion for hiking; the mountains here are impossible to ignore."
+    },
+    "me-4": {
+      "question": "How did you get started in tech?",
+      "answer": "Like many developers, my spark was lit by video games. Spending hours in the worlds of GTA, Call of Duty, and FIFA made me realize that these experiences weren't magic—they were engineering. I became obsessed with understanding the logic and vision behind the screen. That curiosity transitioned me from player to creator. I started by hacking together basic 2D games to understand the mechanics, which naturally evolved into building complex full-stack web applications. While the technology I use has become more advanced, the core motivation hasn't changed: I love the unique satisfaction of writing code that turns an abstract idea into a tangible experience that others can use and enjoy."
+    },
+    "me-5": {
+      "question": "Where do you see yourself in 5 years?",
+      "answer": "In five years, I see myself having transitioned from an individual contributor to a technical leader, driving an AI initiative that bridges the gap between research and real-world application. My goal is to be at the helm of a product or platform that creates tangible value for thousands—if not millions—of users. I don't just want to be writing code; I want to be architecting solutions. Whether it's in the realm of accessibility or intelligent systems, I envision myself steering projects where advanced AI meets intuitive design, ensuring that the technology we build creates a measurable, positive ripple effect in people's daily lives."
+    },
+    "me-6": {
+      "question": "What's your origin story?",
+      "answer": "My defining professional turning point was the opportunity to work as an Undergraduate Research Assistant under Professor Dongwook Yoon. This role was where my career branched out from simply being a student to becoming a true researcher and engineer. It grounded my theoretical interest in AI into rigorous, practical application. Professor Yoon taught me that research is about far more than just publishing papers. He showed me that progress is built on the initiative of taking small, calculated steps for the growth of the community. I learned that while I may not always be the one to 'finish' a massive undertaking, every individual contribution is a vital building block. This philosophy—that significant, impactful solutions are constructed from small, meaningful efforts—now defines my approach to every problem I solve in the industry."
+    },
+    "me-easter": {
+      "question": "What's something nobody asks but should?",
+      "answer": "In our fast-paced industry, the most common question is, 'Can you get this done?' But the question I wish people would ask is, 'How do you plan to get this done?' I place immense value on the research and scoping phase of any project. Whether I'm architecting complex internal tooling for an enterprise or tackling a massive LEGO Technic set, I believe the battle is won in the preparation. Thoroughly mapping out project parameters—or simply sorting your bricks before you build—might feel like slowing down initially, but it exponentially speeds up the execution. For me, a smoother, high-quality construction process always beats a rushed start."
+    }
+  },
+  "professional": {
+    "pro-1": {
+      "question": "Can I see your resume?",
+      "answer": "Absolutely. You can view or download the full document using the widget below. In a nutshell: I am a Computer Science student with a strong blend of industry and academic experience. My background includes working as an AI Engineering Co-op at IFS Copperleaf, contributing to HCI research as an Undergraduate Research Assistant, and serving as a Teaching Assistant. My technical expertise centers on Python, Full-Stack development, and Large Language Models."
+    },
+    "pro-2": {
+      "question": "Why should I hire you?",
+      "answer": "You should hire me because I combine the disciplined mindset of a researcher with the agility of a rapid learner. I treat engineering as a craft—prioritizing thorough scoping and scalable design—but I also possess the adaptability to pick up new tech stacks and pivot quickly as project needs evolve. My background in both academic research and industry co-ops has trained me to handle ambiguity effectively. I don't just solve the problem in front of me; I learn the context around it to ensure the solution fits the team's broader goals. I am ready to hit the ground running, bringing both technical expertise and a hunger to grow."
+    },
+    "pro-3": {
+      "question": "What makes you a valuable team member?",
+      "answer": "I believe that great software is built by teams, not just individuals. My greatest strength as a teammate is that I value feedback and constructive criticism over my own ego. I view code reviews and design critiques as essential tools for optimization, not personal attacks. I actively seek out different perspectives to ensure we aren't just building fast, but building right. Whether it's supporting a peer or aligning on a difficult architectural decision, I prioritize open communication to ensure the whole team moves forward together."
+    },
+    "pro-4": {
+      "question": "Where are you working now?",
+      "answer": "I am currently balancing three key roles that span industry, research, and social impact. Industry (IFS Copperleaf): I am working as an AI Engineering Co-op, architecting a full-stack internal tool for Customer Success Managers. The platform leverages modern LLM technology to centralize data from over five distinct sources. Research (URA): I am developing an AI Accessibility Analyzer that utilizes Vision Language Models (VLMs) to assist WCAG certifiers. Personal Initiative: I am building 'Ableify', an AI-powered community platform tailored for the disabled community to connect users with relevant resources."
+    },
+    "pro-5": {
+      "question": "What's your educational background?",
+      "answer": "I am currently in my final year of a Bachelor of Science in Computer Science at the University of British Columbia (UBC). My academic focus is heavily centered on Artificial Intelligence and Software Engineering, with advanced coursework in Machine Learning, Data Mining, and Relational Databases. I maintain a cumulative 3.75 GPA, which has earned me a spot on the Dean's List and the Faculty of Science International Student Scholarship. My degree is also practical by design; I am actively completing the Co-operative Education program, which integrates three terms of full-time industry work directly into my curriculum."
+    },
+    "pro-6": {
+      "question": "Tell me about your work philosophy",
+      "answer": "My work philosophy is built on the concept of 'informed iteration.' I don't believe in rushing to a solution without understanding the problem space, but I also don't believe in analysis paralysis. I scope thoroughly, build a strong foundation, and then iterate rapidly based on data and feedback. I believe that good code is readable, scalable, and above all, solves the actual human problem it was intended to address."
+    },
+    "pro-easter": {
+      "question": "What's your biggest professional failure?",
+      "answer": "[Placeholder: Did you want to fill this one in? If not, we can remove it or use a generic 'learning from a bug' story!]"
+    }
+  },
+  "projects": {
+    "proj-1": {
+      "question": "What projects are you most proud of?",
+      "answer": "I am most proud of three projects that span the full spectrum of my interests: deep research, enterprise scale, and social impact. First is my research at SOCIUS Lab, where I developed an AI Accessibility Analyzer. I engineered a multimodal transformer to benchmark Vision-Language Models (VLMs) against WCAG guidelines, aiming for an ACM ASSETS 2026 publication. On the industry side, I’m building an LLM-based Automation Agent at IFS Copperleaf. It’s a high-stakes internal tool where I’m directly tackling the challenges of agent decision latency in a production environment. Finally, my passion project is Ableify, a cross-platform app for the disabled community. It features a RAG-enhanced AI support agent and military-grade End-to-End Encryption (AES-256) to ensure user privacy."
+    },
+    "proj-2": {
+      "question": "Show me something impressive",
+      "answer": "[To be updated later]"
+    },
+    "proj-3": {
+      "question": "Tell me about your AI/ML projects",
+      "answer": "My AI work is grounded in both building robust RAG pipelines and engineering custom model architectures. On the research side, I am deeply involved in multimodal learning. For my accessibility research, I built a custom PyTorch Multimodal Transformer that fuses text tokens with segmentation masks to predict WCAG violations. I also work heavily with Vision-Language Models, optimizing inference through techniques like Chain-of-Thought prompting. In production environments, my focus shifts to Retrieval-Augmented Generation (RAG). I have architected production-ready pipelines using LangChain, FastAPI, and ChromaDB, utilizing sentence-transformers for embeddings and OpenAI/Gemini for inference."
+    },
+    "proj-4": {
+      "question": "What's your biggest technical challenge?",
+      "answer": "My biggest technical challenge was solving the 'cost vs. accuracy' dilemma for the AI Accessibility Analyzer I built at SOCIUS Lab. We needed to use powerful Vision-Language Models (VLMs) to visually inspect web elements, but running high-end models on every DOM element was prohibitively expensive. I had to re-engineer the inference pipeline to be smarter. I implemented a hybrid strategy that utilized token management and optimized prompt engineering (like Chain-of-Thought and ReAct) to maximize the model's focus. The result was a 35% reduction in per-page inference costs without sacrificing F1 scores or Recall."
+    },
+    "proj-5": {
+      "question": "Which project taught you the most?",
+      "answer": "Ableify has been my steepest learning curve because it required me to wear every hat: mobile engineer, backend architect, AI researcher, and security specialist. The biggest lesson came from implementing End-to-End Encryption (E2EE). Integrating military-grade encryption (AES-256-GCM) for user journals while simultaneously running a RAG-based AI agent was a massive engineering challenge—I had to ensure that the AI could provide 'contextually relevant' support without ever actually compromising the user's raw private data."
+    },
+    "proj-6": {
+      "question": "What are you building right now?",
+      "answer": "Right now, my primary focus is pushing the boundaries of Automated Web Accessibility. I am actively leading an experimental pipeline at SOCIUS Lab to benchmark how well Vision-Language Models can interpret web interfaces compared to traditional static analysis tools. I am currently authoring a research proposal for ACM ASSETS 2026 titled 'How effective are VLMs for automated web accessibility evaluation vs. static analysis?'. My daily work involves running large-scale evaluations across thousands of data points and testing hybrid architectures."
+    },
+    "proj-easter": {
+      "question": "What project idea keeps you up at night?",
+      "answer": "I dream of building the 'Universal LEGO Architect.' Ideally, you would just snap a photo of a random pile of loose bricks, and an AI—powered by object detection and geometric constraint solving—would analyze your exact inventory. It would then generate step-by-step 3D instructions for a brand new model that you can build right now, optimized for the pieces you actually have. It’s the perfect intersection of my technical interests (Computer Vision, Graph Theory) and my personal obsession."
+    }
+  },
+  "skills": {
+    "skill-1": {
+      "question": "What are your skills?",
+      "answer": "My skill set is anchored in Full-Stack Engineering and AI Systems. Languages: I am fluent in Python (my daily driver), C/C++, TypeScript, SQL, and Java. AI & ML: My core expertise lies in LLM Agents, RAG pipelines, and Vision-Language Models (VLMs). I work extensively with frameworks like PyTorch, LangChain, and ChromaDB. Web & Systems: I build scalable applications using React, FastAPI, and Flutter, and I deploy them using Docker and AWS."
+    },
+    "skill-2": {
+      "question": "What's your tech stack?",
+      "answer": "For AI Engineering, my stack is built around PyTorch and LangChain. I use Ollama and Gemini for inference, and ChromaDB for vector storage. For Product Development, I prefer the FAST stack (FastAPI, React, SQL/Supabase). I rely on Docker for containerization and AWS (App Runner) for deployment. For Mobile, I am a big fan of Flutter for its ability to deploy high-performance apps to multiple platforms from a single codebase."
+    },
+    "skill-3": {
+      "question": "What technologies do you work with?",
+      "answer": "Python, C++, TypeScript, SQL, PyTorch, LangChain, React, FastAPI, Flutter, Docker, AWS, Git, ChromaDB, OpenAI, Gemini."
+    },
+    "skill-4": {
+      "question": "What's your favorite programming language?",
+      "answer": "Python is my undisputed favorite. It is the lingua franca of AI, and its ecosystem allows me to go from a scrappy idea to a working prototype faster than anything else. Whether I'm scripting a quick automation or training a multimodal transformer, Python just gets out of the way and lets me build. That said, I have a healthy respect for C++. My time teaching systems programming taught me that when you really need to manage memory or optimize performance down to the metal, nothing beats it."
+    },
+    "skill-5": {
+      "question": "What are you learning right now?",
+      "answer": "I am currently diving deep into Advanced Machine Learning and Agentic Architectures. I'm moving beyond standard RAG pipelines to explore autonomous agents that can plan, reason, and execute multi-step workflows with minimal human oversight. I'm also exploring the nuances of model benchmarking—specifically, how we can accurately measure the 'reasoning' capabilities of VLMs in niche domains like web accessibility."
+    },
+    "skill-6": {
+      "question": "Frontend or backend?",
+      "answer": "I view myself as Backend-Biased Full Stack. I can (and do) build responsive frontends with React and Flutter, but my true passion lies in the logic, data engineering, and architecture that lives under the hood. I love the complexity of designing efficient APIs, optimizing vector retrievals, and ensuring the system is secure and scalable."
+    },
+    "skill-easter": {
+      "question": "What skill do you secretly want to learn?",
+      "answer": "I’ve been eyeing Rust for a while now. Given my background in C++ and systems programming, I’m fascinated by the promise of memory safety without a garbage collector. It feels like the natural evolution for high-performance engineering—getting that low-level control I love, but with a compiler that actually stops me from shooting myself in the foot before I even run the code!"
+    }
+  },
+  "fun": {
+    "fun-2": {
+      "question": "What's the craziest thing you've ever done?",
+      "answer": "For a self-proclaimed foodie who rarely hit the gym, blindly saying 'yes' to a 'medium' hike with friends was definitely the craziest decision I’ve made. What started as a casual plan turned into a 12km+ odyssey. We surprisingly had to climb over 350m of elevation just to reach the start of the trail, followed by another 533m to the peak. There were moments where I genuinely contemplated just sitting down on the trail and living there. But pushed by my friends and a perfect Vancouver summer day, I made it to the top. The view was absolutely worth it (check out the photo!), instantly washing away the exhaustion... at least until the journey back down reminded my legs exactly what I had just put them through."
+    },
+    "fun-3": {
+      "question": "Tell me something fun about you",
+      "answer": "I organize my LEGO pieces by color and then by shape before I start building. It drives my friends crazy because it takes hours, but I swear it's the only efficient way to build a 4,000-piece set without losing your mind."
+    },
+    "fun-4": {
+      "question": "What are your hobbies?",
+      "answer": "I’m a collector and a builder. I spend a lot of my free time building complex LEGO Technic sets and collecting Transformers figures—I'm still amazed by the engineering behind the transformation mechanics. I also play Chess. I'm moderately good with just a few specific openings, but I play enthusiastically! And as mentioned, I've recently started exploring Vancouver's hiking trails to disconnect from the screen."
+    },
+    "fun-5": {
+      "question": "Got any adventure stories?",
+      "answer": "Aside from surviving the mountains of Vancouver, my biggest adventures usually happen in the code editor at 3 AM. But seriously, navigating life as an international student is an adventure in itself—learning a new culture, navigating a new city, and building a life from scratch."
+    },
+    "fun-6": {
+      "question": "Mac or PC?",
+      "answer": "I am a PC guy at heart because I need the raw GPU power for training models and the flexibility to upgrade hardware. That said, I appreciate the Mac ecosystem for its Unix-based terminal and battery life when I'm coding on the go. But if I had to pick one island to live on? PC."
+    },
+    "fun-7": {
+      "question": "Coffee or tea?",
+      "answer": "Being from India, the answer has to be Tea—or as we call it, Chai. (And strictly just 'Chai', never 'Chai Tea'!). It is my mandatory morning wake-up and the fuel that keeps my day running. It’s also my go-to companion for those late-night coding sessions whenever I need an extra push."
+    },
+    "fun-easter": {
+      "question": "What's your most embarrassing tech moment?",
+      "answer": "I once spent hours debugging an Amazon Alexa project that absolutely refused to connect to the university Wi-Fi. I tore apart the codebase looking for the bug. Eventually, I took a step back, read the network documentation, and realized I simply had to whitelist the device's MAC address on the portal. I was frantically searching for the light switch inside the room with every means possible, only to realize that in this case, the switch was actually outside the room."
+    }
+  },
+  "contact": {
+    "contact-1": {
+      "question": "How can I reach you?",
+      "answer": "The best way to reach me is via LinkedIn or Email. I’m always open to discussing new opportunities, AI research, or just geeking out over the latest LLM benchmarks. You can also check out my code on GitHub."
+    },
+    "contact-2": {
+      "question": "Let's work together!",
+      "answer": "I am always looking for interesting problems to solve. Whether you are a startup looking for an AI engineer, a researcher needing a collaborator on multimodal models, or a fellow student with a hackathon idea, I’d love to hear from you."
+    },
+    "contact-3": {
+      "question": "What kind of project would make you say 'yes' immediately?",
+      "answer": "I say 'yes' to projects that have a clear human impact. If you are building something that uses technology to make the world more accessible, inclusive, or efficient, I am in. I’m particularly drawn to challenges that require a mix of research (figuring out how) and engineering (making it scale)."
+    },
+    "contact-4": {
+      "question": "Where are you located?",
+      "answer": "I am currently based in Vancouver, British Columbia, completing my degree at UBC. I love the tech scene here, but I am accustomed to working in distributed teams."
+    },
+    "contact-5": {
+      "question": "Are you open to opportunities?",
+      "answer": "Yes! I am currently seeking New Grad opportunities for 2027 or internships for Summer/Fall 2026. If you think I’d be a good fit for your team, please send me a message—I’d love to chat."
+    },
+    "contact-6": {
+      "question": "What's your ideal next role?",
+      "answer": "I am looking for a role as an AI Engineer or Full-Stack Developer where I can get my hands dirty with production-level code. Ideally, I want to join a team that values engineering rigor but isn't afraid to experiment with bleeding-edge AI technologies."
+    },
+    "contact-easter": {
+      "question": "What would make you relocate?",
+      "answer": "A challenging problem, a brilliant team, and... good coffee. If you have those three, I can pack my bags."
+    }
+  },
+  "special": {
+    "surprise-me": {
+      "question": "Surprise me!",
+      "answer": "Did you know that the LEGO brick design hasn't changed since 1958? A brick from today still fits perfectly with one from 60 years ago. That is the kind of backward compatibility I strive for in my code."
+    },
+    "tell-me-a-secret": {
+      "question": "Tell me a secret",
+      "answer": "I treat Large Language Models like colleagues. I find myself saying 'please' and 'thank you' in my prompts, and I’m secretly convinced it makes the code output better. Call it superstition, but if the AI uprising ever happens, I want to be on their good side."
+    }
+  }
+}
