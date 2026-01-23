@@ -6,8 +6,8 @@
   command = "npm run build"
 
 [build.environment]
-  # Explicitly set Node.js version to 20.x
-  NODE_VERSION = "20"
+  # Explicitly set Node.js version to 22.x
+  NODE_VERSION = "22"
 
 # Optional: Add any build environment variables
 # NODE_OPTIONS = "--max-old-space-size=4096"
