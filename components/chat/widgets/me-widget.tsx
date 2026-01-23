@@ -84,12 +84,12 @@ export default function MeWidget() {
         <p className={`leading-relaxed ${
           theme === 'light' ? 'text-gray-700' : 'text-gray-300'
         }`}>
-          I'm passionate about building intelligent systems that solve real-world problems. Currently working on AI accessibility tools and LLM-powered applications at UBC.
+          I&apos;m passionate about building intelligent systems that solve real-world problems. Currently working on AI accessibility tools and LLM-powered applications at UBC.
         </p>
         <p className={`leading-relaxed ${
           theme === 'light' ? 'text-gray-700' : 'text-gray-300'
         }`}>
-          When I'm not coding, you'll find me competing in hackathons, exploring new AI technologies, or contributing to open-source projects.
+          When I&apos;m not coding, you&apos;ll find me competing in hackathons, exploring new AI technologies, or contributing to open-source projects.
         </p>
       </div>
 

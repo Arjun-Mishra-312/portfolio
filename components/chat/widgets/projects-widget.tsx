@@ -51,7 +51,7 @@ const LLMProMaxContent = () => (
     </div>
 
     <Terminal className="max-w-2xl mx-auto">
-      <TypingAnimation>&gt; llm-pro-max analyze ./src --query "How does authentication work?"</TypingAnimation>
+      <TypingAnimation>&gt; llm-pro-max analyze ./src --query &quot;How does authentication work?&quot;</TypingAnimation>
       <AnimatedSpan className="text-green-400">
         ✓ Indexing codebase...
       </AnimatedSpan>

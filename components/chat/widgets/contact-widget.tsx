@@ -48,7 +48,7 @@ export default function ContactWidget() {
         theme === 'light' ? 'text-gray-900' : 'text-white'
       }`}>
         <IconMail className={`w-5 h-5 ${theme === 'light' ? 'text-blue-500' : 'text-ai-cyan'}`} />
-        Let's Connect
+        Let&apos;s Connect
       </h3>
 
       {/* Contact Info Cards */}

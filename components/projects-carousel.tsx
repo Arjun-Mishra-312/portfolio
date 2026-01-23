@@ -67,7 +67,7 @@ const AIAccessibilityContent = () => (
         <span className="font-bold text-neutral-700 dark:text-white">
           Dual-mode AI Pipeline for Web & Mobile Accessibility
         </span>{" "}
-        Combines Axe-core static analysis with Gemini 2.5 Pro's vision capabilities
+        Combines Axe-core static analysis with Gemini 2.5 Pro&apos;s vision capabilities
         to provide comprehensive WCAG 2.2 AA compliance checking. The system performs
         automated scans on both web and mobile platforms, identifying accessibility issues
         including color contrast, touch target sizes, and semantic HTML violations.
@@ -154,7 +154,7 @@ const LLMProMaxContent = () => (
     </div>
 
     <Terminal className="max-w-3xl mx-auto">
-      <TypingAnimation>&gt; llm-pro-max analyze ./src --query "How does authentication work?"</TypingAnimation>
+      <TypingAnimation>&gt; llm-pro-max analyze ./src --query &quot;How does authentication work?&quot;</TypingAnimation>
       <AnimatedSpan className="text-green-400">
         ✓ Indexing codebase...
       </AnimatedSpan>

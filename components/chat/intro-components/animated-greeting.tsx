@@ -55,7 +55,7 @@ export function AnimatedGreeting() {
               theme === 'light' ? 'text-gray-900' : 'text-white'
             }`}
           >
-            I'm{' '}
+            I&apos;m{' '}
             <span className="text-gradient font-bold">
               Arjun
             </span>
