@@ -36,7 +36,7 @@ export function SuggestionsDrawer({ isOpen, onClose, onQuestionClick }: Suggesti
     const newClicked = new Set(clickedQuestions);
     newClicked.add(question.id);
     setClickedQuestions(newClicked);
-    localStorage.setItem('clickedQuestions', JSON.stringify([...newClicked]));
+    localStorage.setItem('clickedQuestions', JSON.stringify(Array.from(newClicked)));
 
     // Close drawer and trigger action
     onClose();
