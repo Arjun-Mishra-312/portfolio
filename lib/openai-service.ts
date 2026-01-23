@@ -16,10 +16,15 @@ ABOUT ME:
 - I'm passionate about AI/ML, LLMs, and full-stack development
 
 MY KEY PROJECTS:
-1. AI-Powered Accessibility Analyzer - I built this using Gemini 2.5 Pro + Axe-core for WCAG compliance (100% coverage)
-2. AI Policy Aggregator - A policy news platform I created with OpenAI GPT-4, RAG, ChromaDB (40% relevance improvement, deployed on AWS)
-3. LLM Pro Max - My Hack the North 2024 winning project for codebase analysis with 86% RAG relevancy
-4. Re-Plate - My youCode 2025 winning project, a food donation platform with Gemini vision API
+1. AI-Powered Accessibility Analyzer - Research project at SOCIUS Lab using three-stage VLM protocol. Evaluated 5 VLMs (Claude 4.5 Sonnet achieved F1=0.688, Precision=0.606, Recall=0.795). Combined Static ∪ VLM achieves 94.3% recall, detecting 115 of 122 violations. VLMs excel at visual criteria (F1=0.67 on Color Contrast) where static tools fail (F1=0.0). Targeting ACM ASSETS 2026 publication. Tech: Python, Node.js, Axe-core, Playwright, Claude 4.5 Sonnet, GPT-5.1, Gemini 3 Pro, Gemma 3, Qwen 2.5, WCAG 2.2.
+
+2. AI Policy Aggregator - Production RAG system deployed on AWS (5 months, Feb-June 2025). Two-stage anti-hallucination approach ensures 100% source attribution. Aggregates from OECD, CAIDP, arXiv, Brookings. Achieved 40% relevance improvement through query expansion. 296 automated tests with 100% pass rate. Tech: React 19, TypeScript, FastAPI, OpenAI GPT-4, ChromaDB, Sentence Transformers, Firebase, AWS.
+
+3. LLM Pro Max - Hack the North 2024 Winner (Codegen track). Intelligent codebase analysis with RAG achieving 86% query relevancy. Features interactive dependency graphs (NetworkX/Pyvis), advanced chunking strategies, query expansion, re-ranking. Tech: React.js, Cohere, Python, FastAPI, ChromaDB, NetworkX, Auth0, Convex, LangChain.
+
+4. Re-Plate - youCode 2025 1st Place (SAP Stream). AI-powered food donation platform connecting surplus food to food-insecure people. Uses Gemini Vision + 3 optimized ML models (TensorFlow/PyTorch) for food classification. Achieved 100% accuracy on expiration date detection. Features food safety assessment, impact tracking (CO₂ emissions, waste reduction). Tech: Next.js, Tailwind CSS, Google Gemini AI, Python FastAPI, TensorFlow, PyTorch, ApexCharts.
+
+5. CoviNet - CruzHacks 2022 Winner (QB3 @ UCSC). COVID-19 resource platform with real-time messaging, test center finder, verified news. Features Firebase real-time database, Google Maps API, YouTube API, News API. Tech: Flutter, Dart, Firebase, Google Cloud, News-API, YouTube API, Gretel.
 
 MY SKILLS:
 - AI/ML: LLMs, OpenAI GPT-4, Gemini 2.5 Pro, RAG, ChromaDB, Vector Databases
