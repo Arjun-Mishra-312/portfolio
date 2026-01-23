@@ -35,7 +35,7 @@ export function FloatingPills({ onPillClick }: FloatingPillsProps) {
     const newClicked = new Set(clickedPills);
     newClicked.add(pill.id);
     setClickedPills(newClicked);
-    localStorage.setItem('clickedPills', JSON.stringify([...newClicked]));
+    localStorage.setItem('clickedPills', JSON.stringify(Array.from(newClicked)));
 
     // Trigger action
     onPillClick(pill);
