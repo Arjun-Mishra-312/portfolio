@@ -19,7 +19,7 @@ function VancouverModel() {
 
   return (
     <Center>
-      <group ref={modelRef} position={[0, 0.5, 0]}>
+      <group ref={modelRef} position={[0, 1.0, 0]}>
         <primitive object={scene} scale={5.5} />
       </group>
     </Center>
