@@ -16,6 +16,7 @@ import {
 } from '@tabler/icons-react';
 import { Carousel, Card } from '@/components/ui/apple-cards-carousel';
 import { Safari } from '@/components/ui/safari';
+import { useTheme } from '@/lib/theme-context';
 
 // Reusable Section Components
 const Section = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
@@ -964,6 +965,8 @@ const projects = [
 ];
 
 export default function ProjectsWidget() {
+  const { theme } = useTheme();
+  
   const cards = projects.map((project, index) => (
     <Card 
       key={project.title} 
@@ -981,8 +984,8 @@ export default function ProjectsWidget() {
       className="glass-card rounded-2xl p-4 space-y-4"
     >
       <div className="flex items-center gap-2 mb-2">
-        <IconCode className="w-5 h-5 text-ai-cyan" />
-        <h3 className="text-lg font-bold text-white">
+        <IconCode className={`w-5 h-5 ${theme === 'light' ? 'text-cyan-600' : 'text-ai-cyan'}`} />
+        <h3 className={`text-lg font-bold ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>
           Featured Projects
         </h3>
       </div>

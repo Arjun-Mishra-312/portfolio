@@ -8,15 +8,70 @@ interface KeywordMatch {
   matchedKeywords: string[];
 }
 
-// Keyword mapping for full widgets
+// High-priority intent patterns that should trigger widgets immediately
+// These are explicit user requests to show a section
+const EXPLICIT_WIDGET_INTENTS: Record<WidgetType, RegExp[]> = {
+  me: [
+    /show\s*(me\s*)?(the\s*)?about/i,
+    /show\s*(me\s*)?(the\s*)?me\s+section/i,
+    /tell\s*me\s*about\s*(yourself|you)/i,
+    /who\s*are\s*you/i,
+    /introduce\s*yourself/i,
+  ],
+  projects: [
+    /show\s*(me\s*)?(the\s*)?(your\s*)?projects?/i,
+    /show\s*(me\s*)?(the\s*)?projects?\s+section/i,
+    /what\s*(are\s*)?(your\s*)?projects?/i,
+    /tell\s*me\s*about\s*(your\s*)?projects?/i,
+  ],
+  skills: [
+    /show\s*(me\s*)?(the\s*)?(your\s*)?skills?/i,
+    /show\s*(me\s*)?(the\s*)?skills?\s+section/i,
+    /what\s*(are\s*)?(your\s*)?skills?/i,
+    /tell\s*me\s*about\s*(your\s*)?skills?/i,
+  ],
+  experience: [
+    /show\s*(me\s*)?(the\s*)?(your\s*)?experience/i,
+    /show\s*(me\s*)?(the\s*)?experience\s+section/i,
+    /tell\s*me\s*about\s*(your\s*)?experience/i,
+    /what('s|\s*is)\s*(your\s*)?experience/i,
+    /work\s*experience/i,
+  ],
+  awards: [
+    /show\s*(me\s*)?(the\s*)?(your\s*)?awards?/i,
+    /show\s*(me\s*)?(the\s*)?awards?\s+section/i,
+    /tell\s*me\s*about\s*(your\s*)?awards?/i,
+    /what\s*(are\s*)?(your\s*)?awards?/i,
+    /achievements?/i,
+  ],
+  fun: [
+    /show\s*(me\s*)?(the\s*)?fun/i,
+    /show\s*(me\s*)?(the\s*)?fun\s+section/i,
+    /what('s|\s*is)\s*(the\s*)?fun\s+section/i,
+    /tell\s*me\s*about\s*(the\s*)?fun/i,
+    /fun\s+stuff/i,
+    /hobbies/i,
+    /gallery/i,
+    /photos?/i,
+  ],
+  contact: [
+    /show\s*(me\s*)?(the\s*)?(your\s*)?contact/i,
+    /show\s*(me\s*)?(the\s*)?contact\s+section/i,
+    /how\s*(can\s*i\s*|to\s*)?contact\s*(you)?/i,
+    /get\s*in\s*touch/i,
+    /reach\s*(out|you)/i,
+  ],
+};
+
+// Fallback keyword mapping for full widgets (lower priority)
 const FULL_WIDGET_KEYWORDS: Record<WidgetType, string[]> = {
-  me: ['about', 'who are you', 'yourself', 'introduce', 'bio', 'background', 'about me', 'about you', 'tell me about yourself'],
-  projects: ['project', 'portfolio', 'built', 'created', 'work on', 'developed', 'app', 'show me your projects', 'your projects', 'tell me about your projects', 'what projects', 'show projects'],
-  skills: ['skill', 'technology', 'tech stack', 'know', 'programming', 'proficient', 'expertise', 'what skills', 'your skills', 'show me your skills', 'tell me about your skills'],
-  experience: ['experience', 'work', 'job', 'role', 'worked at', 'position', 'employment', 'work experience', 'your experience', 'show me your experience', 'tell me about your experience'],
-  awards: ['award', 'achievement', 'win', 'won', 'prize', 'recognition', 'honor', 'your awards', 'show me your awards', 'tell me about your awards', 'achievements'],
-  fun: ['fun', 'hobby', 'interest', 'personal', 'gallery', 'photo', 'fun section', 'show me fun', 'what\'s the fun section', 'show fun section', 'tell me about fun'],
-  contact: ['contact', 'reach', 'email', 'get in touch', 'connect', 'message', 'contact you', 'how to contact', 'show me contact', 'contact information'],
+  me: ['about', 'who are you', 'yourself', 'introduce', 'bio', 'background'],
+  projects: ['project', 'portfolio', 'built', 'created', 'developed'],
+  skills: ['skill', 'technology', 'tech stack', 'programming', 'expertise'],
+  experience: ['experience', 'job', 'role', 'worked at', 'position', 'employment'],
+  awards: ['award', 'achievement', 'win', 'won', 'prize', 'recognition', 'honor'],
+  fun: ['fun', 'hobby', 'interest', 'gallery', 'photo'],
+  contact: ['contact', 'reach', 'email', 'get in touch', 'connect'],
 };
 
 // Keyword mapping for micro widgets
@@ -104,13 +159,23 @@ export function getMicroWidgetMatches(
 }
 
 /**
- * Get full widget match if confidence is high enough
+ * Get full widget match - first checks explicit intents, then falls back to keyword matching
  */
 export function getFullWidgetMatch(
   userMessage: string,
   aiResponse: string,
-  threshold: number = 0.4
+  threshold: number = 0.2
 ): WidgetType | null {
+  // First, check for explicit intent patterns (high priority)
+  for (const [widgetType, patterns] of Object.entries(EXPLICIT_WIDGET_INTENTS)) {
+    for (const pattern of patterns) {
+      if (pattern.test(userMessage)) {
+        return widgetType as WidgetType;
+      }
+    }
+  }
+  
+  // Fall back to keyword matching with lower threshold
   const matches = detectKeywords(userMessage, aiResponse);
   const fullWidgetMatch = matches.find(
     match => match.type === 'full' && match.confidence >= threshold
