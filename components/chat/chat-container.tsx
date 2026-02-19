@@ -5,13 +5,13 @@ import { ThemeProvider, useTheme } from '@/lib/theme-context';
 import { AnimatedThemeToggler } from '@/components/ui/animated-theme-toggler';
 import { MessageList } from './message-list';
 import { ChatInput } from './chat-input';
-import { FloatingPills } from './suggestions/floating-pills';
 import { SuggestionsFAB } from './suggestions/suggestions-fab';
 import { SuggestionsDrawer } from './suggestions/suggestions-drawer';
 import { ContextualSuggestions } from './suggestions/contextual-suggestions';
 import { useKeyboardShortcuts } from './suggestions/keyboard-shortcuts';
 import { ShortcutsHint } from './suggestions/shortcuts-hint';
-import { Question, Pill, getRandomQuestion, getRandomEasterEgg } from './suggestions/questions-data';
+import { WelcomeSuggestions } from './suggestions/welcome-suggestions';
+import { Question, getRandomQuestion, getRandomEasterEgg } from './suggestions/questions-data';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 
@@ -261,25 +261,6 @@ function ChatContainerInner() {
     }
   }, [addMessage, handleQuestionClick]);
 
-  // Handle pill click (can be question or special action)
-  const handlePillClick = useCallback((pill: Pill) => {
-    if (pill.action) {
-      handleSpecialAction(pill.action);
-    } else {
-      // Add user message with the pill text
-      addMessage({
-        type: 'user',
-        content: pill.text,
-      });
-
-      // Send to chat API for AI response
-      setTyping(true);
-      handleSendMessage(pill.text).finally(() => {
-        setTyping(false);
-      });
-    }
-  }, [addMessage, handleSendMessage, setTyping, handleSpecialAction]);
-
   const toggleDrawer = useCallback(() => {
     setDrawerOpen(prev => !prev);
   }, []);
@@ -302,9 +283,9 @@ function ChatContainerInner() {
   });
 
   return (
-    <div className="flex flex-col h-screen w-screen relative overflow-hidden transition-colors duration-300" style={{ background: 'var(--bg-primary)' }}>
+    <div className="flex flex-col h-screen w-screen relative overflow-hidden transition-colors duration-300" style={{ background: 'var(--bg-primary)' }} suppressHydrationWarning>
       {/* WebGL Background */}
-      <div className="fixed inset-0 pointer-events-none z-0" style={{ width: '100vw', height: '100vh', overflow: 'hidden' }}>
+      <div className="fixed inset-0 pointer-events-none z-0" style={{ width: '100vw', height: '100vh', overflow: 'hidden' }} suppressHydrationWarning>
         {theme === 'light' ? (
           <LightVeil 
             speed={0.4}
@@ -372,10 +353,13 @@ function ChatContainerInner() {
         onSuggestionClick={handleQuestionClick}
       />
 
-      {/* Floating Pills (above input) */}
-      {messages.length > 2 && (
-        <FloatingPills onPillClick={handlePillClick} />
-      )}
+      {/* Welcome Suggestions carousel (shown when user has not sent any message yet) */}
+      <WelcomeSuggestions
+        onQuestionClick={handleQuestionClick}
+        onSpecialAction={handleSpecialAction}
+        onViewAll={toggleDrawer}
+        visible={messages.filter(m => m.type === 'user').length === 0}
+      />
 
       {/* Input */}
       <div className="relative z-20">

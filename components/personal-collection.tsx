@@ -61,8 +61,7 @@ export default function PersonalCollection() {
                 src="https://www.kiriengine.app/share/3dgsEmbed/2008260390479200256?userId=1657534&bg_theme=transparent&auto_spin=1"
                 className="absolute inset-0 w-full h-full"
                 style={{ border: "none" }}
-                allowFullScreen
-                allow="autoplay; fullscreen;"
+                allow="autoplay; fullscreen"
               />
             </div>
 

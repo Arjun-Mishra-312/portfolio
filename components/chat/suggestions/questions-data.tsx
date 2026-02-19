@@ -313,25 +313,46 @@ export const questionSections: QuestionSection[] = [
   },
 ];
 
-// Pills for the floating pills component (rotates through these)
-export const pillSets: Pill[][] = [
+// Welcome carousel sets (compact horizontal pills with pagination)
+// Used by WelcomeSuggestions - more questions, carousel layout
+export interface WelcomeCarouselItem {
+  id: string;
+  text: string;
+  emoji: string;
+  widgetType?: WidgetType;
+  action?: 'random' | 'tour' | 'everything' | 'secret';
+}
+
+export const welcomeCarouselSets: WelcomeCarouselItem[][] = [
   [
-    { id: 'pill-1', text: 'Who are you?', emoji: '✨', widgetType: 'me' },
-    { id: 'pill-2', text: 'Show me projects', emoji: '🚀', widgetType: 'projects' },
-    { id: 'pill-3', text: "What's your superpower?", emoji: '💪', widgetType: 'skills' },
-    { id: 'pill-4', text: 'Surprise me!', emoji: '🎲', action: 'random' },
+    { id: 'wc-1', text: 'Who are you?', emoji: '✨', widgetType: 'me' },
+    { id: 'wc-2', text: 'Show me projects', emoji: '🚀', widgetType: 'projects' },
+    { id: 'wc-3', text: "What's your superpower?", emoji: '💪', widgetType: 'skills' },
+    { id: 'wc-4', text: 'Surprise me!', emoji: '🎲', action: 'random' },
   ],
   [
-    { id: 'pill-5', text: 'Your background?', emoji: '📚', widgetType: 'experience' },
-    { id: 'pill-6', text: 'Something fun', emoji: '🎨', widgetType: 'fun' },
-    { id: 'pill-7', text: "Let's connect", emoji: '💬', widgetType: 'contact' },
-    { id: 'pill-8', text: 'Quick tour', emoji: '🚶', action: 'tour' },
+    { id: 'wc-5', text: 'Your background?', emoji: '📚', widgetType: 'experience' },
+    { id: 'wc-6', text: 'Something fun', emoji: '🎨', widgetType: 'fun' },
+    { id: 'wc-7', text: "Let's connect", emoji: '💬', widgetType: 'contact' },
+    { id: 'wc-8', text: 'Quick tour', emoji: '🚶', action: 'tour' },
   ],
   [
-    { id: 'pill-9', text: 'Your skills?', emoji: '🧠', widgetType: 'skills' },
-    { id: 'pill-10', text: 'Best projects', emoji: '🎯', widgetType: 'projects' },
-    { id: 'pill-11', text: 'Tell me a secret', emoji: '🔐', action: 'secret' },
-    { id: 'pill-12', text: 'Show everything', emoji: '✨', action: 'everything' },
+    { id: 'wc-9', text: 'Can I see your resume?', emoji: '📄', widgetType: 'experience' },
+    { id: 'wc-10', text: 'What projects are you proud of?', emoji: '🎯', widgetType: 'projects' },
+    { id: 'wc-11', text: "What's your tech stack?", emoji: '🛠️', widgetType: 'skills' },
+    { id: 'wc-12', text: 'Tell me a secret', emoji: '🔐', action: 'secret' },
+  ],
+  [
+    { id: 'wc-13', text: "Why should I hire you?", emoji: '⚡', widgetType: 'experience' },
+    { id: 'wc-14', text: "What's the craziest thing you've done?", emoji: '🤯', widgetType: 'fun' },
+    { id: 'wc-15', text: 'How can I reach you?', emoji: '📬', widgetType: 'contact' },
+    { id: 'wc-16', text: 'Show everything', emoji: '✨', action: 'everything' },
+  ],
+  [
+    { id: 'wc-17', text: "What makes you tick?", emoji: '💭', widgetType: 'me' },
+    { id: 'wc-18', text: 'Show me something impressive', emoji: '🎯', widgetType: 'projects' },
+    { id: 'wc-19', text: "What are you learning?", emoji: '🧠', widgetType: 'skills' },
+    { id: 'wc-20', text: "Let's work together", emoji: '🤝', widgetType: 'contact' },
   ],
 ];
 

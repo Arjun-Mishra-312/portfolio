@@ -44,6 +44,7 @@ export function AnimatedProfileCard({
           src={imageUrl}
           alt={name}
           fill
+          sizes="(max-width: 200px) 120px, 150px"
           className="object-cover"
         />
       </div>

@@ -252,6 +252,7 @@ export function EnhancedHero() {
                     src="/pfp.png"
                     alt="Arjun Mishra"
                     fill
+                    sizes="(max-width: 640px) 200px, 280px"
                     className="object-cover rounded-full"
                     priority
                   />

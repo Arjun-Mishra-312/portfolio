@@ -3,9 +3,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-export function TypingIndicator() {
+export const TypingIndicator = React.forwardRef<HTMLDivElement>(function TypingIndicator(_props, ref) {
   return (
     <motion.div
+      ref={ref}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -47,4 +48,4 @@ export function TypingIndicator() {
       </div>
     </motion.div>
   );
-}
+});

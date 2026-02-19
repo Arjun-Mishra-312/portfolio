@@ -4,13 +4,10 @@ import { motion } from 'framer-motion';
 import { useTheme } from '@/lib/theme-context';
 import { WidgetType } from '@/lib/chat-context';
 import {
-  IconUser,
   IconCode,
-  IconBrain,
   IconBriefcase,
   IconTrophy,
-  IconSparkles,
-  IconMail,
+  IconHeart,
 } from '@tabler/icons-react';
 
 interface PreviewCard {
@@ -30,10 +27,10 @@ const cards: PreviewCard[] = [
     gradient: 'from-blue-500 to-cyan-500',
   },
   {
-    type: 'skills',
-    title: 'Skills',
-    description: 'AI/ML, React, Python & More',
-    icon: <IconBrain className="w-5 h-5" />,
+    type: 'fun',
+    title: 'Fun',
+    description: 'Hobbies, adventures & personality',
+    icon: <IconHeart className="w-5 h-5" />,
     gradient: 'from-purple-500 to-pink-500',
   },
   {

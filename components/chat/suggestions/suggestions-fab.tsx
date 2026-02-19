@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { IconSparkles } from '@tabler/icons-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { IconSparkles, IconX } from '@tabler/icons-react';
 import { useTheme } from '@/lib/theme-context';
 
 interface SuggestionsFABProps {
@@ -11,19 +11,18 @@ interface SuggestionsFABProps {
 
 export function SuggestionsFAB({ onClick, isOpen }: SuggestionsFABProps) {
   const { theme } = useTheme();
-  const [showBadge, setShowBadge] = useState(false);
+  const [isFirstVisit, setIsFirstVisit] = useState(false);
 
   useEffect(() => {
-    // Show "New" badge on first visit
     const hasVisited = localStorage.getItem('suggestionsVisited');
     if (!hasVisited) {
-      setShowBadge(true);
+      setIsFirstVisit(true);
     }
   }, []);
 
   const handleClick = () => {
-    if (showBadge) {
-      setShowBadge(false);
+    if (isFirstVisit) {
+      setIsFirstVisit(false);
       localStorage.setItem('suggestionsVisited', 'true');
     }
     onClick();
@@ -31,80 +30,93 @@ export function SuggestionsFAB({ onClick, isOpen }: SuggestionsFABProps) {
 
   return (
     <motion.button
-      initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ delay: 1, type: "spring", stiffness: 260, damping: 20 }}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.9 }}
+      initial={{ scale: 0, opacity: 0, y: 20 }}
+      animate={{ scale: 1, opacity: 1, y: 0 }}
+      transition={{ delay: 0.8, type: 'spring', stiffness: 260, damping: 20 }}
+      whileHover={{ scale: 1.03, y: -1 }}
+      whileTap={{ scale: 0.97 }}
       onClick={handleClick}
-      className="fixed bottom-28 right-6 z-40 group"
+      className="fixed bottom-28 right-4 z-40 group"
       aria-label="Open suggestions menu"
     >
       <div className="relative">
-        {/* Main button */}
-        <div className={`glass-card p-4 rounded-2xl shadow-2xl transition-all duration-300 ${
-          isOpen
-            ? 'border-ai-purple bg-ai-purple/20'
-            : ''
-        }`} style={!isOpen ? {
-          border: `1px solid var(--border-color)`
-        } : undefined}>
+        {/* Pill button */}
+        <div
+          className={`glass-card flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-2xl transition-all duration-300 ${
+            isOpen
+              ? 'border-ai-purple bg-ai-purple/20'
+              : theme === 'light'
+              ? 'border-blue-200 hover:border-blue-400'
+              : 'border-white/15 hover:border-ai-cyan/50'
+          }`}
+          style={!isOpen ? { border: `1px solid var(--border-color)` } : undefined}
+        >
           <motion.div
-            animate={{
-              rotate: isOpen ? 180 : 0,
-            }}
+            animate={{ rotate: isOpen ? 180 : 0 }}
             transition={{ duration: 0.3 }}
           >
-            <IconSparkles className={`w-6 h-6 transition-colors duration-300 ${
-              isOpen ? 'text-ai-purple' : 'text-ai-cyan'
-            }`} />
+            {isOpen ? (
+              <IconX className="w-4.5 h-4.5 text-ai-purple flex-shrink-0" />
+            ) : (
+              <IconSparkles className={`w-4.5 h-4.5 flex-shrink-0 ${theme === 'light' ? 'text-ai-blue' : 'text-ai-cyan'}`} />
+            )}
           </motion.div>
+
+          <AnimatePresence mode="wait">
+            {isOpen ? (
+              <motion.span
+                key="close"
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: 'auto' }}
+                exit={{ opacity: 0, width: 0 }}
+                transition={{ duration: 0.2 }}
+                className="text-sm font-semibold text-ai-purple whitespace-nowrap overflow-hidden"
+              >
+                Close
+              </motion.span>
+            ) : (
+              <motion.span
+                key="open"
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: 'auto' }}
+                exit={{ opacity: 0, width: 0 }}
+                transition={{ duration: 0.2 }}
+                className={`text-sm font-semibold whitespace-nowrap overflow-hidden ${
+                  theme === 'light' ? 'text-gray-700' : 'text-gray-200'
+                }`}
+              >
+                Ask me anything
+              </motion.span>
+            )}
+          </AnimatePresence>
+
+          {/* "New" dot for first-time visitors */}
+          {isFirstVisit && !isOpen && (
+            <motion.span
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="w-2 h-2 rounded-full bg-red-500 flex-shrink-0"
+            />
+          )}
         </div>
 
-        {/* Pulse animation */}
+        {/* Pulse ring — only when closed */}
         {!isOpen && (
           <motion.div
-            className="absolute inset-0 rounded-2xl bg-ai-cyan/30"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.5, 0, 0.5],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+            className="absolute inset-0 rounded-2xl bg-ai-cyan/20 pointer-events-none"
+            animate={{ scale: [1, 1.08, 1], opacity: [0.6, 0, 0.6] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
           />
         )}
 
-        {/* Glow effect */}
-        <div className={`absolute inset-0 rounded-2xl blur-xl transition-opacity duration-300 -z-10 ${
-          isOpen
-            ? 'bg-ai-purple/40 opacity-100'
-            : 'bg-ai-cyan/40 opacity-0 group-hover:opacity-100'
-        }`} />
-
-        {/* "New" badge */}
-        {showBadge && (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full"
-          >
-            New
-          </motion.div>
-        )}
-      </div>
-
-      {/* Tooltip */}
-      <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 pointer-events-none">
-        <motion.div
-          initial={{ opacity: 0, x: 10 }}
-          whileHover={{ opacity: 1, x: 0 }}
-          className="glass-card px-3 py-1.5 rounded-lg whitespace-nowrap text-sm text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-        >
-          ✨ Ask me anything
-        </motion.div>
+        {/* Glow */}
+        <div
+          className={`absolute inset-0 rounded-2xl blur-xl transition-opacity duration-300 -z-10 ${
+            isOpen
+              ? 'bg-ai-purple/40 opacity-100'
+              : 'bg-ai-cyan/30 opacity-0 group-hover:opacity-100'
+          }`}
+        />
       </div>
     </motion.button>
   );

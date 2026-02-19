@@ -160,6 +160,7 @@ export default function ExperienceWidget() {
                         src={exp.logo}
                         alt={exp.company}
                         fill
+                        sizes="48px"
                         className="object-contain"
                       />
                     </div>

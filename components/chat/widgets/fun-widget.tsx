@@ -63,11 +63,12 @@ export default function FunWidget() {
                 }`}>
                   Explore my adventures in an immersive 3D dome gallery with 50+ photos
                 </p>
-                <div className="relative w-full h-32 rounded-lg overflow-hidden">
+                <div className="relative w-full h-52 rounded-lg overflow-hidden">
                   <Image
-                    src="/experiences_photos/IMG-20250915-WA0004.jpg"
+                    src={theme === 'light' ? '/fun-widget/gallery-light.png' : '/fun-widget/gallery-dark.png'}
                     alt="Gallery preview"
                     fill
+                    sizes="(max-width: 768px) 200px, 300px"
                     className="object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-3">
@@ -97,8 +98,14 @@ export default function FunWidget() {
                 }`}>
                   Interactive 3D models - Lego P1 and more
                 </p>
-                <div className="relative w-full h-32 rounded-lg overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                  <IconCube className="w-12 h-12 text-ai-cyan animate-pulse" />
+                <div className="relative w-full h-52 rounded-lg overflow-hidden">
+                  <Image
+                    src={theme === 'light' ? '/fun-widget/model-light.png' : '/fun-widget/model-dark.png'}
+                    alt="3D Model Collection preview"
+                    fill
+                    sizes="(max-width: 768px) 200px, 300px"
+                    className="object-cover"
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-3">
                     <span className="text-white text-xs font-medium">Click to view →</span>
                   </div>
@@ -107,17 +114,7 @@ export default function FunWidget() {
             </div>
           </motion.div>
 
-          {/* Fun Facts */}
-          <div className="glass p-4 rounded-xl space-y-2">
-            <h4 className={`font-semibold text-sm mb-3 ${
-              theme === 'light' ? 'text-gray-900' : 'text-white'
-            }`}>About Me</h4>
-            <div className={`space-y-2 text-sm ${
-              theme === 'light' ? 'text-gray-700' : 'text-gray-300'
-            }`}>
-              <p>🏆 5+ hackathon wins including Hack the North 2024</p>
-            </div>
-          </div>
+          
         </div>
       </motion.div>
 

@@ -70,7 +70,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/icon.ico" />
       </head>
-      <body className={`${inter.className} ${jetbrainsMono.variable} antialiased`}>
+      <body className={`${inter.className} ${jetbrainsMono.variable} antialiased`} suppressHydrationWarning>
         {children}
       </body>
     </html>

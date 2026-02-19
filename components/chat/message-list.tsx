@@ -25,7 +25,7 @@ export function MessageList({ onNavigate }: MessageListProps) {
   return (
     <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-4 relative z-10">
       <div className="max-w-4xl mx-auto">
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence mode="sync">
           {messages.map((message) => (
             <MessageBubble 
               key={message.id} 

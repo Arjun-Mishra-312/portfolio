@@ -55,6 +55,7 @@ export default function MeWidget() {
             src="/pfp.png"
             alt="Arjun Mishra"
             fill
+            sizes="96px"
             className="object-cover"
           />
         </div>

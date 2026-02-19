@@ -16,7 +16,7 @@ interface MessageBubbleProps {
   onPreviewCardClick?: (type: any) => void;
 }
 
-export function MessageBubble({ message, children, onPreviewCardClick }: MessageBubbleProps) {
+export const MessageBubble = React.forwardRef<HTMLDivElement, MessageBubbleProps>(function MessageBubble({ message, children, onPreviewCardClick }, ref) {
   const { theme } = useTheme();
   const isUser = message.type === 'user';
   const isWidget = message.type === 'widget';
@@ -33,6 +33,7 @@ export function MessageBubble({ message, children, onPreviewCardClick }: Message
 
   return (
     <motion.div
+      ref={ref}
       initial={{ opacity: 0, y: 20, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
@@ -133,4 +134,4 @@ export function MessageBubble({ message, children, onPreviewCardClick }: Message
       </div>
     </motion.div>
   );
-}
+});
