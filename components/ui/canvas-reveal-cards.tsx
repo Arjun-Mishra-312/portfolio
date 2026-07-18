@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-import { AnimatePresence, color, motion } from "motion/react";
+import { AnimatePresence, color, motion } from "framer-motion";
 import { CanvasRevealEffect } from "@/components/ui/canvas-reveal-effect";
 
 import {

@@ -6,7 +6,7 @@ import {
   useTransform,
   useSpring,
   MotionValue,
-} from "motion/react";
+} from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { CardBody, CardContainer, CardItem } from "./3d-card";

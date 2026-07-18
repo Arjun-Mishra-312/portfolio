@@ -1,5 +1,5 @@
 "use client";
-import { motion, MotionProps } from "motion/react";
+import { motion, MotionProps } from "framer-motion";
 import { ReactNode, useEffect, useState } from "react";
 
 interface PerformanceAwareMotionProps extends MotionProps {

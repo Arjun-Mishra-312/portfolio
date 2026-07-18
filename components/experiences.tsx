@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { 
   IconBrain, 
   IconSchool, 

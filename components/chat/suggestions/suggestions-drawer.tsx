@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   IconX,
   IconSparkles,
@@ -134,7 +134,7 @@ export function SuggestionsDrawer({ isOpen, onClose, onQuestionClick }: Suggesti
                       onClick={() => toggleSection(section.id)}
                       className={`w-full glass-card px-4 py-3 rounded-xl flex items-center justify-between transition-all duration-200 border group ${
                         theme === 'light'
-                          ? 'border-black/10 hover:border-black/15 hover:bg-black/[0.03]'
+                          ? 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                           : 'border-white/10 hover:border-white/20 hover:bg-white/5'
                       }`}
                     >
@@ -190,7 +190,7 @@ export function SuggestionsDrawer({ isOpen, onClose, onQuestionClick }: Suggesti
                                         ? 'bg-yellow-50 border border-yellow-400 hover:border-yellow-500'
                                         : 'bg-black/40 border border-yellow-500/30 hover:border-yellow-500/60'
                                       : theme === 'light'
-                                      ? 'glass border border-black/10 hover:border-black/15 hover:bg-black/[0.03]'
+                                      ? 'glass border border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                                       : 'glass border border-white/10 hover:border-white/20 hover:bg-white/5'
                                   } ${isClicked ? 'opacity-60' : ''}`}
                                 >

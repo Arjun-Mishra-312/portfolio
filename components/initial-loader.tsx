@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "framer-motion";
 import { IconBrain, IconCode, IconRocket } from "@tabler/icons-react";
 
 export function InitialLoader() {

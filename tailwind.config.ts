@@ -5,7 +5,6 @@ const {
 } = require("tailwindcss/lib/util/flattenColorPalette");
 
 const config: Config = {
-  darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -37,22 +36,7 @@ const config: Config = {
           light: 'rgba(255, 255, 255, 0.1)',
           medium: 'rgba(255, 255, 255, 0.15)',
           dark: 'rgba(0, 0, 0, 0.3)',
-        },
-        // Semantic OS tokens (follow data-arjun-theme / CSS vars)
-        os: {
-          surface: "var(--os-surface)",
-          elevated: "var(--os-surface-elevated)",
-          border: "var(--os-border)",
-          hairline: "var(--os-hairline)",
-          fill: "var(--os-fill)",
-          "fill-strong": "var(--os-fill-strong)",
-          hover: "var(--os-hover)",
-          overlay: "var(--os-overlay)",
-          divider: "var(--os-divider)",
-          primary: "var(--os-text-primary)",
-          secondary: "var(--os-text-secondary)",
-          muted: "var(--os-text-muted)",
-        },
+        }
       },
       screens: {
         'xs': '475px',

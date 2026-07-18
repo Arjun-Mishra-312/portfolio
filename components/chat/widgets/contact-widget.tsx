@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { useTheme } from '@/lib/theme-context';
 import {
   IconMail,
@@ -126,7 +126,7 @@ export default function ContactWidget() {
             required
             className={`w-full px-4 py-2.5 rounded-xl glass border text-sm transition-all ${
               theme === 'light'
-                ? 'border-black/10 text-neutral-900 placeholder-neutral-500 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30'
+                ? 'border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30'
                 : 'border-white/10 text-white placeholder-gray-400 focus:border-ai-blue focus:ring-2 focus:ring-ai-blue/50'
             }`}
           />
@@ -140,7 +140,7 @@ export default function ContactWidget() {
             required
             className={`w-full px-4 py-2.5 rounded-xl glass border text-sm transition-all ${
               theme === 'light'
-                ? 'border-black/10 text-neutral-900 placeholder-neutral-500 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30'
+                ? 'border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30'
                 : 'border-white/10 text-white placeholder-gray-400 focus:border-ai-blue focus:ring-2 focus:ring-ai-blue/50'
             }`}
           />
@@ -154,7 +154,7 @@ export default function ContactWidget() {
             rows={3}
             className={`w-full px-4 py-2.5 rounded-xl glass border text-sm transition-all resize-none ${
               theme === 'light'
-                ? 'border-black/10 text-neutral-900 placeholder-neutral-500 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30'
+                ? 'border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30'
                 : 'border-white/10 text-white placeholder-gray-400 focus:border-ai-blue focus:ring-2 focus:ring-ai-blue/50'
             }`}
           />

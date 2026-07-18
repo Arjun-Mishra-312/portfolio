@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getChatResponse } from '@/lib/openai-service';
-import type { ChatMessage } from '@/lib/arjun-os/types';
 
 export async function POST(req: NextRequest) {
   try {
-    const { message, messages, uiContext } = await req.json();
+    const { message } = await req.json();
 
     if (!message || typeof message !== 'string') {
       return NextResponse.json(
@@ -26,17 +25,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Get enriched response from OpenAI
-    const safeMessages: ChatMessage[] = Array.isArray(messages)
-      ? messages.filter(
-          (entry: unknown): entry is ChatMessage =>
-            Boolean(entry) &&
-            typeof entry === 'object' &&
-            ((entry as ChatMessage).role === 'user' || (entry as ChatMessage).role === 'assistant') &&
-            typeof (entry as ChatMessage).content === 'string',
-        ).slice(-10)
-      : [];
-
-    const enrichedResponse = await getChatResponse(message, safeMessages, uiContext);
+    const enrichedResponse = await getChatResponse(message);
 
     return NextResponse.json({ 
       response: enrichedResponse.text,

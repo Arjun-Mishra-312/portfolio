@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, KeyboardEvent } from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { IconSend, IconLoader2 } from '@tabler/icons-react';
 import { useChatContext } from '@/lib/chat-context';
 import { useTheme } from '@/lib/theme-context';

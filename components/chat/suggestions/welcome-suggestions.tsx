@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { IconSparkles, IconArrowRight } from '@tabler/icons-react';
 import { useTheme } from '@/lib/theme-context';
 import { welcomeCarouselSets, WelcomeCarouselItem } from './questions-data';

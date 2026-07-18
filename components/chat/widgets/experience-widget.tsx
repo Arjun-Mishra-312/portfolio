@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import {
   IconBrain,
@@ -142,7 +142,7 @@ export default function ExperienceWidget() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="relative glass p-4 rounded-xl space-y-3 hover:bg-black/[0.04] dark:hover:bg-white/5 transition-all hover:scale-[1.02] hover:shadow-lg group"
+                className="relative glass p-4 rounded-xl space-y-3 hover:bg-white/5 transition-all hover:scale-[1.02] hover:shadow-lg group"
               >
                 {/* Gradient border on hover */}
                 <div className={`absolute inset-0 rounded-xl bg-gradient-to-r ${exp.color} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`} />
@@ -155,7 +155,7 @@ export default function ExperienceWidget() {
                   >
                     {/* Glowing effect */}
                     <div className={`absolute inset-0 bg-gradient-to-r ${exp.color} opacity-0 group-hover:opacity-30 blur-lg transition-opacity`} />
-                    <div className="relative w-full h-full bg-black/[0.03] dark:bg-white/5 backdrop-blur-sm border border-black/10 dark:border-white/10 rounded-lg p-1.5">
+                    <div className="relative w-full h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-1.5">
                       <Image
                         src={exp.logo}
                         alt={exp.company}
@@ -276,7 +276,7 @@ export default function ExperienceWidget() {
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                       className="overflow-hidden relative z-10"
                     >
-                      <div className="pt-3 mt-3 border-t border-black/10 dark:border-white/10 space-y-4">
+                      <div className="pt-3 mt-3 border-t border-white/10 space-y-4">
                         {/* Description */}
                         {exp.description && (
                           <div>
@@ -342,7 +342,7 @@ export default function ExperienceWidget() {
                                   key={tech} 
                                   className={`px-2 py-0.5 text-xs rounded-lg border ${
                                     theme === 'light'
-                                      ? 'bg-black/[0.04] text-neutral-700 border-black/10'
+                                      ? 'bg-gray-100 text-gray-700 border-gray-300'
                                       : 'glass-card text-gray-200 border-white/10'
                                   }`}
                                   initial={{ opacity: 0, scale: 0.8 }}

@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 export const TypingIndicator = React.forwardRef<HTMLDivElement>(function TypingIndicator(_props, ref) {
