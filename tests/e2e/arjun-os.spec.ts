@@ -21,19 +21,29 @@ test("navigates canonical app states and restores them with browser history", as
 test("AI Island stays on-screen and restores focus after Escape", async ({ page }) => {
   await page.goto("/");
   const trigger = page.getByLabel("Ask Arjun", { exact: true });
+  const idleBox = await trigger.boundingBox();
+  expect(idleBox).not.toBeNull();
+  expect(idleBox!.y).toBeGreaterThanOrEqual(0);
+  expect(idleBox!.y + idleBox!.height).toBeLessThanOrEqual(54);
   await trigger.focus();
   await trigger.click();
   const dialog = page.getByRole("dialog", { name: "AI Island" });
   await expect(dialog).toBeVisible();
   await expect.poll(() => page.locator('[aria-label="Arjun OS dock"]').evaluate((element) => Boolean(element.closest("[inert]")))).toBe(true);
+  await expect.poll(async () => (await dialog.boundingBox())?.y ?? 0).toBeGreaterThanOrEqual(54);
   const box = await dialog.boundingBox();
   expect(box).not.toBeNull();
   expect(box!.y).toBeGreaterThanOrEqual(54);
   expect(box!.y + box!.height).toBeLessThanOrEqual(await page.evaluate(() => innerHeight));
   await page.keyboard.press("Escape");
   await expect(trigger).toBeFocused();
+  await expect.poll(async () => {
+    const settledBox = await trigger.boundingBox();
+    return settledBox ? settledBox.y + settledBox.height : Number.POSITIVE_INFINITY;
+  }).toBeLessThanOrEqual(54);
   const closedBox = await trigger.boundingBox();
   expect(closedBox).not.toBeNull();
+  expect(closedBox!.y + closedBox!.height).toBeLessThanOrEqual(54);
   expect(Math.abs(closedBox!.x + closedBox!.width / 2 - (await page.evaluate(() => innerWidth / 2)))).toBeLessThanOrEqual(2);
 });
 
@@ -66,6 +76,33 @@ test("default desktop has no serious automatically detectable accessibility viol
   await page.goto("/");
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations.filter((violation) => violation.impact === "critical" || violation.impact === "serious")).toEqual([]);
+});
+
+test("reduce transparency keeps the window blur layer stable while its background animates", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "desktop window surface coverage");
+  await page.goto("/");
+  const window = page.getByRole("dialog", { name: "About Arjun" });
+  const filterBefore = await window.evaluate((element) => getComputedStyle(element).backdropFilter);
+
+  await page.getByRole("button", { name: "Open accessibility settings" }).click();
+  await page.getByRole("switch", { name: "Reduce transparency" }).click();
+
+  await expect.poll(() => window.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe("rgb(13, 21, 32)");
+  await expect.poll(() => window.evaluate((element) => getComputedStyle(element).backdropFilter)).toBe(filterBefore);
+});
+
+test("high contrast and reduce transparency use a coherent palette together", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === "mobile", "desktop surface palette coverage");
+  await page.goto("/");
+  await page.getByRole("button", { name: "Switch to dawn theme" }).click();
+  await page.getByRole("button", { name: "Open accessibility settings" }).click();
+  await page.getByRole("switch", { name: "Reduce transparency" }).click();
+  await page.getByRole("switch", { name: "High contrast" }).click();
+
+  const window = page.getByRole("dialog", { name: "About Arjun" });
+  await expect.poll(() => window.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe("rgb(0, 0, 0)");
+  await expect.poll(() => window.evaluate((element) => getComputedStyle(element).color)).toBe("rgb(255, 255, 255)");
+  await expect.poll(() => page.locator("header.os-top-rail").evaluate((element) => getComputedStyle(element).backgroundColor)).toBe("rgb(0, 0, 0)");
 });
 
 test("mobile exposes its app header below the system rail", async ({ page }, testInfo) => {

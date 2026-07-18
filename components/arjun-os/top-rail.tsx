@@ -44,7 +44,7 @@ export function TopRail({ onOpenAccessibility }: { onOpenAccessibility?: () => v
         <button
           type="button"
           onClick={onOpenAccessibility}
-          className="absolute left-2 min-h-11 min-w-11 rounded-md p-1.5 transition hover:bg-os-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--os-accent-cobalt)] sm:static"
+          className="absolute left-2 inline-flex min-h-11 min-w-11 items-center justify-center rounded-md p-1.5 transition hover:bg-os-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--os-accent-cobalt)] sm:static"
           aria-label="Open accessibility settings"
         >
           <Accessibility className="h-4 w-4" />

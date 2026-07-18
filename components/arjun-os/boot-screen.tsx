@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { BOOT_SESSION_KEY } from "@/lib/arjun-os/constants";
 import { BootMark } from "./icons";
 import { cn } from "@/utils/cn";
 
@@ -11,8 +10,10 @@ type Phase = "playing" | "done";
 
 export function BootScreen({
   onComplete,
+  wallpaper = "/wallpapers/Vancouver_Dusk.webp",
 }: {
   onComplete: () => void;
+  wallpaper?: string;
 }) {
   // Begin in the server-rendered HTML so a cold load does not wait for the
   // entire desktop to hydrate before the laptop starts opening.
@@ -22,11 +23,9 @@ export function BootScreen({
   const finishedRef = useRef(false);
   onCompleteRef.current = onComplete;
 
-  const finish = (remember = true) => {
+  const finish = () => {
     if (finishedRef.current) return;
     finishedRef.current = true;
-    if (remember) sessionStorage.setItem(BOOT_SESSION_KEY, "true");
-    document.documentElement.dataset.skipBoot = "true";
     setPhase("done");
     onCompleteRef.current();
   };
@@ -41,17 +40,10 @@ export function BootScreen({
       (appDestination !== null && appDestination !== "profile") ||
       ["project", "ai", "tour"].some((key) => params.has(key));
 
-    const reducedMotion =
-      document.documentElement.dataset.reduceMotion === "true" ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const alreadyBooted = sessionStorage.getItem(BOOT_SESSION_KEY) === "true";
-
-    if (!forceBoot && (hasDirectDestination || reducedMotion || alreadyBooted)) {
-      finish(false);
+    if (!forceBoot && hasDirectDestination) {
+      finish();
       return;
     }
-
-    document.documentElement.dataset.skipBoot = "false";
 
     const display = rootRef.current?.querySelector<HTMLElement>(".os-boot-display");
     if (display) {
@@ -118,6 +110,13 @@ export function BootScreen({
           <div className="os-boot-screen">
             <div className="os-boot-bezel" aria-hidden />
             <div className="os-boot-display">
+              {/* eslint-disable-next-line @next/next/no-img-element -- boot must not wait on next/image */}
+              <img
+                src={wallpaper}
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover"
+                draggable={false}
+              />
               <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/55" />
               <div className="os-boot-splash absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
                 <BootMark />

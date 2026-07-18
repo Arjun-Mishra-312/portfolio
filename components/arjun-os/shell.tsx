@@ -5,8 +5,8 @@ import Image from "next/image";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useOSActions, useOSState } from "@/lib/arjun-os/os-context";
-import { useOsReducedMotion } from "@/lib/arjun-os/motion";
-import { TOP_RAIL_HEIGHT } from "@/lib/arjun-os/constants";
+import { islandTransition, useOsReducedMotion } from "@/lib/arjun-os/motion";
+import { snappedBounds, TOP_RAIL_HEIGHT } from "@/lib/arjun-os/constants";
 import { portfolioData } from "@/lib/arjun-os/portfolio-data";
 import type { AppId } from "@/lib/arjun-os/types";
 import { AccessibilityPanel } from "./accessibility-panel";
@@ -40,7 +40,39 @@ function AppSkeleton() {
   return <div className="h-full animate-pulse bg-os-fill" />;
 }
 
-function MobileHome({ wallpaper }: { wallpaper: string }) {
+const WALLPAPERS = {
+  dawn: "/wallpapers/Vancouver_Dawn.webp",
+  dusk: "/wallpapers/Vancouver_Dusk.webp",
+} as const;
+
+function WallpaperLayers({ theme, reduced }: { theme: keyof typeof WALLPAPERS; reduced: boolean }) {
+  return (
+    <>
+      {(Object.keys(WALLPAPERS) as Array<keyof typeof WALLPAPERS>).map((variant) => {
+        const active = variant === theme;
+
+        return (
+          <motion.div
+            key={variant}
+            className="absolute inset-0"
+            initial={false}
+            animate={{
+              opacity: active ? 1 : 0,
+              filter: active ? "blur(0px)" : "blur(18px)",
+              scale: active ? 1 : 1.025,
+            }}
+            transition={reduced ? { duration: 0 } : { duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+            aria-hidden
+          >
+            <Image src={WALLPAPERS[variant]} alt="" fill priority className="object-cover" sizes="100vw" />
+          </motion.div>
+        );
+      })}
+    </>
+  );
+}
+
+function MobileHome({ theme, reduced }: { theme: keyof typeof WALLPAPERS; reduced: boolean }) {
   const { openApp } = useOSActions();
   const { profile } = portfolioData;
 
@@ -55,7 +87,7 @@ function MobileHome({ wallpaper }: { wallpaper: string }) {
     <div className="flex h-full flex-col gap-4 overflow-y-auto p-4 pb-28">
       <div className="overflow-hidden rounded-2xl border border-os-hairline">
         <div className="relative h-36">
-          <Image src={wallpaper} alt="" fill className="object-cover" priority />
+          <WallpaperLayers theme={theme} reduced={reduced} />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
           <div className="absolute bottom-3 left-3 right-3">
             <p className="mb-2 text-xs text-white/85">Vancouver, BC</p>
@@ -133,13 +165,16 @@ function WallpaperTwinkle({ paused }: { paused: boolean }) {
 }
 
 export function ArjunOSShell() {
-  const { theme, snapPreview, isMobile, activeAppId, windows, accessibility, island } = useOSState();
+  const { theme, snapPreview, isMobile, activeAppId, windows, accessibility, island, workArea } = useOSState();
   const reduced = useOsReducedMotion();
   const [a11yOpen, setA11yOpen] = useState(false);
   const [booted, setBooted] = useState(false);
   const [pageVisible, setPageVisible] = useState(true);
-  const wallpaper =
-    theme === "dawn" ? "/wallpapers/vancouver-dawn.png" : "/wallpapers/vancouver-dusk.png";
+  const wallpaper = WALLPAPERS[theme];
+  const snapPreviewBounds = useMemo(
+    () => (snapPreview ? snappedBounds(snapPreview, workArea) : null),
+    [snapPreview, workArea],
+  );
 
   useEffect(() => {
     const onVisibility = () => setPageVisible(document.visibilityState === "visible");
@@ -156,19 +191,12 @@ export function ArjunOSShell() {
       data-page-visible={pageVisible}
     >
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <Image
-          src={wallpaper}
-          alt=""
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-        />
+        <WallpaperLayers theme={theme} reduced={reduced} />
         <div className="absolute inset-0 bg-[var(--os-wallpaper-veil)]" />
         <WallpaperTwinkle paused={reduced || !pageVisible || !booted} />
       </div>
 
-      <BootScreen onComplete={() => setBooted(true)} />
+      <BootScreen wallpaper={wallpaper} onComplete={() => setBooted(true)} />
 
       <motion.div
         className={cn(!booted && "pointer-events-none")}
@@ -186,12 +214,14 @@ export function ArjunOSShell() {
         {!isMobile && <DesktopWidgets />}
         <AccessibilityPanel open={a11yOpen} onClose={() => setA11yOpen(false)} />
 
-        {snapPreview && (
+        {snapPreviewBounds && (
           <motion.div
-            className="pointer-events-none absolute bottom-24 top-[54px] z-[60] rounded-2xl border-2 border-dashed border-cyan-300/70 bg-cyan-300/10"
+            className="pointer-events-none fixed z-[60] rounded-2xl border-2 border-dashed border-cyan-300/70 bg-cyan-300/10"
             style={{
-              left: snapPreview === "left" ? 12 : "50%",
-              width: "calc(50% - 18px)",
+              left: snapPreviewBounds.x,
+              top: snapPreviewBounds.y,
+              width: snapPreviewBounds.width,
+              height: snapPreviewBounds.height,
             }}
             initial={reduced ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -213,7 +243,7 @@ export function ArjunOSShell() {
           activeAppId === "profile" ||
           !windows[activeAppId]?.isOpen ||
           windows[activeAppId]?.mode === "minimized") ? (
-            <MobileHome wallpaper={wallpaper} />
+            <MobileHome theme={theme} reduced={reduced} />
           ) : (
             <AppWindow appId={activeAppId}>
               {activeAppId === "work" && (
@@ -276,14 +306,20 @@ export function ArjunOSShell() {
       </p>
       </div>
 
-      <div
+      <motion.div
         className="pointer-events-none fixed left-1/2 z-[110] -translate-x-1/2"
-        style={{ top: TOP_RAIL_HEIGHT + 12 }}
+        initial={false}
+        animate={{
+          top: island.expanded
+            ? TOP_RAIL_HEIGHT + 12
+            : (TOP_RAIL_HEIGHT - 38) / 2,
+        }}
+        transition={islandTransition(reduced)}
       >
         <div className="pointer-events-none grid w-screen justify-items-center">
           <AiIsland />
         </div>
-      </div>
+      </motion.div>
       </motion.div>
     </div>
   );

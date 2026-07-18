@@ -9,7 +9,6 @@ export const MIN_WINDOW_HEIGHT = 320;
 export const THEME_STORAGE_KEY = "arjun-os-theme";
 export const A11Y_STORAGE_KEY = "arjun-os-a11y";
 export const WIDGETS_SESSION_KEY = "arjun-os-widgets-collapsed";
-export const BOOT_SESSION_KEY = "arjun-os-booted";
 
 export const VANCOUVER = {
   latitude: 49.2827,
