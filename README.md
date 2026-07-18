@@ -6,7 +6,7 @@ Recruiter-focused portfolio presented as an original desktop environment (**Arju
 
 ## Inspiration
 
-Desktop OS interaction patterns (window open/focus/minimize/maximize, dock targeting, work-area constraints) were informed by studying [macOS-Portfolio](https://github.com/aakashsharma003/macOS-Portfolio) (MIT). Arjun OS reimplements those behaviors in Next.js and does not ship that repository’s components, assets, or application designs.
+Desktop OS interaction patterns (window open/focus/minimize/maximize, dock targeting, work-area constraints) were informed by studying [macOS-Portfolio](https://github.com/aakashsharma003/macOS-Portfolio) (MIT). Arjun OS reimplements those behaviors in Next.js and does not ship that repository’s components, assets, or application designs. See `docs/arjun-os/THIRD_PARTY.md`.
 
 ## Getting Started
 
