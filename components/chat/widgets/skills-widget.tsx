@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import {
   IconBrain,
   IconDevices,
@@ -99,7 +99,7 @@ export default function SkillsWidget() {
                   key={skill}
                   className={`px-2.5 py-1 text-xs rounded-lg border ${
                     theme === 'light'
-                      ? 'bg-gray-100 text-gray-800 border-gray-300'
+                      ? 'bg-black/[0.04] text-neutral-800 border-black/10'
                       : 'glass-card text-gray-100 border-white/10'
                   }`}
                 >

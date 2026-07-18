@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { useTheme } from '@/lib/theme-context';
 import Image from 'next/image';
 import {

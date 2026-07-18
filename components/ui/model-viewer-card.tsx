@@ -1,18 +1,18 @@
 "use client";
 
-import React, { Suspense, useRef } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, useGLTF, Center, Environment } from "@react-three/drei";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import * as THREE from "three";
 
-function VancouverModel() {
+function VancouverModel({ animate }: { animate: boolean }) {
   const { scene } = useGLTF("/3D_modals/Vancouver_3D.glb");
   const modelRef = useRef<THREE.Group>(null);
 
   // Slow auto-rotation
   useFrame((state, delta) => {
-    if (modelRef.current) {
+    if (animate && modelRef.current) {
       modelRef.current.rotation.y += delta * 0.3;
     }
   });
@@ -38,22 +38,50 @@ function LoadingFallback() {
 interface ModelViewerCardProps {
   title?: string;
   subtitle?: string;
+  reducedMotion?: boolean;
 }
 
 export function ModelViewerCard({
   title = "Vancouver",
   subtitle = "My City",
+  reducedMotion = false,
 }: ModelViewerCardProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [pageVisible, setPageVisible] = useState(true);
+  const [inView, setInView] = useState(true);
+
+  useEffect(() => {
+    const onVisibility = () => setPageVisible(document.visibilityState === "visible");
+    onVisibility();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
+
+  useEffect(() => {
+    const element = containerRef.current;
+    if (!element || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
+      threshold: 0.05,
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  const animateModel = !reducedMotion && pageVisible && inView;
+
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
+      ref={containerRef}
+      data-model-animated={animateModel}
+      initial={reducedMotion ? false : { opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay: 0.3 }}
+      transition={{ duration: reducedMotion ? 0.01 : 0.5, delay: reducedMotion ? 0 : 0.3 }}
     >
       <div className="model-viewer-card">
         {/* 3D Canvas */}
         <div className="model-canvas-container">
           <Canvas
+            frameloop={animateModel ? "always" : "demand"}
             camera={{
               position: [3, 3, 10],
               fov: 40,
@@ -70,7 +98,7 @@ export function ModelViewerCard({
 
             {/* Model */}
             <Suspense fallback={<LoadingFallback />}>
-              <VancouverModel />
+              <VancouverModel animate={animateModel} />
               <Environment preset="city" />
             </Suspense>
 

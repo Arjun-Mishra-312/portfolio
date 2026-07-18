@@ -1,6 +1,6 @@
 "use client";
 import React, { ReactNode } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 
 // Static wrapper - no scroll animations for better performance
 export const SectionTransition = ({ 

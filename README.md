@@ -1,4 +1,12 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Arjun OS Portfolio
+
+Recruiter-focused portfolio presented as an original desktop environment (**Arjun OS**) with a persistent top-center **AI Island**.
+
+© 2026 Arjun — Arjun OS portfolio design and implementation.
+
+## Inspiration
+
+Desktop OS interaction patterns (window open/focus/minimize/maximize, dock targeting, work-area constraints) were informed by studying [macOS-Portfolio](https://github.com/aakashsharma003/macOS-Portfolio) (MIT). Arjun OS reimplements those behaviors in Next.js and does not ship that repository’s components, assets, or application designs.
 
 ## Getting Started
 

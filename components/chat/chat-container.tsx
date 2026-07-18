@@ -12,7 +12,7 @@ import { useKeyboardShortcuts } from './suggestions/keyboard-shortcuts';
 import { ShortcutsHint } from './suggestions/shortcuts-hint';
 import { WelcomeSuggestions } from './suggestions/welcome-suggestions';
 import { Question, getRandomQuestion, getRandomEasterEgg } from './suggestions/questions-data';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import dynamic from 'next/dynamic';
 
 const DarkVeil = dynamic(() => import('@/components/dark-veil'), {
@@ -30,6 +30,26 @@ function ChatContainerInner() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [currentInput, setCurrentInput] = useState('');
   const hasInitializedRef = React.useRef(false);
+
+  const handleNavigate = useCallback((widgetType: WidgetType, skipHashUpdate = false) => {
+    setCurrentSection(widgetType);
+
+    if (!skipHashUpdate) {
+      window.location.hash = widgetType;
+    }
+
+    const widgetMessages: Record<WidgetType, string> = {
+      me: "Here's a bit about me! 👨‍💻",
+      projects: "Check out some of my projects! 🚀",
+      skills: "Here are my skills and expertise! 🧠",
+      experience: "My professional journey! 💼",
+      awards: "Some achievements I'm proud of! 🏆",
+      fun: "Let's explore some fun stuff! 🎨",
+      contact: "Let's get in touch! 📧",
+    };
+
+    addWidgetMessage(widgetType, widgetMessages[widgetType]);
+  }, [addWidgetMessage]);
 
   // Welcome sequence
   useEffect(() => {
@@ -98,7 +118,7 @@ function ChatContainerInner() {
     };
 
     initializeChat();
-  }, []);
+  }, [addMessage, handleNavigate, setTyping]);
 
   // Handle hash changes
   useEffect(() => {
@@ -113,30 +133,9 @@ function ChatContainerInner() {
 
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, [currentSection]);
+  }, [currentSection, handleNavigate]);
 
-  const handleNavigate = useCallback((widgetType: WidgetType, skipHashUpdate = false) => {
-    setCurrentSection(widgetType);
-    
-    // Only update hash if not skipped (prevents duplicate triggers from hashchange event)
-    if (!skipHashUpdate) {
-      window.location.hash = widgetType;
-    }
-
-    const messages: Record<WidgetType, string> = {
-      me: "Here's a bit about me! 👨‍💻",
-      projects: "Check out some of my projects! 🚀",
-      skills: "Here are my skills and expertise! 🧠",
-      experience: "My professional journey! 💼",
-      awards: "Some achievements I'm proud of! 🏆",
-      fun: "Let's explore some fun stuff! 🎨",
-      contact: "Let's get in touch! 📧",
-    };
-
-    addWidgetMessage(widgetType, messages[widgetType]);
-  }, [addWidgetMessage]);
-
-  const handleSendMessage = async (message: string) => {
+  const handleSendMessage = useCallback(async (message: string) => {
     // Clear current input for contextual suggestions
     setCurrentInput('');
     
@@ -195,7 +194,7 @@ function ChatContainerInner() {
         content: "I'm having trouble connecting right now. Try using the navigation buttons below to explore my portfolio, or ask me specific questions about my projects, skills, or experience!",
       });
     }
-  };
+  }, [addMessage, addWidgetMessage, setTyping]);
 
   // Handle question click from suggestions
   const handleQuestionClick = useCallback((question: Question) => {
@@ -259,7 +258,7 @@ function ChatContainerInner() {
         break;
       }
     }
-  }, [addMessage, handleQuestionClick]);
+  }, [addMessage, handleNavigate, handleQuestionClick]);
 
   const toggleDrawer = useCallback(() => {
     setDrawerOpen(prev => !prev);
