@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { useTheme } from '@/lib/theme-context';
 import { WidgetType } from '@/lib/chat-context';
 import {
@@ -87,7 +87,7 @@ export function PreviewCards({ onCardClick }: PreviewCardsProps) {
             className={`
               group relative overflow-hidden rounded-xl p-4 text-left transition-all
               ${theme === 'light'
-                ? 'bg-white border border-gray-200 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-100'
+                ? 'bg-white border border-black/10 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-100'
                 : 'glass-card hover:border-white/20 hover:shadow-lg hover:shadow-blue-500/10'
               }
             `}

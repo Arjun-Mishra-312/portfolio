@@ -35,7 +35,7 @@ const ContactWidget = dynamic(() => import('./widgets/contact-widget'), {
 function WidgetSkeleton() {
   return (
     <div className="glass-card rounded-2xl p-6 animate-pulse">
-      <div className="h-40 bg-white/5 rounded-xl" />
+      <div className="h-40 bg-black/[0.04] dark:bg-white/5 rounded-xl" />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { IconKeyboard, IconX } from '@tabler/icons-react';
 import { useTheme } from '@/lib/theme-context';
 
@@ -60,16 +60,16 @@ export function ShortcutsHint() {
                 }`}>
                   <div className="flex items-center gap-2">
                     <kbd className={`px-2 py-0.5 rounded font-mono font-semibold ${
-                      theme === 'light' 
-                        ? 'bg-gray-100 border border-gray-300 text-gray-900' 
+                      theme === 'light'
+                        ? 'bg-black/[0.04] border border-black/10 text-neutral-900'
                         : 'bg-white/10 border border-white/20 text-gray-100'
                     }`}>⌘K</kbd>
                     <span>Open menu</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <kbd className={`px-2 py-0.5 rounded font-mono font-semibold ${
-                      theme === 'light' 
-                        ? 'bg-gray-100 border border-gray-300 text-gray-900' 
+                      theme === 'light'
+                        ? 'bg-black/[0.04] border border-black/10 text-neutral-900'
                         : 'bg-white/10 border border-white/20 text-gray-100'
                     }`}>⌘R</kbd>
                     <span>Random question</span>
@@ -79,8 +79,8 @@ export function ShortcutsHint() {
               <button
                 onClick={handleDismiss}
                 className={`flex-shrink-0 p-1 rounded-lg transition-colors ${
-                  theme === 'light' 
-                    ? 'hover:bg-gray-200 text-gray-600' 
+                  theme === 'light'
+                    ? 'hover:bg-black/[0.04] text-neutral-600'
                     : 'hover:bg-white/10 text-gray-400'
                 }`}
                 aria-label="Dismiss hint"

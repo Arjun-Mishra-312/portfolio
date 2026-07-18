@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { flushSync } from "react-dom";
 import { useTheme } from "@/lib/theme-context";
 import { cn } from "@/utils/cn";
@@ -63,17 +63,13 @@ export function AnimatedThemeToggler({
 
   return (
     <div ref={containerRef} className={cn("relative", className)} style={{ fontSize: '6px' }} {...props}>
-      <input
-        type="checkbox"
-        checked={isDark}
-        onChange={toggleTheme}
-        className="hidden"
-        aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-      />
-      
       {/* Container */}
-      <motion.div
-        className="relative cursor-pointer overflow-hidden"
+      <motion.button
+        type="button"
+        role="switch"
+        aria-checked={isDark}
+        aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+        className="relative cursor-pointer overflow-hidden border-0 p-0 outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
         style={{
           width: '5.625em',
           height: '2.5em',
@@ -227,7 +223,7 @@ export function AnimatedThemeToggler({
           }}
           transition={{ duration: 0.5, ease: [0, -0.02, 0.4, 1.25] }}
         />
-      </motion.div>
+      </motion.button>
     </div>
   );
 }

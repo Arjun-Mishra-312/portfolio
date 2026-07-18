@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'motion/react';
 import { useChatContext, WidgetType } from '@/lib/chat-context';
 import { MessageBubble } from './message-bubble';
 import { TypingIndicator } from './typing-indicator';

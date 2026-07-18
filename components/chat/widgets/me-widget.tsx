@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import Image from 'next/image';
 import { useTheme } from '@/lib/theme-context';
 import {
@@ -129,7 +129,7 @@ export default function MeWidget() {
           href="mailto:arjunmishra31204@gmail.com"
           className={`flex-1 group relative inline-flex items-center justify-center space-x-2 px-4 py-3 rounded-xl glass-card font-medium transition-all hover:scale-[1.02] border ${
             theme === 'light'
-              ? 'text-gray-900 border-gray-300 hover:border-blue-400 hover:bg-blue-50'
+              ? 'text-neutral-900 border-black/10 hover:border-blue-400 hover:bg-black/[0.03]'
               : 'text-white border-white/10 hover:border-ai-cyan/50'
           }`}
         >

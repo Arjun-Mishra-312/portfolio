@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { useTheme } from '@/lib/theme-context';
 import {
   IconDownload,
@@ -86,7 +86,7 @@ export function QuickActions({ primary = 'resume' }: QuickActionsProps) {
               ${action.primary || index === 0
                 ? 'bg-gradient-to-r from-ai-blue to-ai-purple text-white shadow-lg hover:shadow-xl hover:shadow-ai-blue/25'
                 : theme === 'light'
-                  ? 'glass-card text-gray-900 border border-gray-200 hover:border-blue-400 hover:bg-blue-50'
+                  ? 'glass-card text-neutral-900 border border-black/10 hover:border-blue-400 hover:bg-black/[0.03]'
                   : 'glass-card text-white border border-white/10 hover:border-ai-cyan/50'
               }
             `}
