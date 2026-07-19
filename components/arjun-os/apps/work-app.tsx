@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowRight, FolderOpen } from "lucide-react";
+import { ArrowRight, ChevronRight, FolderOpen } from "lucide-react";
+import { PhoneLargeTitle, PhoneSearch, PhoneSegmented, PhoneSection, usePhonePresentationState } from "@/components/arjun-os/phone-ui";
 import { getProject, portfolioData } from "@/lib/arjun-os/portfolio-data";
 import { fadeUpItem, staggerChildren, useOsReducedMotion } from "@/lib/arjun-os/motion";
 import { useOSActions, useOSState } from "@/lib/arjun-os/os-context";
@@ -30,18 +31,46 @@ const ARCHITECTURE_STAGES: Record<ProjectId, string[]> = {
 };
 
 export function WorkApp() {
-  const { activeProjectId } = useOSState();
+  const { activeProjectId, layoutMode } = useOSState();
   const { dispatch } = useOSActions();
   const reduced = useOsReducedMotion();
   const [chapter, setChapter] = useState<Chapter>("Overview");
   const [direction, setDirection] = useState(1);
-  const project = activeProjectId ? getProject(activeProjectId) : null;
+  const [phoneFilter, setPhoneFilter] = usePhonePresentationState<"Featured" | "All">("work-filter", "Featured");
+  const [phoneQuery, setPhoneQuery] = usePhonePresentationState("work-query", "");
+  const project = activeProjectId
+    ? getProject(activeProjectId)
+    : layoutMode === "tabletPortrait"
+      ? portfolioData.projects[0]
+      : null;
   const selectChapter = (next: Chapter) => {
     setDirection(CHAPTERS.indexOf(next) >= CHAPTERS.indexOf(chapter) ? 1 : -1);
     setChapter(next);
   };
 
   if (project) {
+    if (layoutMode === "phone") {
+      return (
+        <article className="os-phone-document space-y-8 px-5 pb-10">
+          <nav className="os-phone-document-index" aria-label="Case study chapters">
+            {CHAPTERS.map((item) => <a key={item} href={`#chapter-${item.toLowerCase()}`}>{item}</a>)}
+          </nav>
+          <section id="chapter-overview" className="scroll-mt-16">
+            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--os-accent-violet-text)]">Case study</p>
+            <h2 className="mt-2 text-2xl font-semibold text-os-primary">{project.title}</h2>
+            <div className="relative mt-4 aspect-[16/10] overflow-hidden rounded-2xl border border-os-hairline"><Image src={project.image} alt={project.title} fill className="object-cover" /></div>
+            <p className="mt-4 text-sm leading-6 text-os-secondary">{project.summary}</p>
+          </section>
+          <section id="chapter-problem" className="scroll-mt-16"><h3 className="text-lg font-semibold text-os-primary">Problem</h3><p className="mt-2 text-sm leading-6 text-os-secondary">{project.problem}</p></section>
+          <section id="chapter-role" className="scroll-mt-16"><h3 className="text-lg font-semibold text-os-primary">Role</h3><p className="mt-2 text-sm leading-6 text-os-secondary">{project.role}</p></section>
+          <section id="chapter-process" className="scroll-mt-16"><h3 className="text-lg font-semibold text-os-primary">Process</h3><ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-os-secondary">{project.process.map((item) => <li key={item}>{item}</li>)}</ul></section>
+          <section id="chapter-architecture" className="scroll-mt-16"><h3 className="text-lg font-semibold text-os-primary">Architecture</h3><p className="mt-2 text-sm leading-6 text-os-secondary">{project.architecture}</p><ol className="mt-3 space-y-2">{ARCHITECTURE_STAGES[project.id].map((stage, index) => <li key={stage} className="rounded-xl border border-os-hairline bg-os-fill p-3 text-sm"><span className="mr-2 font-mono text-[10px] text-[var(--os-accent-cyan-text)]">{String(index + 1).padStart(2, "0")}</span>{stage}</li>)}</ol></section>
+          <section id="chapter-results" className="scroll-mt-16"><h3 className="text-lg font-semibold text-os-primary">Results</h3><ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-os-primary">{project.results.map((item) => <li key={item}>{item}</li>)}</ul></section>
+          <section id="chapter-learnings" className="scroll-mt-16"><h3 className="text-lg font-semibold text-os-primary">Learnings</h3><ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-os-secondary">{project.learnings.map((item) => <li key={item}>{item}</li>)}</ul></section>
+          <section id="chapter-links" className="scroll-mt-16"><h3 className="text-lg font-semibold text-os-primary">Links</h3><div className="mt-3 flex flex-wrap gap-2">{project.stack.map((tech) => <span key={tech} className="rounded-full border border-os-hairline px-3 py-1.5 text-xs text-os-secondary">{tech}</span>)}</div></section>
+        </article>
+      );
+    }
     return (
       <div className="flex h-full min-h-[420px]">
         <aside className="hidden w-44 shrink-0 border-r border-os-hairline bg-os-fill-strong p-3 sm:block">
@@ -51,7 +80,27 @@ export function WorkApp() {
               Case study
             </p>
           </div>
-          <motion.nav
+          {layoutMode === "tabletPortrait" ? (
+            <nav className="space-y-2" aria-label="Projects">
+              {portfolioData.projects.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => {
+                    setChapter("Overview");
+                    dispatch({ type: "SET_ACTIVE_PROJECT", projectId: item.id as ProjectId });
+                  }}
+                  className={cn(
+                    "w-full rounded-xl border px-3 py-3 text-left",
+                    project.id === item.id ? "border-[var(--os-accent-violet)] bg-os-fill-strong" : "border-os-hairline text-os-secondary",
+                  )}
+                >
+                  <span className="block text-xs font-semibold text-os-primary">{item.title}</span>
+                  <span className="mt-1 block text-[10px] leading-4">{item.tags.slice(0, 2).join(" · ")}</span>
+                </button>
+              ))}
+            </nav>
+          ) : <motion.nav
             className="space-y-1"
             aria-label="Case study chapters"
             initial="initial"
@@ -82,14 +131,14 @@ export function WorkApp() {
                 {item}
               </motion.button>
             ))}
-          </motion.nav>
-          <button
+          </motion.nav>}
+          {layoutMode !== "tabletPortrait" && <button
             type="button"
             onClick={() => dispatch({ type: "SET_ACTIVE_PROJECT", projectId: null })}
             className="mt-4 text-xs text-[var(--os-text-muted)] hover:text-[var(--os-text-primary)]"
           >
             ← Selected Work
-          </button>
+          </button>}
         </aside>
 
         <div className="flex-1 overflow-y-auto p-5 sm:p-7">
@@ -101,7 +150,7 @@ export function WorkApp() {
             ← Back to Selected Work
           </button>
 
-          <div className="mb-4 flex gap-2 overflow-x-auto sm:hidden">
+          <div className={cn("mb-4 flex gap-2 overflow-x-auto", layoutMode === "tabletPortrait" ? "flex" : "sm:hidden")}>
             {CHAPTERS.map((item) => (
               <button
                 key={item}
@@ -241,13 +290,40 @@ export function WorkApp() {
     );
   }
 
+  if (layoutMode === "phone") {
+    const shown = portfolioData.projects.filter((item, index) => {
+      const matchesFilter = phoneFilter === "All" || index < 2;
+      const query = phoneQuery.trim().toLowerCase();
+      return matchesFilter && (!query || `${item.title} ${item.summary} ${item.tags.join(" ")}`.toLowerCase().includes(query));
+    });
+    return (
+      <div className="os-phone-screen">
+        <PhoneLargeTitle title="Work" eyebrow="Arjun OS · Files" />
+        <PhoneSearch value={phoneQuery} onChange={setPhoneQuery} placeholder="Search projects" />
+        <PhoneSegmented value={phoneFilter} options={["Featured", "All"] as const} onChange={setPhoneFilter} label="Project filter" />
+        <PhoneSection title="Projects">
+          <div className="os-phone-grouped-list">
+            {shown.map((item) => (
+              <button key={item.id} type="button" className="os-files-row" onClick={() => dispatch({ type: "SET_ACTIVE_PROJECT", projectId: item.id as ProjectId })}>
+                <span className="os-files-thumbnail"><Image src={item.image} alt="" fill className="object-cover" /></span>
+                <span className="min-w-0 flex-1"><strong>{item.title}</strong><small>{item.tags.slice(0, 2).join(" · ")}</small><small>{item.summary}</small></span>
+                <ChevronRight aria-hidden />
+              </button>
+            ))}
+            {shown.length === 0 && <p className="os-phone-empty">No projects match “{phoneQuery}”.</p>}
+          </div>
+        </PhoneSection>
+      </div>
+    );
+  }
+
   return (
     <div className="h-full overflow-y-auto p-5 sm:p-7">
       <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--os-text-muted)]">
         Selected Work
       </p>
       <h3 className="mt-2 text-xl font-semibold text-[var(--os-text-primary)]">Featured projects</h3>
-      <div className="mt-5 grid gap-4 lg:grid-cols-3">
+      <div className="work-project-grid mt-5 grid gap-4">
         {portfolioData.projects.map((item) => (
           <motion.button
             key={item.id}

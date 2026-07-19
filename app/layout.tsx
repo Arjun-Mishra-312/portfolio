@@ -69,7 +69,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link rel="icon" href="/icon.ico" />
         <Script id="arjun-os-preferences" strategy="beforeInteractive">
           {`(function(){try{var d=document.documentElement;var t=localStorage.getItem('arjun-os-theme');if(t!=='dawn'&&t!=='dusk')t='dusk';d.dataset.arjunTheme=t;d.classList.toggle('dark',t==='dusk');var a={};try{a=JSON.parse(localStorage.getItem('arjun-os-a11y')||'{}')||{}}catch(e){}var systemReduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;var reduceMotion=Boolean(a.reduceMotion||systemReduce);d.dataset.reduceMotion=String(reduceMotion);d.dataset.reduceTransparency=String(Boolean(a.reduceTransparency));d.dataset.highContrast=String(Boolean(a.highContrast));}catch(e){}})();`}

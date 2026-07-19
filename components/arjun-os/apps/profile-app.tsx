@@ -21,7 +21,7 @@ export function ProfileApp() {
 
   return (
     <div className="flex h-full min-h-[420px]">
-      <aside className="hidden w-44 shrink-0 border-r border-os-hairline bg-os-fill-strong p-3 sm:block">
+      <aside className="os-profile-internal-nav hidden w-44 shrink-0 border-r border-os-hairline bg-os-fill-strong p-3 sm:block">
         <nav className="space-y-1" aria-label="Profile navigation">
           {nav.map((item) => (
             <button

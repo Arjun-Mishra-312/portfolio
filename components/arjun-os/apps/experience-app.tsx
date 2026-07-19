@@ -1,100 +1,140 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { portfolioData } from "@/lib/arjun-os/portfolio-data";
-import { useOSActions } from "@/lib/arjun-os/os-context";
+import { useOSActions, useOSState } from "@/lib/arjun-os/os-context";
 import { cinematicItem, staggerContainer, useOsReducedMotion } from "@/lib/arjun-os/motion";
 import { cn } from "@/utils/cn";
+import { ChevronRight, FileText } from "lucide-react";
+import { PhoneLargeTitle, PhoneSection } from "@/components/arjun-os/phone-ui";
 
 export function ExperienceApp() {
-  const [activeId, setActiveId] = useState(portfolioData.experience[1]?.id ?? portfolioData.experience[0].id);
-  const { openResume } = useOSActions();
+  const { activeExperienceId, layoutMode } = useOSState();
+  const { openResume, dispatch } = useOSActions();
   const reduced = useOsReducedMotion();
+  const isPhone = layoutMode === "phone";
+  const activeId = activeExperienceId ?? portfolioData.experience[1]?.id ?? portfolioData.experience[0].id;
   const active = portfolioData.experience.find((item) => item.id === activeId) ?? portfolioData.experience[0];
 
-  return (
-    <div className="grid h-full min-h-[420px] lg:grid-cols-[240px_1fr_220px]">
-      <aside className="border-r border-os-hairline bg-os-fill-strong p-4">
-        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--os-text-muted)]">
-          Experience + Research
-        </p>
-        <motion.ol className="mt-4 space-y-3" variants={staggerContainer(reduced, 0.07)} initial="initial" animate="animate">
-          {portfolioData.experience.map((item, index) => (
-            <motion.li key={item.id} variants={cinematicItem(reduced)}>
-              <button
-                type="button"
-                onClick={() => setActiveId(item.id)}
-                className={cn(
-                  "w-full rounded-xl border px-3 py-3 text-left transition",
-                  activeId === item.id
-                    ? "border-[var(--os-accent-violet)] bg-[var(--os-accent-violet)]/10"
-                    : "border-os-hairline hover:bg-os-hover",
-                )}
-              >
-                <p className="font-mono text-[10px] text-[var(--os-text-muted)]">0{index + 1}</p>
-                <p className="mt-1 text-xs font-semibold text-[var(--os-text-primary)]">{item.organization}</p>
-                <p className="text-[11px] text-[var(--os-text-secondary)]">{item.role}</p>
+  if (isPhone && !activeExperienceId) {
+    return (
+      <div className="os-phone-screen os-notes-screen">
+        <PhoneLargeTitle title="Experience" eyebrow="Arjun OS · Notes" trailing={<span className="os-phone-title-icon"><FileText aria-hidden /></span>} />
+        <PhoneSection title="Roles">
+          <div className="os-phone-grouped-list">
+            {portfolioData.experience.map((item) => (
+              <button key={item.id} type="button" className="os-notes-row" onClick={() => dispatch({ type: "SET_ACTIVE_EXPERIENCE", experienceId: item.id })}>
+                <span className="min-w-0 flex-1"><strong>{item.organization}</strong><span>{item.role}</span><small>{item.summary}</small><time>{item.period}</time></span>
+                <ChevronRight aria-hidden />
               </button>
-            </motion.li>
+            ))}
+          </div>
+        </PhoneSection>
+      </div>
+    );
+  }
+
+  if (isPhone && activeExperienceId) {
+    return (
+      <article className="os-phone-note-document">
+        <p className="os-phone-eyebrow">Experience note</p>
+        <div className="mt-3 flex items-center gap-3">
+          {active.logo && <Image src={active.logo} alt="" width={46} height={46} className="rounded-xl bg-white object-contain p-1" />}
+          <div><h2>{active.organization}</h2><p className="os-note-role">{active.role}</p></div>
+        </div>
+        <p className="os-note-metadata">{active.period} · {active.location}</p>
+        <p className="os-note-summary">{active.summary}</p>
+        <h3>Highlights</h3>
+        <ul>{active.responsibilities.map((item) => <li key={item}>{item}</li>)}</ul>
+        <h3>Tools & methods</h3>
+        <div className="os-note-tags">{active.tools.map((tool) => <span key={tool}>{tool}</span>)}</div>
+        <button type="button" onClick={openResume} className="os-phone-primary-action">Open Résumé</button>
+      </article>
+    );
+  }
+
+  return (
+    <div className="experience-layout grid h-full">
+      <aside className={cn("border-r border-os-hairline bg-os-fill-strong p-4", isPhone && activeExperienceId && "hidden")}>
+        <p className="os-phone-eyebrow">Notes</p>
+        <h3 className="mt-1 text-xl font-semibold tracking-tight text-[var(--os-text-primary)]">Experience</h3>
+        <motion.div
+          className="os-notes-desktop-list mt-4"
+          variants={staggerContainer(reduced, 0.07)}
+          initial="initial"
+          animate="animate"
+        >
+          {portfolioData.experience.map((item) => (
+            <motion.button
+              key={item.id}
+              type="button"
+              variants={cinematicItem(reduced)}
+              onClick={() => dispatch({ type: "SET_ACTIVE_EXPERIENCE", experienceId: item.id })}
+              className={cn("os-notes-row", activeId === item.id && "is-active")}
+              aria-current={activeId === item.id ? "page" : undefined}
+            >
+              <span className="min-w-0 flex-1">
+                <strong>{item.organization}</strong>
+                <span>{item.role}</span>
+                <time>{item.period}</time>
+              </span>
+              <ChevronRight aria-hidden />
+            </motion.button>
           ))}
-        </motion.ol>
+        </motion.div>
       </aside>
 
-      <div className="overflow-y-auto p-5 sm:p-7">
+      <div className={cn("p-5 sm:p-7", isPhone && !activeExperienceId && "hidden")}>
         <AnimatePresence mode="wait" initial={false}>
-        <motion.div key={active.id} initial={reduced ? { opacity: 0 } : { opacity: 0, x: 16, filter: "blur(4px)" }} animate={{ opacity: 1, x: 0, filter: "blur(0px)" }} exit={reduced ? { opacity: 0 } : { opacity: 0, x: -10, filter: "blur(3px)" }}>
-        <div className="flex items-center gap-3">
-          {active.logo && (
-            <Image src={active.logo} alt="" width={40} height={40} className="rounded-lg object-contain" />
-          )}
-          <div>
-            <h3 className="text-xl font-semibold text-[var(--os-text-primary)]">{active.organization}</h3>
-            <p className="text-sm text-[var(--os-accent-cobalt-text)]">{active.role}</p>
-          </div>
-        </div>
-        <p className="mt-2 font-mono text-[11px] text-[var(--os-text-muted)]">
-          {active.period} · {active.location}
-        </p>
-        <p className="mt-4 text-sm leading-6 text-[var(--os-text-secondary)]">{active.summary}</p>
-        <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-[var(--os-text-primary)]">
-          {active.responsibilities.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {active.tools.map((tool) => (
-            <span key={tool} className="rounded-full border border-os-hairline px-2.5 py-1 text-[11px] text-[var(--os-text-secondary)]">
-              {tool}
-            </span>
-          ))}
-        </div>
-        <button
-          type="button"
-          onClick={openResume}
-          className="mt-6 rounded-xl bg-[var(--os-action-violet)] px-4 py-2.5 text-sm font-medium text-white"
-        >
-          Download Résumé
-        </button>
-        </motion.div>
+          <motion.article
+            key={active.id}
+            className="os-notes-desktop-document os-phone-note-document"
+            initial={reduced ? { opacity: 0 } : { opacity: 0, x: 16, filter: "blur(4px)" }}
+            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            exit={reduced ? { opacity: 0 } : { opacity: 0, x: -10, filter: "blur(3px)" }}
+          >
+            <p className="os-phone-eyebrow">Experience note</p>
+            <div className="mt-3 flex items-center gap-3">
+              {active.logo && (
+                <Image src={active.logo} alt="" width={46} height={46} className="rounded-xl bg-white object-contain p-1" />
+              )}
+              <div>
+                <h2>{active.organization}</h2>
+                <p className="os-note-role">{active.role}</p>
+              </div>
+            </div>
+            <p className="os-note-metadata">
+              {active.period} · {active.location}
+            </p>
+            <p className="os-note-summary">{active.summary}</p>
+            <h3>Highlights</h3>
+            <ul>
+              {active.responsibilities.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            <h3>Tools & methods</h3>
+            <div className="os-note-tags">
+              {active.tools.map((tool) => (
+                <span key={tool}>{tool}</span>
+              ))}
+            </div>
+            <button type="button" onClick={openResume} className="os-phone-primary-action max-w-xs">
+              Download Résumé
+            </button>
+          </motion.article>
         </AnimatePresence>
       </div>
 
       <aside className="hidden border-l border-os-hairline p-4 lg:block">
-        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--os-text-muted)]">Research notes</p>
+        <p className="os-phone-eyebrow">Sticky notes</p>
+        <p className="mt-1 text-sm font-semibold text-[var(--os-text-primary)]">Research threads</p>
         <div className="mt-3 space-y-3">
-          {portfolioData.research.map((note, index) => (
-            <article
-              key={note.id}
-              className="rounded-xl border border-os-hairline bg-os-fill-strong p-3"
-              style={{
-                borderColor:
-                  index === 0 ? "rgba(167,139,250,0.45)" : index === 1 ? "rgba(52,211,153,0.45)" : "rgba(245,158,11,0.45)",
-              }}
-            >
-              <h4 className="text-xs font-semibold text-[var(--os-text-primary)]">{note.title}</h4>
-              <p className="mt-1 text-[11px] leading-5 text-[var(--os-text-secondary)]">{note.summary}</p>
+          {portfolioData.research.map((note) => (
+            <article key={note.id} className="os-notes-sticky">
+              <h4>{note.title}</h4>
+              <p>{note.summary}</p>
             </article>
           ))}
         </div>

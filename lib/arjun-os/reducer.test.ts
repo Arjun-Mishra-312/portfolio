@@ -1,10 +1,50 @@
 import { describe, expect, it } from "vitest";
-import { createInitialState, defaultWorkArea } from "./constants";
+import { createInitialState, defaultWorkArea, getLayoutMode } from "./constants";
 import { osReducer } from "./reducer";
 import { mapChatActionsToIsland, inferActionsFromAnswer } from "./action-mapper";
 import { TOUR_STEP_COUNT } from "./tour";
 
 describe("osReducer window lifecycle", () => {
+  it("classifies adaptive layouts", () => {
+    expect(getLayoutMode(390, 844, true)).toBe("phone");
+    expect(getLayoutMode(820, 1180, true)).toBe("tabletPortrait");
+    expect(getLayoutMode(1180, 820, true)).toBe("tabletLandscape");
+    expect(getLayoutMode(1440, 900, false)).toBe("desktop");
+  });
+
+  it("limits a landscape tablet workspace to two visible applications", () => {
+    let state = createInitialState(defaultWorkArea(1180, 820), "tabletLandscape");
+    state = osReducer(state, { type: "OPEN_APP", appId: "work" });
+    state = osReducer(state, { type: "OPEN_APP", appId: "experience" });
+    const visible = Object.values(state.windows).filter((win) => win.isOpen && win.mode !== "minimized");
+    expect(visible).toHaveLength(2);
+    expect(state.windows.experience.mode).toBe("snapped-right");
+  });
+
+  it("reflows adaptive windows to desktop defaults when crossing layout modes", () => {
+    const phoneArea = defaultWorkArea(390, 844);
+    const desktopArea = defaultWorkArea(1440, 900);
+    let state = createInitialState(phoneArea, "phone");
+    state = osReducer(state, { type: "OPEN_APP", appId: "work" });
+    expect(state.windows.work.bounds.width).toBeLessThan(500);
+
+    state = osReducer(state, { type: "SET_WORK_AREA", workArea: desktopArea, layoutMode: "desktop" });
+
+    expect(state.windows.profile.bounds.width).toBe(860);
+    expect(state.windows.work.bounds.width).toBe(920);
+    expect(state.windows.work.bounds.x).toBeGreaterThan(100);
+    expect(state.windows.work.mode).toBe("normal");
+  });
+
+  it("does not clamp hidden desktop window geometry in portrait layouts", () => {
+    const desktopArea = defaultWorkArea(1440, 900);
+    let state = createInitialState(desktopArea, "desktop");
+    const desktopBounds = { ...state.windows.profile.bounds };
+
+    state = osReducer(state, { type: "SET_WORK_AREA", workArea: defaultWorkArea(820, 1180), layoutMode: "tabletPortrait" });
+
+    expect(state.windows.profile.bounds).toEqual(desktopBounds);
+  });
   it("opens, focuses, minimizes, restores, and closes apps without duplicates", () => {
     let state = createInitialState(defaultWorkArea(1440, 900));
     expect(state.windows.profile.isOpen).toBe(true);
@@ -139,7 +179,7 @@ describe("AI Island conversation", () => {
 describe("widget interface state", () => {
   it("collapses the stack and tracks weather lifecycle phases", () => {
     let state = createInitialState(defaultWorkArea(1440, 900));
-    expect(state.widgets).toEqual({ collapsed: false, weatherPhase: "loading" });
+    expect(state.widgets).toEqual({ collapsed: false, weatherPhase: "loading", focusedWidgetId: null });
     state = osReducer(state, { type: "TOGGLE_WIDGETS" });
     expect(state.widgets.collapsed).toBe(true);
     state = osReducer(state, { type: "SET_WEATHER_PHASE", phase: "ready" });
@@ -177,5 +217,25 @@ describe("action mapper", () => {
     const actions = inferActionsFromAnswer("The AI Accessibility Analyzer is strongest.");
     expect(actions.some((a) => a.type === "open-project")).toBe(true);
     expect(actions.some((a) => a.type === "open-resume")).toBe(true);
+  });
+
+  it("maps focus-widget actions", () => {
+    const mapped = mapChatActionsToIsland([
+      { id: "1", label: "Show GitHub Pulse", type: "focus-widget", widgetId: "github-pulse" },
+    ]);
+    expect(mapped).toHaveLength(1);
+    expect(mapped[0]).toMatchObject({ type: "focus-widget", widgetId: "github-pulse" });
+  });
+});
+
+describe("widget focus", () => {
+  it("expands widgets and sets focusedWidgetId", () => {
+    let state = createInitialState(defaultWorkArea(1440, 900));
+    state = { ...state, widgets: { ...state.widgets, collapsed: true } };
+    state = osReducer(state, { type: "FOCUS_WIDGET", widgetId: "focus-radio" });
+    expect(state.widgets.collapsed).toBe(false);
+    expect(state.widgets.focusedWidgetId).toBe("focus-radio");
+    state = osReducer(state, { type: "CLEAR_WIDGET_FOCUS" });
+    expect(state.widgets.focusedWidgetId).toBeNull();
   });
 });

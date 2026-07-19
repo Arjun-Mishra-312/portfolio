@@ -3,44 +3,39 @@ import { useState, useRef, useEffect, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 import { useTheme } from '@/lib/theme-context';
+import { cn } from '@/utils/cn';
 
-// Dynamically import the heavy DomeGallery component
 const DomeGallery = dynamic(() => import('./dome-gallery'), {
   loading: () => {
     const LoadingComponent = () => {
       const { theme } = useTheme();
       return (
-        <div className="w-full h-[70vh] sm:h-[65vh] lg:h-auto lg:aspect-[2/1] max-w-[1400px] mx-auto my-16 flex items-center justify-center">
-          <div className="glass-card p-8 rounded-xl">
-            <div className="animate-pulse space-y-4">
-              <div className={`h-8 rounded w-3/4 mx-auto ${
-                theme === 'light' ? 'bg-gray-300' : 'bg-gray-700'
-              }`}></div>
-              <div className={`h-4 rounded w-1/2 mx-auto ${
-                theme === 'light' ? 'bg-gray-300' : 'bg-gray-700'
-              }`}></div>
-              <div className={`w-32 h-32 rounded-full mx-auto ${
-                theme === 'light' ? 'bg-gray-300' : 'bg-gray-700'
-              }`}></div>
-            </div>
-            <p className={`text-center mt-4 ${
-              theme === 'light' ? 'text-gray-600' : 'text-gray-400'
-            }`}>Loading 3D Gallery...</p>
+        <div className="flex h-full w-full items-center justify-center">
+          <div className="animate-pulse space-y-3 text-center">
+            <div className={`mx-auto h-24 w-24 rounded-full ${
+              theme === 'light' ? 'bg-gray-300' : 'bg-gray-700'
+            }`} />
+            <p className={theme === 'light' ? 'text-gray-600' : 'text-gray-400'}>
+              Loading 3D Gallery…
+            </p>
           </div>
         </div>
       );
     };
     return <LoadingComponent />;
   },
-  ssr: false // Disable SSR for heavy 3D component
+  ssr: false
 });
 
 interface LazyDomeGalleryProps {
-  images: { src: string; alt: string }[];
+  images: { src: string; alt: string; fullSrc?: string }[];
   fit?: number;
   segments?: number;
   grayscale?: boolean;
   overlayBlurColor?: string;
+  /** Fill parent (Life app / OS) instead of full-page marketing layout */
+  embedded?: boolean;
+  className?: string;
 }
 
 export default function LazyDomeGallery({
@@ -48,16 +43,18 @@ export default function LazyDomeGallery({
   fit = 0.55,
   segments = 35,
   grayscale = false,
-  overlayBlurColor = "transparent"
+  overlayBlurColor = "transparent",
+  embedded = false,
+  className,
 }: LazyDomeGalleryProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const [entered, setEntered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
 
-  // Use intersection observer to detect when gallery comes into view
   const isIntersecting = useIntersectionObserver(containerRef, {
-    threshold: 0.1,
-    rootMargin: '400px', // Start loading 200px before it comes into view for faster loading
+    threshold: 0.05,
+    rootMargin: embedded ? '80px' : '400px',
   });
 
   useEffect(() => {
@@ -66,49 +63,70 @@ export default function LazyDomeGallery({
     }
   }, [isIntersecting, isVisible]);
 
+  useEffect(() => {
+    if (!isVisible) return;
+    const timer = window.setTimeout(() => setEntered(true), 40);
+    return () => window.clearTimeout(timer);
+  }, [isVisible]);
+
+  const resolvedBlur =
+    overlayBlurColor === "transparent" && embedded
+      ? theme === "light"
+        ? "#f4f6f8"
+        : "#0b1218"
+      : overlayBlurColor;
+
   return (
     <div
       ref={containerRef}
-      className="w-full h-[70vh] sm:h-[65vh] lg:h-auto lg:aspect-[2/1] max-w-[1400px] mx-auto my-16"
+      className={cn(
+        embedded
+          ? "h-full w-full max-w-none"
+          : "mx-auto my-16 h-[70vh] w-full max-w-[1400px] sm:h-[65vh] lg:h-auto lg:aspect-[2/1]",
+        className,
+      )}
     >
       {isVisible ? (
-        <Suspense fallback={
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="text-center">
-              <div className={`w-16 h-16 border-4 border-t-transparent rounded-full animate-spin mx-auto mb-4 ${
-                theme === 'light' ? 'border-blue-500' : 'border-ai-blue'
-              }`}></div>
-              <p className={theme === 'light' ? 'text-gray-600' : 'text-gray-400'}>
-                Loading gallery...
-              </p>
+        <Suspense
+          fallback={
+            <div className="flex h-full w-full items-center justify-center">
+              <div
+                className={`h-12 w-12 animate-spin rounded-full border-4 border-t-transparent ${
+                  theme === "light" ? "border-blue-500" : "border-ai-blue"
+                }`}
+              />
             </div>
+          }
+        >
+          <div
+            className={cn(
+              "h-full w-full",
+              entered
+                ? "translate-y-0 scale-100 opacity-100 blur-0"
+                : "translate-y-2 scale-[0.96] opacity-0 blur-md",
+            )}
+            style={{
+              transitionProperty: "opacity, filter, transform",
+              transitionDuration: "700ms",
+              transitionTimingFunction: "ease-out",
+            }}
+          >
+            <DomeGallery
+              images={images}
+              fit={fit}
+              segments={segments}
+              grayscale={grayscale}
+              overlayBlurColor={resolvedBlur}
+            />
           </div>
-        }>
-          <DomeGallery
-            images={images}
-            fit={fit}
-            segments={segments}
-            grayscale={grayscale}
-            overlayBlurColor={overlayBlurColor}
-          />
         </Suspense>
       ) : (
-        // Placeholder that shows before gallery is visible
-        <div className="w-full h-full flex items-center justify-center">
-          <div className="glass-card p-8 rounded-xl">
-            <div className="space-y-4">
-              <div className="w-24 h-24 bg-gradient-to-r from-ai-blue to-ai-purple rounded-full mx-auto opacity-50"></div>
-              <h3 className={`text-xl font-semibold text-center ${
-                theme === 'light' ? 'text-gray-900' : 'text-white'
-              }`}>3D Photo Gallery</h3>
-              <p className={`text-center ${
-                theme === 'light' ? 'text-gray-600' : 'text-gray-400'
-              }`}>Scroll down to explore interactive gallery</p>
-            </div>
-          </div>
+        <div className="flex h-full w-full items-center justify-center">
+          <div className={`h-20 w-20 animate-pulse rounded-full ${
+            theme === "light" ? "bg-gray-200" : "bg-gray-700"
+          }`} />
         </div>
       )}
     </div>
   );
 }
-

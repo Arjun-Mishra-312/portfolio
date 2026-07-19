@@ -240,7 +240,13 @@ export const portfolioData = {
     lego: "Complex LEGO Technic builds as a parallel practice in systems thinking.",
     interests: ["Chai", "Chess (~1200 ELO)", "Hiking", "Photography"],
     galleryPath: "/experiences_photos",
-    legoModel: "/3D_modals/Vancouver_3D.glb",
+    vancouverModel: "/3D_modals/Vancouver_3D.glb",
+    vancouverPreview: "/fun-widget/vancouver-preview.png",
+    libraryPreview: "/fun-widget/library-preview.png",
+    legoEmbedBase:
+      "https://www.kiriengine.app/share/3dgsEmbed/2008260390479200256?userId=1657534&auto_spin=1",
+    legoPreviewLight: "/fun-widget/model-light.png",
+    legoPreviewDark: "/fun-widget/model-dark.png",
     heroVisual: "/IMG-20250915-WA0007.jpg",
   },
   visuals: {

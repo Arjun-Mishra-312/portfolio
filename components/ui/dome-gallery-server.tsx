@@ -1,9 +1,5 @@
 import LazyDomeGallery from './lazy-dome-gallery';
 
-// Helper to list all images in public/experiences_photos. In Next.js, files under public
-// are served from the root, so we reference them by "/experiences_photos/<name>".
-// We hardcode the filenames since dynamic fs reads aren't available at runtime in the client.
-
 const EXPERIENCE_IMAGES = [
   'IMG-20250915-WA0004.jpg',
   'IMG-20250915-WA0005.jpg',
@@ -14,8 +10,6 @@ const EXPERIENCE_IMAGES = [
   'IMG-20250915-WA0011.jpg',
   'IMG-20250915-WA0012.jpg',
   'IMG-20250915-WA0013.jpg',
-//   'IMG-20250915-WA0014.jpg',
-//   'IMG-20250915-WA0015.jpg',
   'IMG-20250915-WA0016.jpg',
   'IMG-20250915-WA0017.jpg',
   'IMG-20250915-WA0018.jpg',
@@ -52,7 +46,6 @@ const EXPERIENCE_IMAGES = [
   'IMG-20250915-WA0049.jpg',
   'IMG-20250915-WA0050.jpg',
   'IMG-20250915-WA0051.jpg',
-//   'IMG-20250915-WA0052.jpg',
   'IMG-20250915-WA0053.jpg',
   'IMG-20250915-WA0054.jpg',
   'IMG-20250915-WA0055.jpg',
@@ -62,7 +55,15 @@ const EXPERIENCE_IMAGES = [
 ];
 
 function mapToPublicPaths() {
-  return EXPERIENCE_IMAGES.map(name => ({ src: `/experiences_photos/${name}`, alt: name }));
+  return EXPERIENCE_IMAGES.map((name) => {
+    const fullSrc = `/experiences_photos/${name}`;
+    const thumb = `/experiences_photos/thumbs/${name.replace(/\.jpe?g$/i, '.webp')}`;
+    return {
+      src: thumb,
+      fullSrc,
+      alt: name.replace(/\.jpe?g$/i, '').replace(/IMG-\d+-WA0*/, 'Photo '),
+    };
+  });
 }
 
 function shuffle<T>(input: T[]): T[] {
@@ -76,17 +77,24 @@ function shuffle<T>(input: T[]): T[] {
   return a;
 }
 
-export default function DomeGalleryServer() {
+type DomeGalleryServerProps = {
+  embedded?: boolean;
+  overlayBlurColor?: string;
+};
+
+export default function DomeGalleryServer({
+  embedded = false,
+  overlayBlurColor = "transparent",
+}: DomeGalleryServerProps) {
   const images = shuffle(mapToPublicPaths());
   return (
     <LazyDomeGallery
       images={images}
-      fit={0.55}
+      fit={embedded ? 0.62 : 0.55}
       segments={35}
       grayscale={false}
-      overlayBlurColor="transparent"
+      overlayBlurColor={overlayBlurColor}
+      embedded={embedded}
     />
   );
 }
-
-

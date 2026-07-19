@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useCallback } from 'react';
 import { useGesture } from '@use-gesture/react';
 
-type ImageItem = string | { src: string; alt?: string };
+type ImageItem = string | { src: string; alt?: string; fullSrc?: string };
 
 type DomeGalleryProps = {
   images?: ImageItem[];
@@ -27,6 +27,7 @@ type DomeGalleryProps = {
 
 type ItemDef = {
   src: string;
+  fullSrc: string;
   alt: string;
   x: number;
   y: number;
@@ -67,7 +68,7 @@ function buildItems(pool: ImageItem[], seg: number): ItemDef[] {
 
   const totalSlots = coords.length;
   if (pool.length === 0) {
-    return coords.map(c => ({ ...c, src: '', alt: '' }));
+    return coords.map(c => ({ ...c, src: '', fullSrc: '', alt: '' }));
   }
   if (pool.length > totalSlots) {
     console.warn(
@@ -77,9 +78,13 @@ function buildItems(pool: ImageItem[], seg: number): ItemDef[] {
 
   const normalizedImages = pool.map(image => {
     if (typeof image === 'string') {
-      return { src: image, alt: '' };
+      return { src: image, fullSrc: image, alt: '' };
     }
-    return { src: image.src || '', alt: image.alt || '' };
+    return {
+      src: image.src || '',
+      fullSrc: image.fullSrc || image.src || '',
+      alt: image.alt || '',
+    };
   });
 
   const usedImages = Array.from({ length: totalSlots }, (_, i) => normalizedImages[i % normalizedImages.length]);
@@ -99,6 +104,7 @@ function buildItems(pool: ImageItem[], seg: number): ItemDef[] {
   return coords.map((c, i) => ({
     ...c,
     src: usedImages[i].src,
+    fullSrc: usedImages[i].fullSrc,
     alt: usedImages[i].alt
   }));
 }
@@ -637,7 +643,7 @@ export default function DomeGallery({
     const overlay = document.createElement('div');
     overlay.className = 'enlarge';
     overlay.style.cssText = `position:absolute; left:${frameR.left - mainR.left}px; top:${frameR.top - mainR.top}px; width:${frameR.width}px; height:${frameR.height}px; opacity:0; z-index:30; will-change:transform,opacity; transform-origin:top left; transition:transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease; border-radius:${openedImageBorderRadius}; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.35);`;
-    const rawSrc = parent.dataset.src || (el.querySelector('img') as HTMLImageElement)?.src || '';
+    const rawSrc = parent.dataset.fullSrc || parent.dataset.src || (el.querySelector('img') as HTMLImageElement)?.src || '';
     const rawAlt = parent.dataset.alt || (el.querySelector('img') as HTMLImageElement)?.alt || '';
     const img = document.createElement('img');
     img.src = rawSrc;
@@ -810,6 +816,7 @@ export default function DomeGallery({
                   key={`${it.x},${it.y},${i}`}
                   className="sphere-item absolute m-auto"
                   data-src={it.src}
+                  data-full-src={it.fullSrc}
                   data-alt={it.alt}
                   data-offset-x={it.x}
                   data-offset-y={it.y}
@@ -854,6 +861,8 @@ export default function DomeGallery({
                       className="w-full h-full object-cover pointer-events-none"
                       loading="lazy"
                       decoding="async"
+                      width={320}
+                      height={320}
                       style={{
                         backfaceVisibility: 'hidden',
                         filter: `var(--image-filter, ${grayscale ? 'grayscale(1)' : 'none'})`,
@@ -874,27 +883,28 @@ export default function DomeGallery({
           <div
             className="absolute inset-0 m-auto z-[3] pointer-events-none"
             style={{
-              backgroundImage: `radial-gradient(rgba(235, 235, 235, 0) 65%, var(--overlay-blur-color, ${overlayBlurColor}) 100%)`
+              backgroundImage: `radial-gradient(ellipse at center, rgba(235, 235, 235, 0) 60%, var(--overlay-blur-color, ${overlayBlurColor}) 100%)`
             }}
           />
 
           <div
             className="absolute inset-0 m-auto z-[3] pointer-events-none"
             style={{
-              WebkitMaskImage: `radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, ${overlayBlurColor}) 90%)`,
-              maskImage: `radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, ${overlayBlurColor}) 90%)`,
-              backdropFilter: 'blur(3px)'
+              WebkitMaskImage: `radial-gradient(ellipse at center, rgba(235, 235, 235, 0) 64%, #000 94%)`,
+              maskImage: `radial-gradient(ellipse at center, rgba(235, 235, 235, 0) 64%, #000 94%)`,
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
             }}
           />
 
           <div
-            className="absolute left-0 right-0 top-0 h-[120px] z-[5] pointer-events-none rotate-180"
+            className="absolute left-0 right-0 top-0 h-[110px] z-[5] pointer-events-none rotate-180"
             style={{
               background: `linear-gradient(to bottom, transparent, var(--overlay-blur-color, ${overlayBlurColor}))`
             }}
           />
           <div
-            className="absolute left-0 right-0 bottom-0 h-[120px] z-[5] pointer-events-none"
+            className="absolute left-0 right-0 bottom-0 h-[110px] z-[5] pointer-events-none"
             style={{
               background: `linear-gradient(to bottom, transparent, var(--overlay-blur-color, ${overlayBlurColor}))`
             }}

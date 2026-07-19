@@ -87,7 +87,9 @@ export function AppWindow({
   appId: AppId;
   children: React.ReactNode;
 }) {
-  const { windows, activeAppId, workArea, isMobile, accessibility } = useOSState();
+  const { windows, activeAppId, workArea, layoutMode, accessibility } = useOSState();
+  const isMobile = layoutMode === "phone" || layoutMode === "tabletPortrait";
+  const isTabletLandscape = layoutMode === "tabletLandscape";
   const { dispatch, focusApp, closeApp, minimizeApp, maximizeApp } = useOSActions();
   const reduced = useOsReducedMotion();
   const win = windows[appId];
@@ -160,7 +162,7 @@ export function AppWindow({
   const isActive = activeAppId === appId;
   const titleId = `window-title-${appId}`;
   const statusId = `window-status-${appId}`;
-  const canResize = !isMobile && win.mode !== "maximized" && workArea.width >= 1200;
+  const canResize = !isMobile && !isTabletLandscape && win.mode !== "maximized" && workArea.width >= 1200;
 
   if (isMobile) {
     return (
@@ -184,7 +186,7 @@ export function AppWindow({
             showMaximize={false}
           />
         </header>
-        <div className="min-h-0 flex-1 overflow-y-auto pb-[calc(6rem+env(safe-area-inset-bottom))]">{children}</div>
+        <div className="min-h-0 flex-1 overflow-y-auto pb-[var(--os-phone-tab-clearance)]">{children}</div>
       </section>
     );
   }

@@ -130,8 +130,47 @@ function applyTourStep(state: OSState, stepIndex: number): OSState {
 export function osReducer(state: OSState, action: OSAction): OSState {
   switch (action.type) {
     case "SET_WORK_AREA": {
-      const { workArea, isMobile } = action;
+      const { workArea, layoutMode } = action;
       const windows = { ...state.windows };
+
+      // Phone and portrait-tablet shells do not render desktop windows. Preserve their
+      // last geometry instead of clamping it into the narrow adaptive work area.
+      if (layoutMode === "phone" || layoutMode === "tabletPortrait") {
+        return { ...state, workArea, layoutMode, windows };
+      }
+
+      // Adaptive layouts can carry phone-sized or tablet-snapped bounds. Re-entering
+      // desktop should always produce intentional, centered windows rather than a
+      // stack of narrow panes at the previous work area's top-left corner.
+      if (layoutMode === "desktop" && state.layoutMode !== "desktop") {
+        APP_IDS.forEach((appId) => {
+          const win = windows[appId];
+          windows[appId] = {
+            ...win,
+            mode: win.mode === "minimized" ? "minimized" : "normal",
+            bounds: defaultBoundsFor(appId, workArea),
+            previousBounds: undefined,
+          };
+        });
+        return { ...state, workArea, layoutMode, windows };
+      }
+
+      if (layoutMode === "tabletLandscape" && state.layoutMode !== "tabletLandscape") {
+        const visible = APP_IDS.filter((id) => windows[id].isOpen && windows[id].mode !== "minimized")
+          .sort((a, b) => windows[b].zIndex - windows[a].zIndex)
+          .slice(0, 2);
+        APP_IDS.forEach((id) => {
+          if (windows[id].isOpen && !visible.includes(id)) windows[id] = { ...windows[id], mode: "minimized" };
+        });
+        if (visible.length === 1) {
+          const id = visible[0];
+          windows[id] = { ...windows[id], mode: "maximized", bounds: maximizedBounds(workArea) };
+        } else if (visible.length === 2) {
+          windows[visible[1]] = { ...windows[visible[1]], mode: "snapped-left", bounds: snappedBounds("left", workArea) };
+          windows[visible[0]] = { ...windows[visible[0]], mode: "snapped-right", bounds: snappedBounds("right", workArea) };
+        }
+        return { ...state, workArea, layoutMode, windows };
+      }
       APP_IDS.forEach((appId) => {
         const win = windows[appId];
         if (!win.isOpen || win.mode === "minimized") return;
@@ -145,7 +184,7 @@ export function osReducer(state: OSState, action: OSAction): OSState {
           windows[appId] = { ...win, bounds: clampBounds(win.bounds, workArea) };
         }
       });
-      return { ...state, workArea, isMobile, windows };
+      return { ...state, workArea, layoutMode, windows };
     }
 
     case "SET_THEME":
@@ -166,8 +205,58 @@ export function osReducer(state: OSState, action: OSAction): OSState {
     case "SET_WEATHER_PHASE":
       return { ...state, widgets: { ...state.widgets, weatherPhase: action.phase } };
 
+    case "FOCUS_WIDGET":
+      return {
+        ...state,
+        widgets: {
+          ...state.widgets,
+          collapsed: false,
+          focusedWidgetId: action.widgetId,
+        },
+      };
+
+    case "CLEAR_WIDGET_FOCUS":
+      return {
+        ...state,
+        widgets: { ...state.widgets, focusedWidgetId: null },
+      };
+
     case "OPEN_APP": {
       const win = state.windows[action.appId];
+      if (state.layoutMode === "tabletLandscape") {
+        const visible = APP_IDS.filter(
+          (id) => state.windows[id].isOpen && state.windows[id].mode !== "minimized" && id !== action.appId,
+        ).sort((a, b) => state.windows[b].zIndex - state.windows[a].zIndex);
+        const windows = cloneWindows(state.windows);
+        if (visible.length >= 2) {
+          const displaced = visible[visible.length - 1];
+          windows[displaced] = { ...windows[displaced], mode: "minimized" };
+        }
+        const partner = visible[0];
+        if (partner) {
+          windows[partner] = {
+            ...windows[partner],
+            mode: "snapped-left",
+            bounds: snappedBounds("left", state.workArea),
+          };
+          windows[action.appId] = {
+            ...windows[action.appId],
+            isOpen: true,
+            mode: "snapped-right",
+            bounds: snappedBounds("right", state.workArea),
+            zIndex: state.nextZ + 1,
+          };
+        } else {
+          windows[action.appId] = {
+            ...windows[action.appId],
+            isOpen: true,
+            mode: "maximized",
+            bounds: maximizedBounds(state.workArea),
+            zIndex: state.nextZ + 1,
+          };
+        }
+        return { ...state, windows, activeAppId: action.appId, nextZ: state.nextZ + 1 };
+      }
       if (win.isOpen && win.mode !== "minimized") {
         const z = bumpZ(state, action.appId);
         return { ...state, ...z, activeAppId: action.appId };
@@ -350,6 +439,18 @@ export function osReducer(state: OSState, action: OSAction): OSState {
     case "SET_ACTIVE_PROJECT":
       return { ...state, activeProjectId: action.projectId };
 
+    case "SET_ACTIVE_EXPERIENCE":
+      return { ...state, activeExperienceId: action.experienceId };
+
+    case "SELECT_TAB": {
+      let next = osReducer(state, { type: "OPEN_APP", appId: action.appId });
+      if (action.reset) {
+        if (action.appId === "work") next = { ...next, activeProjectId: null };
+        if (action.appId === "experience") next = { ...next, activeExperienceId: null };
+      }
+      return next;
+    }
+
     case "ISLAND_OPEN_COMPOSE":
       return {
         ...state,
@@ -363,6 +464,7 @@ export function osReducer(state: OSState, action: OSAction): OSState {
           microWidgets: undefined,
           widgetType: undefined,
           widgetPlacement: undefined,
+          evidence: undefined,
         },
       };
 
@@ -380,6 +482,7 @@ export function osReducer(state: OSState, action: OSAction): OSState {
           microWidgets: undefined,
           widgetType: undefined,
           widgetPlacement: undefined,
+          evidence: undefined,
         },
       };
 
@@ -397,6 +500,7 @@ export function osReducer(state: OSState, action: OSAction): OSState {
           microWidgets: action.microWidgets,
           widgetType: action.widgetType,
           widgetPlacement: action.widgetPlacement,
+          evidence: action.evidence,
           history: [
             ...state.island.history,
             { role: "user" as const, content: state.island.query },
@@ -417,6 +521,7 @@ export function osReducer(state: OSState, action: OSAction): OSState {
           microWidgets: undefined,
           widgetType: undefined,
           widgetPlacement: undefined,
+          evidence: undefined,
         },
       };
 
@@ -433,6 +538,7 @@ export function osReducer(state: OSState, action: OSAction): OSState {
           microWidgets: undefined,
           widgetType: undefined,
           widgetPlacement: undefined,
+          evidence: undefined,
         },
       };
 
@@ -442,6 +548,7 @@ export function osReducer(state: OSState, action: OSAction): OSState {
         island: {
           ...state.island,
           widgetType: undefined,
+          evidence: undefined,
         },
       };
 
@@ -456,6 +563,7 @@ export function osReducer(state: OSState, action: OSAction): OSState {
           microWidgets: undefined,
           widgetType: undefined,
           widgetPlacement: undefined,
+          evidence: undefined,
         },
       };
 
@@ -471,6 +579,7 @@ export function osReducer(state: OSState, action: OSAction): OSState {
           windows: cloneWindows(state.windows),
           activeAppId: state.activeAppId,
           activeProjectId: state.activeProjectId,
+          activeExperienceId: state.activeExperienceId,
           island: {
             ...state.island,
             actions: [...state.island.actions],
@@ -510,6 +619,7 @@ export function osReducer(state: OSState, action: OSAction): OSState {
         nextZ: snapshot?.nextZ ?? state.nextZ,
         activeAppId: snapshot?.activeAppId ?? "profile",
         activeProjectId: snapshot?.activeProjectId ?? null,
+        activeExperienceId: snapshot?.activeExperienceId ?? null,
         island: {
           ...(snapshot?.island ?? state.island),
           mode: "idle",
@@ -524,18 +634,21 @@ export function osReducer(state: OSState, action: OSAction): OSState {
     }
 
     case "HYDRATE_FROM_URL": {
-      let next = createInitialState(state.workArea, state.isMobile);
+      let next = createInitialState(state.workArea, state.layoutMode);
       next = {
         ...next,
         theme: state.theme,
         accessibility: state.accessibility,
         widgets: state.widgets,
         workArea: state.workArea,
-        isMobile: state.isMobile,
+        layoutMode: state.layoutMode,
       };
       next = osReducer(next, { type: "OPEN_APP", appId: action.appId });
       if (action.projectId) {
         next = { ...next, activeProjectId: action.projectId };
+      }
+      if (action.experienceId) {
+        next = { ...next, activeExperienceId: action.experienceId };
       }
       if (action.openAi) {
         next = osReducer(next, { type: "ISLAND_OPEN_COMPOSE" });

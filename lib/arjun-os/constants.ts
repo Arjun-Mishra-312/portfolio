@@ -1,14 +1,17 @@
-import type { AppId, Bounds, IslandState, OSState, WindowState, WorkArea } from "./types";
+import type { AppId, Bounds, IslandState, LayoutMode, OSState, WindowState, WorkArea } from "./types";
 import { APP_IDS } from "./types";
 
 export const TOP_RAIL_HEIGHT = 54;
 export const DOCK_CLEARANCE = 96;
+export const DOCK_SIDE_CLEARANCE = 88;
 export const EDGE_SNAP_THRESHOLD = 28;
 export const MIN_WINDOW_WIDTH = 420;
 export const MIN_WINDOW_HEIGHT = 320;
 export const THEME_STORAGE_KEY = "arjun-os-theme";
 export const A11Y_STORAGE_KEY = "arjun-os-a11y";
 export const WIDGETS_SESSION_KEY = "arjun-os-widgets-collapsed";
+export const ISLAND_REQUEST_COLLAPSE_EVENT = "arjun-os-island-request-collapse";
+export const PHOTO_VIEWER_EVENT = "arjun-os-photo-viewer";
 
 export const VANCOUVER = {
   latitude: 49.2827,
@@ -17,11 +20,18 @@ export const VANCOUVER = {
   label: "Vancouver, BC",
 };
 
-export function defaultWorkArea(viewportWidth = 1440, viewportHeight = 900): WorkArea {
+export function defaultWorkArea(
+  viewportWidth = 1440,
+  viewportHeight = 900,
+  layoutMode?: LayoutMode,
+): WorkArea {
+  const mode = layoutMode ?? getLayoutMode(viewportWidth, viewportHeight, false);
+  const sideDock = mode === "desktop" || mode === "tabletLandscape";
+  const rightInset = sideDock ? DOCK_SIDE_CLEARANCE : 0;
   return {
     left: 0,
     top: TOP_RAIL_HEIGHT,
-    width: viewportWidth,
+    width: Math.max(320, viewportWidth - rightInset),
     height: Math.max(320, viewportHeight - TOP_RAIL_HEIGHT - DOCK_CLEARANCE),
   };
 }
@@ -104,12 +114,13 @@ export function createInitialWindows(workArea: WorkArea): Record<AppId, WindowSt
 
 export function createInitialState(
   workArea: WorkArea = defaultWorkArea(),
-  isMobile = false,
+  layoutMode: LayoutMode = "desktop",
 ): OSState {
   return {
     windows: createInitialWindows(workArea),
     activeAppId: "profile",
     activeProjectId: null,
+    activeExperienceId: null,
     island: createInitialIsland(),
     theme: "dusk",
     accessibility: {
@@ -120,10 +131,20 @@ export function createInitialState(
     widgets: {
       collapsed: false,
       weatherPhase: "loading",
+      focusedWidgetId: null,
     },
     workArea,
     snapPreview: null,
     nextZ: 20,
-    isMobile,
+    layoutMode,
   };
+}
+
+export function getLayoutMode(width: number, height: number, touchCapable: boolean): LayoutMode {
+  if (width < 768) return "phone";
+  if (width < 1024) return "tabletPortrait";
+  if (touchCapable && width <= 1366) {
+    return height >= width ? "tabletPortrait" : "tabletLandscape";
+  }
+  return "desktop";
 }

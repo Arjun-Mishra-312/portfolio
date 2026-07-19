@@ -10,6 +10,17 @@ export type ProjectId =
   | "llm-pro-max"
   | "re-plate";
 
+export type DesktopWidgetId = "github-pulse" | "focus-radio" | "weather" | "coffee-chat";
+
+export type IslandEvidence = {
+  kind: "github-pulse";
+  title: string;
+  total: number;
+  streak: number;
+  latest: { repo: string; label: string; url: string; occurredAt: string } | null;
+  status: "ready" | "fallback";
+};
+
 export type WindowMode =
   | "normal"
   | "snapped-left"
@@ -18,6 +29,7 @@ export type WindowMode =
   | "minimized";
 
 export type OsTheme = "dusk" | "dawn";
+export type LayoutMode = "phone" | "tabletPortrait" | "tabletLandscape" | "desktop";
 
 export type MotionPreference = "system" | "full" | "reduced";
 export type WeatherPhase = "loading" | "ready" | "fallback" | "updating";
@@ -25,6 +37,7 @@ export type WeatherPhase = "loading" | "ready" | "fallback" | "updating";
 export interface WidgetUIState {
   collapsed: boolean;
   weatherPhase: WeatherPhase;
+  focusedWidgetId: DesktopWidgetId | null;
 }
 
 export interface VisualAsset {
@@ -70,8 +83,10 @@ export interface WindowState {
 export type IslandAction =
   | { id: string; label: string; type: "open-app"; appId: AppId }
   | { id: string; label: string; type: "open-project"; projectId: ProjectId }
+  | { id: string; label: string; type: "open-experience"; experienceId: string }
   | { id: string; label: string; type: "open-resume" }
   | { id: string; label: string; type: "start-tour" }
+  | { id: string; label: string; type: "focus-widget"; widgetId: DesktopWidgetId }
   | { id: string; label: string; type: "tour-next" }
   | { id: string; label: string; type: "tour-back" }
   | { id: string; label: string; type: "tour-exit" }
@@ -91,6 +106,7 @@ export interface IslandState {
   microWidgets?: MicroWidget[];
   widgetType?: WidgetType;
   widgetPlacement?: WidgetPlacement;
+  evidence?: IslandEvidence;
 }
 
 export interface ChatMessage {
@@ -102,6 +118,7 @@ export interface TourSnapshot {
   windows: Record<AppId, WindowState>;
   activeAppId: AppId | null;
   activeProjectId: ProjectId | null;
+  activeExperienceId: string | null;
   island: IslandState;
   nextZ: number;
 }
@@ -123,6 +140,7 @@ export interface OSState {
   windows: Record<AppId, WindowState>;
   activeAppId: AppId | null;
   activeProjectId: ProjectId | null;
+  activeExperienceId: string | null;
   island: IslandState;
   theme: OsTheme;
   accessibility: AccessibilityPrefs;
@@ -131,16 +149,18 @@ export interface OSState {
   snapPreview: "left" | "right" | null;
   nextZ: number;
   tourSnapshot?: TourSnapshot;
-  isMobile: boolean;
+  layoutMode: LayoutMode;
 }
 
 export type OSAction =
-  | { type: "SET_WORK_AREA"; workArea: WorkArea; isMobile: boolean }
+  | { type: "SET_WORK_AREA"; workArea: WorkArea; layoutMode: LayoutMode }
   | { type: "SET_THEME"; theme: OsTheme }
   | { type: "SET_ACCESSIBILITY"; prefs: Partial<AccessibilityPrefs> }
   | { type: "SET_WIDGETS_COLLAPSED"; collapsed: boolean }
   | { type: "TOGGLE_WIDGETS" }
   | { type: "SET_WEATHER_PHASE"; phase: WeatherPhase }
+  | { type: "FOCUS_WIDGET"; widgetId: DesktopWidgetId }
+  | { type: "CLEAR_WIDGET_FOCUS" }
   | { type: "OPEN_APP"; appId: AppId }
   | { type: "FOCUS_APP"; appId: AppId }
   | { type: "CLOSE_APP"; appId: AppId }
@@ -152,6 +172,8 @@ export type OSAction =
   | { type: "RESIZE_WINDOW"; appId: AppId; bounds: Bounds }
   | { type: "SET_SNAP_PREVIEW"; preview: "left" | "right" | null }
   | { type: "SET_ACTIVE_PROJECT"; projectId: ProjectId | null }
+  | { type: "SET_ACTIVE_EXPERIENCE"; experienceId: string | null }
+  | { type: "SELECT_TAB"; appId: AppId; reset?: boolean }
   | { type: "ISLAND_OPEN_COMPOSE"; query?: string }
   | { type: "ISLAND_SET_QUERY"; query: string }
   | { type: "ISLAND_THINKING" }
@@ -164,6 +186,7 @@ export type OSAction =
       microWidgets?: MicroWidget[];
       widgetType?: WidgetType;
       widgetPlacement?: WidgetPlacement;
+      evidence?: IslandEvidence;
     }
   | { type: "ISLAND_ERROR"; error: string }
   | { type: "ISLAND_COLLAPSE" }
@@ -179,6 +202,7 @@ export type OSAction =
       type: "HYDRATE_FROM_URL";
       appId: AppId;
       projectId?: ProjectId | null;
+      experienceId?: string | null;
       openAi?: boolean;
       startTour?: boolean;
     };

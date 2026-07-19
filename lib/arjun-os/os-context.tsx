@@ -11,7 +11,7 @@ import React, {
   useState,
 } from "react";
 import { LayoutGroup, LazyMotion, MotionConfig, domMax } from "motion/react";
-import { A11Y_STORAGE_KEY, THEME_STORAGE_KEY, WIDGETS_SESSION_KEY, createInitialState, defaultWorkArea } from "./constants";
+import { A11Y_STORAGE_KEY, ISLAND_REQUEST_COLLAPSE_EVENT, THEME_STORAGE_KEY, WIDGETS_SESSION_KEY, createInitialState, defaultWorkArea, getLayoutMode } from "./constants";
 import { isAppId, isProjectId } from "./portfolio-data";
 import { osReducer } from "./reducer";
 import type { AppId, IslandAction, OSAction, OSState, ProjectId } from "./types";
@@ -20,6 +20,7 @@ type OSActions = {
   dispatch: React.Dispatch<OSAction>;
   openApp: (appId: AppId) => void;
   focusApp: (appId: AppId) => void;
+  selectTab: (appId: AppId, reset?: boolean) => void;
   closeApp: (appId: AppId) => void;
   minimizeApp: (appId: AppId) => void;
   maximizeApp: (appId: AppId) => void;
@@ -40,6 +41,7 @@ const OSActionsContext = createContext<OSActions | null>(null);
 function buildQuery(
   appId: AppId | null,
   projectId: ProjectId | null,
+  experienceId: string | null,
   aiOpen: boolean,
   tourActive: boolean,
 ) {
@@ -48,6 +50,7 @@ function buildQuery(
   // normal reload from being mistaken for an intentional deep link.
   if (appId && appId !== "profile") params.set("app", appId);
   if (appId === "work" && projectId) params.set("project", projectId);
+  if (appId === "experience" && experienceId) params.set("role", experienceId);
   if (tourActive) params.set("tour", "recruiter");
   else if (aiOpen) params.set("ai", "open");
   const query = params.toString();
@@ -111,10 +114,12 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
     const measure = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
+      const touchCapable = navigator.maxTouchPoints > 1 || window.matchMedia("(any-pointer: coarse)").matches;
+      const layoutMode = getLayoutMode(width, height, touchCapable);
       dispatch({
         type: "SET_WORK_AREA",
-        workArea: defaultWorkArea(width, height),
-        isMobile: width < 768,
+        workArea: defaultWorkArea(width, height, layoutMode),
+        layoutMode,
       });
     };
     measure();
@@ -127,6 +132,7 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
       const params = new URLSearchParams(window.location.search);
       const appParam = params.get("app");
       const projectParam = params.get("project");
+      const roleParam = params.get("role");
       if (appParam === "profile") {
         params.delete("app");
         const normalizedQuery = params.toString();
@@ -141,6 +147,7 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
         type: "HYDRATE_FROM_URL",
         appId: isAppId(appParam) ? appParam : "profile",
         projectId: isProjectId(projectParam) ? projectParam : null,
+        experienceId: roleParam,
         openAi: params.get("ai") === "open",
         startTour: params.get("tour") === "recruiter",
       });
@@ -162,6 +169,7 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
     const next = buildQuery(
       state.activeAppId,
       state.activeProjectId,
+      state.activeExperienceId,
       state.island.expanded && state.island.mode !== "idle" && !tourActive,
       tourActive,
     );
@@ -172,6 +180,7 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
   }, [
     state.activeAppId,
     state.activeProjectId,
+    state.activeExperienceId,
     state.island.expanded,
     state.island.mode,
   ]);
@@ -185,7 +194,7 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
       }
       if (event.key === "Escape" && state.island.expanded) {
         event.preventDefault();
-        dispatch({ type: "ISLAND_COLLAPSE" });
+        window.dispatchEvent(new CustomEvent(ISLAND_REQUEST_COLLAPSE_EVENT));
       }
       if (state.island.mode === "tour") {
         if (event.key === "ArrowRight" || event.key === "Enter") {
@@ -216,11 +225,18 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
           dispatch({ type: "OPEN_APP", appId: "work" });
           dispatch({ type: "SET_ACTIVE_PROJECT", projectId: action.projectId });
           break;
+        case "open-experience":
+          dispatch({ type: "OPEN_APP", appId: "experience" });
+          dispatch({ type: "SET_ACTIVE_EXPERIENCE", experienceId: action.experienceId });
+          break;
         case "open-resume":
           openResume();
           break;
         case "start-tour":
           dispatch({ type: "TOUR_START" });
+          break;
+        case "focus-widget":
+          dispatch({ type: "FOCUS_WIDGET", widgetId: action.widgetId });
           break;
         case "tour-next":
           dispatch({ type: "TOUR_NEXT" });
@@ -246,6 +262,14 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
       dispatch,
       openApp: (appId) => dispatch({ type: "OPEN_APP", appId }),
       focusApp: (appId) => dispatch({ type: "FOCUS_APP", appId }),
+      selectTab: (appId, reset) => {
+        if (state.activeAppId) {
+          const viewport = document.querySelector<HTMLElement>(".os-app-viewport");
+          if (viewport) sessionStorage.setItem(`arjun-os-scroll-${state.activeAppId}`, String(viewport.scrollTop));
+        }
+        if (reset) window.dispatchEvent(new CustomEvent("arjun-os-tab-reset", { detail: appId }));
+        dispatch({ type: "SELECT_TAB", appId, reset });
+      },
       closeApp: (appId) => {
         dispatch({ type: "CLOSE_APP", appId });
         window.requestAnimationFrame(() => document.getElementById(`dock-${appId}`)?.focus());
@@ -270,7 +294,7 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
         dispatch({ type: "SET_WIDGETS_COLLAPSED", collapsed });
       },
     }),
-    [openResume, runIslandAction, state.theme, state.widgets.collapsed],
+    [openResume, runIslandAction, state.activeAppId, state.theme, state.widgets.collapsed],
   );
 
   return (

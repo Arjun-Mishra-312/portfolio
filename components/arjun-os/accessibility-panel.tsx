@@ -26,7 +26,7 @@ export function AccessibilityPanel({
 
   return (
     <section
-      className="os-widget pointer-events-auto fixed bottom-28 left-4 z-[65] w-[260px] p-4"
+      className="os-widget pointer-events-auto fixed bottom-28 left-4 z-[90] w-[260px] p-4 md:bottom-auto md:left-auto md:right-24 md:top-1/2 md:-translate-y-1/2"
       aria-label="Accessibility"
     >
       <div className="mb-3 flex items-center justify-between">

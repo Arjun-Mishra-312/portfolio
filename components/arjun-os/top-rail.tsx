@@ -28,7 +28,7 @@ export function TopRail({ onOpenAccessibility }: { onOpenAccessibility?: () => v
 
   return (
     <header
-      className="os-top-rail pointer-events-auto fixed inset-x-0 top-0 z-[80] flex h-[54px] items-center justify-between px-3 pt-[env(safe-area-inset-top)] sm:px-4"
+      className="os-top-rail pointer-events-auto fixed inset-x-0 top-0 z-[80] flex h-[var(--os-top-rail-height)] items-center justify-between px-3 pt-[env(safe-area-inset-top,0px)] sm:px-4"
       role="banner"
       aria-label="Arjun OS system rail"
     >

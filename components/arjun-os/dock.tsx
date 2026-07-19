@@ -7,6 +7,8 @@ import { dockItemTransition, useOsReducedMotion } from "@/lib/arjun-os/motion";
 import { APP_META, type AppId } from "@/lib/arjun-os/types";
 import { portfolioData } from "@/lib/arjun-os/portfolio-data";
 import { DockTile, type DockIconName } from "./icons";
+import { ThemeGlyph } from "./icons";
+import { Accessibility } from "lucide-react";
 import { cn } from "@/utils/cn";
 
 const iconName: Record<AppId | "resume", DockIconName> = {
@@ -26,9 +28,10 @@ const accentMap: Record<string, string> = {
   amber: "#f59e0b",
 };
 
-export function Dock() {
-  const { windows, activeAppId, isMobile } = useOSState();
-  const { openApp, openResume } = useOSActions();
+export function Dock({ onOpenAccessibility }: { onOpenAccessibility?: () => void }) {
+  const { windows, activeAppId, layoutMode, theme } = useOSState();
+  const isMobile = layoutMode === "phone";
+  const { openApp, openResume, toggleTheme } = useOSActions();
   const reduced = useOsReducedMotion();
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [launching, setLaunching] = useState<AppId | "resume" | null>(null);
@@ -52,9 +55,9 @@ export function Dock() {
   return (
     <nav
       className={cn(
-        "os-dock pointer-events-auto fixed bottom-4 left-1/2 z-[70] flex -translate-x-1/2 items-end gap-1 rounded-2xl px-2 py-2",
+        "os-dock pointer-events-auto fixed right-5 top-1/2 z-[70] flex -translate-y-1/2 flex-col items-center gap-1 rounded-2xl px-2 py-2",
         isMobile &&
-          "bottom-[max(0.75rem,env(safe-area-inset-bottom))] w-[calc(100vw-1.5rem)] max-w-md justify-between",
+          "bottom-[max(0.75rem,env(safe-area-inset-bottom))] left-1/2 right-auto top-auto w-[calc(100vw-1.5rem)] max-w-md -translate-x-1/2 translate-y-0 flex-row justify-between",
       )}
       aria-label="Arjun OS dock"
       onMouseLeave={() => setHoverIndex(null)}
@@ -129,6 +132,17 @@ export function Dock() {
           </motion.button>
         );
       })}
+      {!isMobile && (
+        <>
+          <span className="my-1 h-px w-8 bg-[var(--os-divider)]" aria-hidden />
+          <button type="button" onClick={toggleTheme} className="flex min-h-11 min-w-11 items-center justify-center rounded-xl text-os-secondary transition hover:bg-os-hover hover:text-os-primary" aria-label={`Switch to ${theme === "dusk" ? "dawn" : "dusk"} theme`}>
+            <ThemeGlyph dusk={theme === "dusk"} />
+          </button>
+          <button type="button" onClick={onOpenAccessibility} className="flex min-h-11 min-w-11 items-center justify-center rounded-xl text-os-secondary transition hover:bg-os-hover hover:text-os-primary" aria-label="Open accessibility settings">
+            <Accessibility className="h-5 w-5" />
+          </button>
+        </>
+      )}
     </nav>
   );
 }

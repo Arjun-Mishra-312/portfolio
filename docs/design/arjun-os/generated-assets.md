@@ -25,3 +25,12 @@ All assets used the built-in image-generation tool and the shared direction: pre
 - **Life + Play:** decorative Vancouver coastal mountains, ocean glass, aperture geometry, and playful construction forms; explicitly not documentary photography or branded building blocks.
 
 The six dock icons are original code-native glass-enamel SVGs, not generated raster artwork. Their source components live in the Arjun OS icon module and static exports live under `public/arjun-os/icons/`.
+
+## Connected widget concept boards
+
+| View | Concept board |
+| --- | --- |
+| Desktop widget deck | `generated/connected-widgets-desktop.png` |
+| Phone widget carousel | `generated/connected-widgets-phone.png` |
+
+These two preview-only UI mockups were generated with the built-in image-generation tool using the existing desktop and mobile Arjun OS boards as composition references. They visualize Focus Radio, GitHub Pulse, and LinkedIn Connect; the shipped interface remains native React and CSS.

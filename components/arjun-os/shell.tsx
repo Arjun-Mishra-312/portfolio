@@ -2,20 +2,21 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useOSActions, useOSState } from "@/lib/arjun-os/os-context";
-import { islandTransition, useOsReducedMotion } from "@/lib/arjun-os/motion";
 import { snappedBounds, TOP_RAIL_HEIGHT } from "@/lib/arjun-os/constants";
+import { islandTransition, stateTransition, useOsReducedMotion } from "@/lib/arjun-os/motion";
 import { portfolioData } from "@/lib/arjun-os/portfolio-data";
 import type { AppId } from "@/lib/arjun-os/types";
 import { AccessibilityPanel } from "./accessibility-panel";
 import { AppWindow } from "./app-window";
 import { BootScreen } from "./boot-screen";
 import { Dock } from "./dock";
+import { PhoneTabBar, TabletSidebar } from "./adaptive-navigation";
 import { AiIsland } from "./ai-island";
 import { TopRail } from "./top-rail";
-import { DesktopWidgets, CalendarWidget, WeatherWidget } from "./widgets/desktop-widgets";
+import { DesktopWidgets, MobileConnectedWidgets } from "./widgets/desktop-widgets";
 import { ProfileApp } from "./apps/profile-app";
 import { cn } from "@/utils/cn";
 
@@ -73,30 +74,22 @@ function WallpaperLayers({ theme, reduced }: { theme: keyof typeof WALLPAPERS; r
 }
 
 function MobileHome({ theme, reduced }: { theme: keyof typeof WALLPAPERS; reduced: boolean }) {
-  const { openApp } = useOSActions();
   const { profile } = portfolioData;
 
-  const links: Array<{ id: AppId; title: string; subtitle: string }> = [
-    { id: "work", title: "Work", subtitle: "Projects, case studies, and impact" },
-    { id: "experience", title: "Experience", subtitle: "Roles, impact, and timeline" },
-    { id: "research", title: "Research", subtitle: "Accessibility, VLMs, HCI" },
-    { id: "life", title: "Life + Play", subtitle: "Vancouver, LEGO, and gallery" },
-  ];
-
   return (
-    <div className="flex h-full flex-col gap-4 overflow-y-auto p-4 pb-28">
-      <div className="overflow-hidden rounded-2xl border border-os-hairline">
+    <div className="os-phone-home flex h-full flex-col gap-4 overflow-y-auto p-4">
+      <div className="os-phone-glass-widget overflow-hidden rounded-2xl">
         <div className="relative h-36">
           <WallpaperLayers theme={theme} reduced={reduced} />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
           <div className="absolute bottom-3 left-3 right-3">
-            <p className="mb-2 text-xs text-white/85">Vancouver, BC</p>
-            <WeatherWidget />
+            <p className="text-xs font-medium text-white/90">Vancouver, BC</p>
+            <p className="mt-0.5 text-[11px] text-white/70">Pacific Time · live widgets below</p>
           </div>
         </div>
       </div>
 
-      <section className="rounded-2xl border border-os-hairline bg-os-fill-strong p-4">
+      <section className="os-phone-glass-widget rounded-2xl p-4">
         <div className="flex items-center gap-3">
           <Image src={profile.avatar} alt="" width={52} height={52} className="rounded-full object-cover" />
           <div>
@@ -107,27 +100,65 @@ function MobileHome({ theme, reduced }: { theme: keyof typeof WALLPAPERS; reduce
         <p className="mt-3 text-sm leading-6 text-os-secondary">{profile.positioning}</p>
       </section>
 
-      <div className="space-y-2">
-        {links.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            onClick={() => openApp(item.id)}
-            className="flex min-h-11 w-full items-center justify-between rounded-xl border border-os-hairline bg-os-fill-strong px-4 py-3 text-left"
-          >
-            <span>
-              <span className="block text-sm font-medium text-os-primary">{item.title}</span>
-              <span className="block text-xs text-os-secondary">{item.subtitle}</span>
-            </span>
-            <span className="text-os-muted">›</span>
-          </button>
-        ))}
-      </div>
-
-      <div className="opacity-80">
-        <CalendarWidget />
-      </div>
+      <MobileConnectedWidgets />
     </div>
+  );
+}
+
+function AdaptiveAppContent({ appId }: { appId: AppId }) {
+  const { activeProjectId, activeExperienceId, layoutMode } = useOSState();
+  const { dispatch, selectTab } = useOSActions();
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const showBack = appId === "work" ? Boolean(activeProjectId) : appId === "experience" ? Boolean(activeExperienceId) : false;
+  const showHome = layoutMode === "phone" && appId !== "profile" && !showBack;
+  const title = appId === "profile" ? "Home" : appId === "work" ? "Work" : appId === "experience" ? "Experience" : appId === "research" ? "Research" : "Life + Play";
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    const saved = Number(sessionStorage.getItem(`arjun-os-scroll-${appId}`) ?? 0);
+    requestAnimationFrame(() => viewport.scrollTo({ top: saved, behavior: "auto" }));
+    const reset = (event: Event) => {
+      if ((event as CustomEvent<AppId>).detail !== appId) return;
+      sessionStorage.setItem(`arjun-os-scroll-${appId}`, "0");
+      viewport.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    window.addEventListener("arjun-os-tab-reset", reset);
+    return () => window.removeEventListener("arjun-os-tab-reset", reset);
+  }, [appId]);
+
+  return (
+    <section className="os-adaptive-app" aria-label={title}>
+      {(layoutMode !== "phone" || showBack) && <header className={cn("os-adaptive-app-header", layoutMode === "phone" && "os-phone-inline-header")}>
+        {showBack ? (
+          <button
+            type="button"
+            className="os-adaptive-back"
+            onClick={() => dispatch(appId === "work" ? { type: "SET_ACTIVE_PROJECT", projectId: null } : { type: "SET_ACTIVE_EXPERIENCE", experienceId: null })}
+          >
+            <span aria-hidden>‹</span> Back
+          </button>
+        ) : showHome ? (
+          <button type="button" className="os-adaptive-back" onClick={() => selectTab("profile") }>
+            <span aria-hidden>‹</span> Home
+          </button>
+        ) : <span className="w-16" aria-hidden />}
+        <h1>{title}</h1>
+        <span className="w-16" aria-hidden />
+      </header>}
+      <div
+        ref={viewportRef}
+        className="os-app-viewport"
+        data-layout={layoutMode}
+        onScroll={(event) => sessionStorage.setItem(`arjun-os-scroll-${appId}`, String(event.currentTarget.scrollTop))}
+      >
+        {appId === "profile" && <ProfileApp />}
+        {appId === "work" && <Suspense fallback={<AppSkeleton />}><WorkApp /></Suspense>}
+        {appId === "experience" && <Suspense fallback={<AppSkeleton />}><ExperienceApp /></Suspense>}
+        {appId === "research" && <Suspense fallback={<AppSkeleton />}><ResearchApp /></Suspense>}
+        {appId === "life" && <Suspense fallback={<AppSkeleton />}><LifeApp /></Suspense>}
+      </div>
+    </section>
   );
 }
 
@@ -165,11 +196,15 @@ function WallpaperTwinkle({ paused }: { paused: boolean }) {
 }
 
 export function ArjunOSShell() {
-  const { theme, snapPreview, isMobile, activeAppId, windows, accessibility, island, workArea } = useOSState();
+  const { theme, snapPreview, layoutMode, activeAppId, windows, accessibility, island, workArea } = useOSState();
+  const isMobile = layoutMode === "phone";
+  const isTabletPortrait = layoutMode === "tabletPortrait";
+  const isAdaptive = isMobile || isTabletPortrait;
   const reduced = useOsReducedMotion();
   const [a11yOpen, setA11yOpen] = useState(false);
   const [booted, setBooted] = useState(false);
   const [pageVisible, setPageVisible] = useState(true);
+  const [railHeight, setRailHeight] = useState(TOP_RAIL_HEIGHT);
   const wallpaper = WALLPAPERS[theme];
   const snapPreviewBounds = useMemo(
     () => (snapPreview ? snappedBounds(snapPreview, workArea) : null),
@@ -181,6 +216,20 @@ export function ArjunOSShell() {
     document.addEventListener("visibilitychange", onVisibility);
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, []);
+
+  useEffect(() => {
+    if (!isAdaptive) {
+      setRailHeight(TOP_RAIL_HEIGHT);
+      return;
+    }
+    const measure = () => {
+      const rail = document.querySelector<HTMLElement>(".os-top-rail");
+      if (rail) setRailHeight(rail.getBoundingClientRect().height || TOP_RAIL_HEIGHT);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [isAdaptive]);
 
   return (
     <div
@@ -199,19 +248,23 @@ export function ArjunOSShell() {
       <BootScreen wallpaper={wallpaper} onComplete={() => setBooted(true)} />
 
       <motion.div
-        className={cn(!booted && "pointer-events-none")}
+        className={cn("h-full", !booted && "pointer-events-none")}
         aria-hidden={!booted}
         initial={false}
       >
-      <div id="os-workspace" aria-hidden={island.expanded || undefined}>
-      <TopRail onOpenAccessibility={() => setA11yOpen((v) => !v)} />
+      <div id="os-workspace" className="h-full" aria-hidden={(island.expanded && island.mode !== "compose") || undefined}>
+      {isAdaptive && <TopRail onOpenAccessibility={() => setA11yOpen((v) => !v)} />}
 
       <main
-        className="relative h-full w-full pt-[54px] pb-24"
+        className={cn(
+          "relative h-full w-full",
+          isAdaptive && "pt-[var(--os-top-rail-height)]",
+          "pb-0",
+        )}
         role="main"
         aria-label="Arjun OS workspace"
       >
-        {!isMobile && <DesktopWidgets />}
+        {layoutMode === "desktop" && <DesktopWidgets />}
         <AccessibilityPanel open={a11yOpen} onClose={() => setA11yOpen(false)} />
 
         {snapPreviewBounds && (
@@ -230,44 +283,38 @@ export function ArjunOSShell() {
           />
         )}
 
-        {isMobile ? (
+        {isAdaptive ? (
           <AnimatePresence mode="wait" initial={false}>
           <motion.div
-            key={!activeAppId || activeAppId === "profile" || !windows[activeAppId]?.isOpen || windows[activeAppId]?.mode === "minimized" ? "mobile-home" : activeAppId}
+            key={activeAppId ?? "profile"}
             className="h-full"
-            initial={reduced ? { opacity: 0 } : { opacity: 0, x: 18, filter: "blur(4px)" }}
-            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-            exit={reduced ? { opacity: 0 } : { opacity: 0, x: -12, filter: "blur(3px)" }}
+            initial={
+              reduced
+                ? { opacity: 0 }
+                : isMobile
+                  ? { opacity: 0, x: 14 }
+                  : { opacity: 0, x: 18, filter: "blur(4px)" }
+            }
+            animate={
+              reduced || isMobile
+                ? { opacity: 1, x: 0 }
+                : { opacity: 1, x: 0, filter: "blur(0px)" }
+            }
+            exit={
+              reduced
+                ? { opacity: 0 }
+                : isMobile
+                  ? { opacity: 0, x: -10 }
+                  : { opacity: 0, x: -12, filter: "blur(3px)" }
+            }
+            transition={stateTransition(reduced)}
           >
-          {(!activeAppId ||
-          activeAppId === "profile" ||
-          !windows[activeAppId]?.isOpen ||
-          windows[activeAppId]?.mode === "minimized") ? (
-            <MobileHome theme={theme} reduced={reduced} />
-          ) : (
-            <AppWindow appId={activeAppId}>
-              {activeAppId === "work" && (
-                <Suspense fallback={<AppSkeleton />}>
-                  <WorkApp />
-                </Suspense>
-              )}
-              {activeAppId === "experience" && (
-                <Suspense fallback={<AppSkeleton />}>
-                  <ExperienceApp />
-                </Suspense>
-              )}
-              {activeAppId === "research" && (
-                <Suspense fallback={<AppSkeleton />}>
-                  <ResearchApp />
-                </Suspense>
-              )}
-              {activeAppId === "life" && (
-                <Suspense fallback={<AppSkeleton />}>
-                  <LifeApp />
-                </Suspense>
-              )}
-            </AppWindow>
-          )}
+          <div className={cn("h-full", isTabletPortrait && "flex bg-[var(--os-solid-fallback)]")}>
+            {isTabletPortrait && <TabletSidebar />}
+            <div className="h-full min-w-0 flex-1">
+              {(activeAppId ?? "profile") === "profile" && isMobile ? <MobileHome theme={theme} reduced={reduced} /> : <AdaptiveAppContent appId={activeAppId ?? "profile"} />}
+            </div>
+          </div>
           </motion.div>
           </AnimatePresence>
         ) : (
@@ -299,27 +346,38 @@ export function ArjunOSShell() {
         )}
       </main>
 
-      <Dock />
+      {isMobile ? <PhoneTabBar /> : !isTabletPortrait && <Dock onOpenAccessibility={() => setA11yOpen((v) => !v)} />}
 
-      <p className="pointer-events-none fixed bottom-1 right-3 z-[5] font-mono text-[10px] text-os-muted">
-        © 2026 Arjun — Arjun OS
-      </p>
+      {!isMobile && (
+        <p className="pointer-events-none fixed bottom-1 right-3 z-[5] font-mono text-[10px] text-os-muted">
+          © 2026 Arjun — Arjun OS
+        </p>
+      )}
       </div>
 
-      <motion.div
-        className="pointer-events-none fixed left-1/2 z-[110] -translate-x-1/2"
-        initial={false}
-        animate={{
-          top: island.expanded
-            ? TOP_RAIL_HEIGHT + 12
-            : (TOP_RAIL_HEIGHT - 38) / 2,
-        }}
-        transition={islandTransition(reduced)}
-      >
-        <div className="pointer-events-none grid w-screen justify-items-center">
+      {isMobile ? (
+        <motion.div
+          className="pointer-events-none fixed inset-x-0 top-0 z-[110]"
+          initial={false}
+          animate={{
+            top: island.expanded
+              ? railHeight + 12
+              : Math.max(0, railHeight - TOP_RAIL_HEIGHT) + (TOP_RAIL_HEIGHT - 38) / 2,
+          }}
+          transition={islandTransition(reduced)}
+        >
+          <div className="pointer-events-none grid w-screen justify-items-center"><AiIsland /></div>
+        </motion.div>
+      ) : (
+        <motion.div
+          className="pointer-events-none fixed inset-0 z-[110] grid items-end justify-items-center pb-5"
+          initial={false}
+          animate={{ y: island.expanded ? -4 : 0 }}
+          transition={islandTransition(reduced)}
+        >
           <AiIsland />
-        </div>
-      </motion.div>
+        </motion.div>
+      )}
       </motion.div>
     </div>
   );

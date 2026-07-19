@@ -13,10 +13,15 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowUp, X } from "lucide-react";
-import dynamic from "next/dynamic";
-import { inferActionsFromAnswer, mapChatActionsToIsland } from "@/lib/arjun-os/action-mapper";
+import { ArrowUp, ChevronLeft, ExternalLink, X } from "lucide-react";
+import {
+  inferActionsFromAnswer,
+  isIslandEvidence,
+  mapChatActionsToIsland,
+  pickPrimaryAutoRunAction,
+} from "@/lib/arjun-os/action-mapper";
 import { useOSActions, useOSState } from "@/lib/arjun-os/os-context";
+import { ISLAND_REQUEST_COLLAPSE_EVENT } from "@/lib/arjun-os/constants";
 import {
   fadeUpItem,
   islandCloseTransition,
@@ -26,7 +31,7 @@ import {
   useOsReducedMotion,
 } from "@/lib/arjun-os/motion";
 import { RECRUITER_TOUR_STEPS, TOUR_STEP_COUNT } from "@/lib/arjun-os/tour";
-import type { WidgetType } from "@/lib/chat-context";
+import type { IslandEvidence } from "@/lib/arjun-os/types";
 import type { MicroWidget, WidgetPlacement } from "@/types/micro-widgets";
 import { ThemeBridge } from "@/lib/theme-context";
 import { MicroWidgetRenderer } from "@/components/chat/micro-widgets/micro-widget-renderer";
@@ -34,22 +39,7 @@ import { useOutsideClick } from "@/hooks/use-outside-click";
 import { IslandMark } from "./icons";
 import { cn } from "@/utils/cn";
 
-const WidgetRenderer = dynamic(
-  () => import("@/components/chat/widget-renderer").then((m) => m.WidgetRenderer),
-  { ssr: false, loading: () => <div className="h-40 animate-pulse rounded-xl bg-os-fill" /> },
-);
-
 const suggestions = ["Strongest project", "Why Arjun?", "Recruiter tour"];
-
-const VALID_WIDGET_TYPES: WidgetType[] = [
-  "me",
-  "projects",
-  "skills",
-  "experience",
-  "awards",
-  "fun",
-  "contact",
-];
 
 function GooeyBackdrop({ enabled }: { enabled: boolean }) {
   if (!enabled) return null;
@@ -146,14 +136,14 @@ class ArtifactErrorBoundary extends Component<
       return (
         <div className="space-y-3 p-2">
           <p className="text-sm text-[var(--os-text-secondary)]">
-            This artifact couldn&apos;t be displayed. You can keep chatting or close the panel.
+            This evidence couldn&apos;t be displayed. You can keep chatting or close the panel.
           </p>
           <button
             type="button"
             onClick={this.props.onClose}
             className="min-h-11 rounded-xl border border-os-hairline px-3 py-2 text-xs"
           >
-            Close artifact
+            Close evidence
           </button>
         </div>
       );
@@ -186,16 +176,16 @@ function MicroWidgetsBlock({
   );
 }
 
-const ArtifactPane = forwardRef<
+const EvidencePane = forwardRef<
   HTMLElement,
   {
-    widgetType: WidgetType;
+    evidence: IslandEvidence;
     onClose: () => void;
     reduced: boolean;
-    chatTheme: "light" | "dark";
     closing?: boolean;
+    childScreen?: boolean;
   }
->(function ArtifactPane({ widgetType, onClose, reduced, chatTheme, closing }, ref) {
+>(function EvidencePane({ evidence, onClose, reduced, closing, childScreen }, ref) {
   return (
     <motion.aside
       ref={ref}
@@ -209,27 +199,51 @@ const ArtifactPane = forwardRef<
       }
       exit={reduced ? { opacity: 0 } : { opacity: 0, x: 16, filter: "blur(4px)" }}
       transition={closing ? islandCloseTransition(reduced) : islandTransition(reduced)}
-      aria-label="Artifact"
+      aria-label="Evidence"
     >
       <div className="flex items-center justify-between border-b border-os-hairline px-3 py-2">
-        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--os-text-muted)]">
-          Artifact
-        </p>
+        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--os-text-muted)]">Evidence</p>
         <button
           type="button"
           onClick={onClose}
           className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-[var(--os-text-secondary)] hover:bg-os-hover"
-          aria-label="Close artifact"
+          aria-label={childScreen ? "Back to answer" : "Close evidence"}
         >
-          <X className="h-4 w-4" />
+          {childScreen ? <ChevronLeft className="h-5 w-5" /> : <X className="h-4 w-4" />}
         </button>
       </div>
       <div className="os-island-artifact-body min-h-0 flex-1 overflow-y-auto p-3">
-        <ThemeBridge theme={chatTheme}>
-          <ArtifactErrorBoundary onClose={onClose}>
-            <WidgetRenderer widgetType={widgetType} />
-          </ArtifactErrorBoundary>
-        </ThemeBridge>
+        <ArtifactErrorBoundary onClose={onClose}>
+          {evidence.kind === "github-pulse" && (
+            <div className="space-y-3 rounded-2xl border border-os-hairline bg-os-fill p-4">
+              <div>
+                <p className="text-sm font-semibold text-os-primary">{evidence.title}</p>
+                <p className="mt-1 text-[11px] text-os-muted">
+                  {evidence.status === "ready" ? "Live GitHub activity" : "Public activity snapshot"}
+                </p>
+              </div>
+              <div className="flex items-end justify-between gap-3">
+                <div>
+                  <p className="text-[28px] font-semibold leading-none tabular-nums text-os-primary">{evidence.total}</p>
+                  <p className="mt-1 text-[11px] text-os-muted">contributions · {evidence.streak}d streak</p>
+                </div>
+              </div>
+              {evidence.latest && (
+                <a
+                  href={evidence.latest.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex min-h-11 items-center justify-between rounded-xl bg-os-fill-strong px-3 text-[12px] text-os-secondary hover:bg-os-hover"
+                >
+                  <span className="truncate">
+                    <span className="text-os-primary">{evidence.latest.repo}</span> · {evidence.latest.label}
+                  </span>
+                  <ExternalLink className="h-3.5 w-3.5 shrink-0" />
+                </a>
+              )}
+            </div>
+          )}
+        </ArtifactErrorBoundary>
       </div>
     </motion.aside>
   );
@@ -261,7 +275,7 @@ const IslandContentShell = forwardRef<
 });
 
 export function AiIsland() {
-  const { island, accessibility, activeAppId, activeProjectId, theme } = useOSState();
+  const { island, accessibility, activeAppId, activeProjectId, theme, layoutMode } = useOSState();
   const { dispatch, collapseIsland, openIsland, runIslandAction, startTour } = useOSActions();
   const reduced = useOsReducedMotion();
   const chatTheme = theme === "dawn" ? "light" : "dark";
@@ -274,6 +288,14 @@ export function AiIsland() {
   const [localQuery, setLocalQuery] = useState("");
   const [mounted, setMounted] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [phoneEvidenceOpen, setPhoneEvidenceOpen] = useState(false);
+  const isPhone = layoutMode === "phone";
+  const isPhoneSheet = isPhone && island.expanded && island.mode !== "compose";
+
+  useEffect(() => {
+    if (isPhone && island.mode === "answer" && island.evidence) setPhoneEvidenceOpen(true);
+    if (island.mode !== "answer" || !island.evidence) setPhoneEvidenceOpen(false);
+  }, [isPhone, island.mode, island.evidence]);
 
   useEffect(() => {
     setMounted(true);
@@ -290,26 +312,33 @@ export function AiIsland() {
   useEffect(() => {
     const workspace = document.getElementById("os-workspace");
     if (!workspace) return;
-    if (island.expanded) workspace.setAttribute("inert", "");
+    if (island.expanded && island.mode !== "compose") workspace.setAttribute("inert", "");
     else workspace.removeAttribute("inert");
     return () => workspace.removeAttribute("inert");
-  }, [island.expanded]);
+  }, [island.expanded, island.mode]);
 
   const requestCollapse = useCallback(() => {
     if (island.mode === "thinking" || isClosing || !island.expanded) return;
     setIsClosing(true);
   }, [island.mode, island.expanded, isClosing]);
 
-  // Fade content first, then morph shell → pill (avoids janky artifact→idle snap)
+  useEffect(() => {
+    const onRequestCollapse = () => requestCollapse();
+    window.addEventListener(ISLAND_REQUEST_COLLAPSE_EVENT, onRequestCollapse);
+    return () => window.removeEventListener(ISLAND_REQUEST_COLLAPSE_EVENT, onRequestCollapse);
+  }, [requestCollapse]);
+
+  // Begin the shell morph immediately so a bottom-anchored island returns as one motion.
   useEffect(() => {
     if (!isClosing) return;
-    const delay = reduced ? 70 : 200;
+    // Let the closing styles paint once, then morph the shell and content together.
+    const delay = reduced ? 0 : isPhone ? 200 : 16;
     const timer = window.setTimeout(() => {
       collapseIsland();
       setIsClosing(false);
     }, delay);
     return () => window.clearTimeout(timer);
-  }, [isClosing, reduced, collapseIsland]);
+  }, [isClosing, reduced, isPhone, collapseIsland]);
 
   useEffect(() => {
     if (island.expanded && !wasExpandedRef.current) {
@@ -389,20 +418,7 @@ export function AiIsland() {
 
       const mapped = mapChatActionsToIsland(data.actions ?? data.suggestions);
       const actions = mapped.length > 0 ? mapped : inferActionsFromAnswer(answer);
-      const microWidgets = Array.isArray(data.microWidgets)
-        ? (data.microWidgets as MicroWidget[])
-        : undefined;
-      const widgetType =
-        typeof data.widgetType === "string" &&
-        VALID_WIDGET_TYPES.includes(data.widgetType as WidgetType)
-          ? (data.widgetType as WidgetType)
-          : undefined;
-      const widgetPlacement =
-        data.widgetPlacement === "before" ||
-        data.widgetPlacement === "after" ||
-        data.widgetPlacement === "inline"
-          ? (data.widgetPlacement as WidgetPlacement)
-          : undefined;
+      const evidence = isIslandEvidence(data.evidence) ? data.evidence : undefined;
 
       dispatch({
         type: "ISLAND_ANSWER",
@@ -410,11 +426,12 @@ export function AiIsland() {
         actions,
         linkedAppId: activeAppId ?? undefined,
         linkedProjectId: activeProjectId ?? undefined,
-        microWidgets,
-        widgetType,
-        widgetPlacement,
+        evidence,
       });
       setLocalQuery("");
+
+      const primary = pickPrimaryAutoRunAction(actions);
+      if (primary) runIslandAction(primary);
     } catch (error) {
       if ((error as Error).name === "AbortError") return;
       dispatch({
@@ -426,12 +443,14 @@ export function AiIsland() {
 
   const tourStep = island.activeTourStep ?? 0;
   const showGooey = island.mode === "compose" && !reduced && !accessibility.highContrast;
-  const hasArtifact = island.mode === "answer" && Boolean(island.widgetType);
+  const hasEvidence = island.mode === "answer" && Boolean(island.evidence);
   const micros = island.microWidgets ?? [];
   const microsBefore = micros.length > 0 && island.widgetPlacement === "before";
   const microsAfter = micros.length > 0 && island.widgetPlacement !== "before";
 
-  const surfaceWidth = hasArtifact
+  const surfaceWidth = isPhoneSheet
+    ? "w-screen"
+    : hasEvidence
     ? "w-[min(960px,calc(100vw-24px))]"
     : island.mode === "answer" || island.mode === "error" || island.mode === "tour"
       ? "w-[min(680px,calc(100vw-24px))]"
@@ -445,7 +464,7 @@ export function AiIsland() {
       {mounted &&
         createPortal(
           <AnimatePresence>
-            {island.expanded && (
+            {island.expanded && island.mode !== "compose" && (
               <motion.div
                 key="ai-island-backdrop"
                 className="pointer-events-auto fixed inset-0 z-[100] bg-os-overlay backdrop-blur-[1px]"
@@ -497,7 +516,7 @@ export function AiIsland() {
             layoutId="ai-island"
             ref={surfaceRef}
             role="dialog"
-            aria-modal="true"
+            aria-modal={island.mode !== "compose"}
             aria-label="AI Island"
             transition={islandTransition(reduced)}
             onKeyDown={(event) => {
@@ -520,18 +539,19 @@ export function AiIsland() {
               "os-island-surface pointer-events-auto relative z-[65] col-start-1 row-start-1 overflow-hidden",
               filamentClass,
               surfaceWidth,
+              isPhoneSheet && "os-island-phone-sheet",
               island.mode !== "compose" && "max-h-[min(72dvh,760px)]",
             )}
-            style={{ borderRadius: hasArtifact ? 28 : 26 }}
+            style={{ borderRadius: hasEvidence ? 28 : 26 }}
             data-island-mode={island.mode}
-            data-has-artifact={hasArtifact ? "true" : undefined}
+            data-has-artifact={hasEvidence ? "true" : undefined}
             data-closing={isClosing ? "true" : undefined}
           >
             <GooeyBackdrop enabled={showGooey && !isClosing} />
             <motion.div
               className={cn(
                 "relative z-[1] bg-[var(--os-surface-elevated)]/92 backdrop-blur-xl",
-                hasArtifact ? "flex max-h-[min(72dvh,760px)] flex-col md:flex-row" : "p-3.5",
+                hasEvidence ? "flex max-h-[min(72dvh,760px)] flex-col md:flex-row" : "p-3.5",
               )}
               animate={
                 isClosing
@@ -542,7 +562,8 @@ export function AiIsland() {
             >
               <div
                 className={cn(
-                  hasArtifact && "flex min-h-0 min-w-0 flex-1 flex-col p-3.5 md:w-[42%]",
+                  hasEvidence && "flex min-h-0 min-w-0 flex-1 flex-col p-3.5 md:w-[42%]",
+                  isPhoneSheet && phoneEvidenceOpen && "hidden",
                 )}
               >
                 <AnimatePresence mode="wait" initial={false}>
@@ -752,6 +773,11 @@ export function AiIsland() {
                           )}
                         </div>
                         <div className="flex flex-wrap gap-2">
+                          {isPhoneSheet && hasEvidence && (
+                            <button type="button" onClick={() => setPhoneEvidenceOpen(true)} className="min-h-11 rounded-xl border border-os-hairline bg-os-fill px-3 py-2 text-xs font-medium text-os-primary">
+                              View evidence
+                            </button>
+                          )}
                           {island.actions.map((action) => (
                             <button
                               key={action.id}
@@ -835,13 +861,13 @@ export function AiIsland() {
               </div>
 
               <AnimatePresence>
-                {hasArtifact && island.widgetType && (
-                  <ArtifactPane
-                    widgetType={island.widgetType}
-                    onClose={() => requestCollapse()}
+                {hasEvidence && island.evidence && (!isPhoneSheet || phoneEvidenceOpen) && (
+                  <EvidencePane
+                    evidence={island.evidence}
+                    onClose={() => (isPhoneSheet ? setPhoneEvidenceOpen(false) : requestCollapse())}
                     reduced={reduced}
-                    chatTheme={chatTheme}
                     closing={isClosing}
+                    childScreen={isPhoneSheet}
                   />
                 )}
               </AnimatePresence>
