@@ -3,7 +3,7 @@
 import { useId, type CSSProperties } from "react";
 import { cn } from "@/utils/cn";
 
-export type DockIconName = "home" | "work" | "experience" | "research" | "life" | "resume";
+export type DockIconName = "home" | "work" | "experience" | "research" | "life" | "lab" | "resume";
 
 const ACCENT: Record<DockIconName, string> = {
   home: "#22d3ee",
@@ -11,6 +11,7 @@ const ACCENT: Record<DockIconName, string> = {
   experience: "#3b82f6",
   research: "#34d399",
   life: "#f59e0b",
+  lab: "#fb7185",
   resume: "#94a3b8",
 };
 
@@ -20,6 +21,7 @@ const TILE_GRADIENT: Record<DockIconName, [string, string, string]> = {
   experience: ["#72c5ff", "#2678f2", "#1548af"],
   research: ["#80f5d0", "#22bfa0", "#087f7f"],
   life: ["#ffd166", "#ff8a47", "#ef4f72"],
+  lab: ["#8df5ff", "#7c5cff", "#e4478e"],
   resume: ["#f8fbff", "#aebff5", "#6674c8"],
 };
 
@@ -73,6 +75,17 @@ function Symbol({ name }: { name: DockIconName }) {
           <path d="M8 51 24 27l9 13 7-9 16 20Z" fill="#fff" opacity=".94" />
           <path d="M8 51 25 36l8 8 7-7 16 14Z" fill="#ff5b72" />
           <path d="m18 51 8-8 5 5 5-4 8 7Z" fill="#c93d78" opacity=".72" />
+        </g>
+      );
+    case "lab":
+      return (
+        <g className="os-enamel-symbol">
+          <circle cx="32" cy="32" r="17" fill="rgba(255,255,255,.92)" />
+          <path d="M22 39.5 29 25l5 9 4-7 5 12.5Z" fill="#6d4ae6" />
+          <circle cx="23" cy="23" r="3.5" fill="#69efff" />
+          <circle cx="43" cy="21" r="3" fill="#ff8bc0" />
+          <circle cx="45" cy="43" r="3.5" fill="#9ff6d7" />
+          <path d="M25.5 24.5 39.5 22M42 24l2 15M42.5 41.5 25 25.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" opacity=".9" />
         </g>
       );
     case "resume":

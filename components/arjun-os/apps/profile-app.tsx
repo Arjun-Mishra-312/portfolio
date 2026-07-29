@@ -17,6 +17,7 @@ export function ProfileApp() {
     { id: "experience", label: "Experience" },
     { id: "research", label: "Research" },
     { id: "life", label: "Life + Play" },
+    { id: "lab", label: "Experience Lab" },
   ];
 
   return (

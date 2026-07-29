@@ -17,6 +17,7 @@ const iconName: Record<AppId | "resume", DockIconName> = {
   experience: "experience",
   research: "research",
   life: "life",
+  lab: "lab",
   resume: "resume",
 };
 
@@ -26,6 +27,7 @@ const accentMap: Record<string, string> = {
   cobalt: "#3b82f6",
   mint: "#34d399",
   amber: "#f59e0b",
+  rose: "#fb7185",
 };
 
 export function Dock({ onOpenAccessibility }: { onOpenAccessibility?: () => void }) {

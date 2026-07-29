@@ -36,6 +36,13 @@ const LifeApp = dynamic(() => import("./apps/life-app").then((m) => m.LifeApp), 
   ssr: false,
   loading: () => <AppSkeleton />,
 });
+const ExperienceLabApp = dynamic(
+  () => import("./apps/experience-lab-app").then((m) => m.ExperienceLabApp),
+  {
+    ssr: false,
+    loading: () => <AppSkeleton />,
+  },
+);
 
 function AppSkeleton() {
   return <div className="h-full animate-pulse bg-os-fill" />;
@@ -111,7 +118,18 @@ function AdaptiveAppContent({ appId }: { appId: AppId }) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const showBack = appId === "work" ? Boolean(activeProjectId) : appId === "experience" ? Boolean(activeExperienceId) : false;
   const showHome = layoutMode === "phone" && appId !== "profile" && !showBack;
-  const title = appId === "profile" ? "Home" : appId === "work" ? "Work" : appId === "experience" ? "Experience" : appId === "research" ? "Research" : "Life + Play";
+  const title =
+    appId === "profile"
+      ? "Home"
+      : appId === "work"
+        ? "Work"
+        : appId === "experience"
+          ? "Experience"
+          : appId === "research"
+            ? "Research"
+            : appId === "life"
+              ? "Life + Play"
+              : "Experience Lab";
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -157,6 +175,7 @@ function AdaptiveAppContent({ appId }: { appId: AppId }) {
         {appId === "experience" && <Suspense fallback={<AppSkeleton />}><ExperienceApp /></Suspense>}
         {appId === "research" && <Suspense fallback={<AppSkeleton />}><ResearchApp /></Suspense>}
         {appId === "life" && <Suspense fallback={<AppSkeleton />}><LifeApp /></Suspense>}
+        {appId === "lab" && <Suspense fallback={<AppSkeleton />}><ExperienceLabApp /></Suspense>}
       </div>
     </section>
   );
@@ -340,6 +359,11 @@ export function ArjunOSShell() {
             <AppWindow appId="life">
               <Suspense fallback={<AppSkeleton />}>
                 <LifeApp />
+              </Suspense>
+            </AppWindow>
+            <AppWindow appId="lab">
+              <Suspense fallback={<AppSkeleton />}>
+                <ExperienceLabApp />
               </Suspense>
             </AppWindow>
           </>

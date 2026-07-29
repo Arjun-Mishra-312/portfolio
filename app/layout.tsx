@@ -18,6 +18,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://arjunmishra.site"),
   title: "Arjun OS | Arjun Mishra — AI Engineer + HCI Researcher",
   description:
     "Arjun OS portfolio: applied AI engineering, VLM accessibility research, and product-minded full-stack work from Vancouver, BC.",
@@ -41,12 +42,21 @@ export const metadata: Metadata = {
     siteName: "Arjun OS",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/og.png",
+        width: 1536,
+        height: 1024,
+        alt: "Arjun OS Experience Lab",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Arjun OS | Arjun Mishra",
     description:
       "Recruiter-focused portfolio presented as Arjun OS — work, experience, research, and AI Island.",
+    images: ["/og.png"],
   },
   robots: {
     index: true,

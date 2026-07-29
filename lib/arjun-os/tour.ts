@@ -23,6 +23,7 @@ export const RECRUITER_TOUR_STEPS: TourStep[] = [
       experience: { isOpen: false },
       research: { isOpen: false },
       life: { isOpen: false },
+      lab: { isOpen: false },
     }),
   },
   {
@@ -37,6 +38,7 @@ export const RECRUITER_TOUR_STEPS: TourStep[] = [
       experience: { isOpen: false },
       research: { isOpen: false },
       life: { isOpen: false },
+      lab: { isOpen: false },
     }),
   },
   {
@@ -54,6 +56,7 @@ export const RECRUITER_TOUR_STEPS: TourStep[] = [
       },
       research: { isOpen: false },
       life: { isOpen: false },
+      lab: { isOpen: false },
     }),
   },
   {
@@ -67,6 +70,7 @@ export const RECRUITER_TOUR_STEPS: TourStep[] = [
       experience: { isOpen: false },
       research: { isOpen: true, bounds: defaultBoundsFor("research", workArea), mode: "normal" },
       life: { isOpen: false },
+      lab: { isOpen: false },
     }),
   },
   {
@@ -80,6 +84,7 @@ export const RECRUITER_TOUR_STEPS: TourStep[] = [
       experience: { isOpen: false },
       research: { isOpen: false },
       life: { isOpen: true, bounds: defaultBoundsFor("life", workArea), mode: "normal" },
+      lab: { isOpen: false },
     }),
   },
   {
@@ -93,6 +98,7 @@ export const RECRUITER_TOUR_STEPS: TourStep[] = [
       experience: { isOpen: false },
       research: { isOpen: false },
       life: { isOpen: false },
+      lab: { isOpen: false },
     }),
   },
 ];

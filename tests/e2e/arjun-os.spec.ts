@@ -251,6 +251,40 @@ test("desktop window keyboard and dock lifecycle remains usable", async ({ page 
   await expect(workWindow).toBeHidden();
 });
 
+test("Experience Lab exposes both approved experience bundles", async ({ page }, testInfo) => {
+  await page.goto("/?app=lab");
+  if (testInfo.project.name === "mobile") {
+    await expect(page.getByRole("region", { name: "Experience Lab" })).toBeVisible();
+  } else {
+    await expect(page.getByRole("dialog", { name: "Experience Lab" })).toBeVisible();
+  }
+
+  await expect(page.getByTestId("lab-finder")).toBeVisible();
+  await page.getByRole("button", { name: /^Portal/ }).click();
+  await expect(page.getByTestId("lab-portal")).toBeVisible();
+  await page.getByLabel("Portal address").fill("https://github.com.evil.example/profile");
+  await page.getByLabel("Go to address").click();
+  await expect(page.getByRole("heading", { name: "Destination not allowlisted" })).toBeVisible();
+
+  await page.getByRole("button", { name: /^Systems Lab/ }).click();
+  await expect(page.getByTestId("lab-systems")).toBeVisible();
+  await page.getByRole("button", { name: "Inject safe failure" }).click();
+  await expect(page.getByText("DEGRADED", { exact: true }).first()).toBeVisible();
+
+  await page.getByRole("button", { name: /^Recruiter Mode/ }).click();
+  await expect(page.getByTestId("lab-recruiter")).toBeVisible();
+  await expect(page.getByText("Runs locally")).toBeVisible();
+
+  await page.getByRole("button", { name: /^A11y Lab/ }).click();
+  await expect(page.getByTestId("lab-a11y")).toBeVisible();
+  await page.getByRole("button", { name: "Apply all fixes" }).click();
+  await expect(page.getByText("AA ready")).toBeVisible();
+
+  await page.getByRole("button", { name: /^Memory Graph/ }).click();
+  await expect(page.getByTestId("lab-memory")).toBeVisible();
+  await expect(page.getByText("Arjun’s memory graph")).toBeVisible();
+});
+
 test("recruiter tour exits back to the previous workspace", async ({ page }, testInfo) => {
   await page.goto("/?app=research");
   await page.getByLabel("Ask Arjun", { exact: true }).click();
