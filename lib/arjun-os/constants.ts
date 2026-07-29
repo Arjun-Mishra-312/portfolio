@@ -46,7 +46,6 @@ export function defaultBoundsFor(
     experience: { width: 880, height: 580, offsetX: -30, offsetY: 30 },
     research: { width: 840, height: 560, offsetX: 50, offsetY: -10 },
     life: { width: 900, height: 600, offsetX: -20, offsetY: 40 },
-    lab: { width: 1080, height: 680, offsetX: 20, offsetY: 10 },
   };
 
   const preset = presets[appId];

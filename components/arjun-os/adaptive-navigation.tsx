@@ -13,7 +13,6 @@ const items: Array<{ id: AppId; icon: DockIconName }> = [
   { id: "experience", icon: "experience" },
   { id: "research", icon: "research" },
   { id: "life", icon: "life" },
-  { id: "lab", icon: "lab" },
 ];
 
 export function PhoneTabBar() {

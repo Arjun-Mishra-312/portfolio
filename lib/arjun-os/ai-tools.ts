@@ -44,7 +44,7 @@ export const AI_OS_TOOLS: ChatCompletionTool[] = [
           },
           appId: {
             type: "string",
-            enum: ["profile", "work", "experience", "research", "life", "lab"],
+            enum: ["profile", "work", "experience", "research", "life"],
           },
           projectId: {
             type: "string",

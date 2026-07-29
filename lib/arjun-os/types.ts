@@ -1,7 +1,7 @@
 import type { WidgetType } from "@/lib/chat-context";
 import type { MicroWidget, WidgetPlacement } from "@/types/micro-widgets";
 
-export type AppId = "profile" | "work" | "experience" | "research" | "life" | "lab";
+export type AppId = "profile" | "work" | "experience" | "research" | "life";
 
 export type { WidgetType, MicroWidget, WidgetPlacement };
 
@@ -207,7 +207,7 @@ export type OSAction =
       startTour?: boolean;
     };
 
-export const APP_IDS: AppId[] = ["profile", "work", "experience", "research", "life", "lab"];
+export const APP_IDS: AppId[] = ["profile", "work", "experience", "research", "life"];
 
 export const APP_META: Record<
   AppId,
@@ -218,5 +218,4 @@ export const APP_META: Record<
   experience: { title: "Experience", dockLabel: "Experience", accent: "cobalt" },
   research: { title: "Research", dockLabel: "Research", accent: "mint" },
   life: { title: "Life + Play", dockLabel: "Life + Play", accent: "amber" },
-  lab: { title: "Experience Lab", dockLabel: "Lab", accent: "rose" },
 };

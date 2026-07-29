@@ -256,7 +256,7 @@ export const portfolioData = {
     lifeHeroAlt:
       "Arjun driving at an arcade",
   },
-  dockOrder: ["profile", "work", "experience", "research", "life", "lab"] as AppId[],
+  dockOrder: ["profile", "work", "experience", "research", "life"] as AppId[],
 };
 
 export function getProject(id: ProjectId) {
@@ -264,7 +264,7 @@ export function getProject(id: ProjectId) {
 }
 
 export function isAppId(value: string | null): value is AppId {
-  return value === "profile" || value === "work" || value === "experience" || value === "research" || value === "life" || value === "lab";
+  return value === "profile" || value === "work" || value === "experience" || value === "research" || value === "life";
 }
 
 export function isProjectId(value: string | null): value is ProjectId {
