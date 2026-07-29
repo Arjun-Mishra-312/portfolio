@@ -7,8 +7,15 @@ import { AI_OS_TOOLS, executeAiTool, type ToolLoopState } from "@/lib/arjun-os/a
 import type { ChatMessage, IslandAction, IslandEvidence } from "@/lib/arjun-os/types";
 import type { EnrichedResponse } from "@/types/micro-widgets";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const MAX_TOOL_ROUNDS = 4;
+
+function createOpenAIClient() {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    throw new Error("OPENAI_API_KEY is not configured");
+  }
+  return new OpenAI({ apiKey });
+}
 
 interface PortfolioUIContext {
   activeAppId?: string;
@@ -47,6 +54,7 @@ export async function getChatResponse(
   uiContext?: PortfolioUIContext,
 ): Promise<EnrichedResponse> {
   try {
+    const openai = createOpenAIClient();
     const safeHistory = history
       .filter(
         (message): message is ChatMessage =>
