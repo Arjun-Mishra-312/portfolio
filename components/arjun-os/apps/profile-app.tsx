@@ -1,119 +1,63 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { MapPin } from "lucide-react";
+import { ArrowRight, ArrowUpRight, MapPin } from "lucide-react";
 import { portfolioData } from "@/lib/arjun-os/portfolio-data";
 import { useOSActions } from "@/lib/arjun-os/os-context";
-import type { AppId } from "@/lib/arjun-os/types";
+import { ProjectArt } from "../project-art";
 
 export function ProfileApp() {
-  const { openApp, openResume, openIsland } = useOSActions();
+  const { openApp, openResume, startTour, runIslandAction } = useOSActions();
   const { profile } = portfolioData;
-
-  const nav: { id: AppId; label: string }[] = [
-    { id: "profile", label: "Profile" },
-    { id: "work", label: "Work" },
-    { id: "experience", label: "Experience" },
-    { id: "research", label: "Research" },
-    { id: "life", label: "Life + Play" },
-  ];
-
+  const openProject = (id: "roadpack" | "buildstory" | "mune") => runIslandAction({ id: "home-" + id, label: "Explore " + id, type: "open-project", projectId: id });
   return (
-    <div className="flex h-full min-h-[420px]">
-      <aside className="os-profile-internal-nav hidden w-44 shrink-0 border-r border-os-hairline bg-os-fill-strong p-3 sm:block">
-        <nav className="space-y-1" aria-label="Profile navigation">
-          {nav.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => openApp(item.id)}
-              className={
-                item.id === "profile"
-                  ? "flex w-full items-center gap-2 rounded-lg border-l-2 border-[var(--os-accent-violet)] bg-os-fill-strong px-3 py-2 text-left text-sm"
-                  : "flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-[var(--os-text-secondary)] hover:bg-os-hover"
-              }
-            >
-              {item.label}
-            </button>
-          ))}
-        </nav>
-      </aside>
-
-      <div className="flex-1 overflow-y-auto p-5 sm:p-7">
-        <div className="flex items-start gap-4">
-          <Image
-            src={profile.avatar}
-            alt={profile.name}
-            width={72}
-            height={72}
-            className="rounded-full border-2 border-[var(--os-accent-violet)]/50 object-cover"
-          />
-          <div>
-            <h3 className="text-2xl font-semibold tracking-tight text-[var(--os-text-primary)] sm:text-3xl">
-              {profile.name}
-            </h3>
-            <p className="mt-1 text-sm font-medium text-[var(--os-accent-cobalt-text)]">{profile.title}</p>
-            <p className="mt-2 flex items-center gap-1 text-xs text-[var(--os-text-muted)]">
-              <MapPin className="h-3.5 w-3.5" />
-              {profile.location}
-            </p>
-          </div>
+    <div className="pf-document pf-home">
+      <header className="pf-person">
+        <Image src={profile.avatar} alt="Arjun Mishra" width={44} height={44} className="rounded-full object-cover" priority />
+        <div><h3>{profile.name}</h3><p>{profile.title}</p></div>
+        <span className="pf-location"><MapPin size={13} aria-hidden />Vancouver, BC</span>
+      </header>
+      <section className="pf-home-intro">
+        <p className="pf-eyebrow">Software engineer · UBC CS, May 2027</p>
+        <h2>Apps that ship.<br />Agents that show their work.</h2>
+        <p>{profile.positioning}</p>
+        <div className="pf-actions">
+          <button className="pf-button" onClick={startTour}>Take a quick tour<ArrowRight size={16} aria-hidden /></button>
+          <button className="pf-link" onClick={openResume}>Open Resume<ArrowUpRight size={15} aria-hidden /></button>
+          <a className="pf-link" href={"mailto:" + profile.contact.email}>Say hello<ArrowUpRight size={15} aria-hidden /></a>
         </div>
-
-        <div className="my-5 h-px bg-gradient-to-r from-cyan-400/60 via-violet-400/60 to-orange-300/60" />
-
-        <p className="max-w-2xl text-[15px] leading-7 text-[var(--os-text-secondary)]">{profile.positioning}</p>
-
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          <section>
-            <h4 className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--os-text-muted)]">
-              Focus areas
-            </h4>
-            <ul className="mt-2 space-y-1.5 text-sm text-[var(--os-text-primary)]">
-              {profile.focusAreas.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </section>
-          <section>
-            <h4 className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--os-text-muted)]">
-              Quick facts
-            </h4>
-            <ul className="mt-2 space-y-1.5 text-sm text-[var(--os-text-primary)]">
-              {profile.quickFacts.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </section>
-        </div>
-
-        <p className="mt-5 text-xs text-[var(--os-accent-mint-text)]">{profile.availability}</p>
-
-        <div className="mt-6 flex flex-wrap gap-3">
-          <button
-            type="button"
-            onClick={openResume}
-            className="rounded-xl bg-[var(--os-action-cobalt)] px-4 py-2.5 text-sm font-medium text-white"
-            style={{ color: "#fff", backgroundColor: "#2458b8" }}
-          >
-            Open Resume
-          </button>
-          <button
-            type="button"
-            onClick={() => openIsland("Why should we interview Arjun?")}
-            className="rounded-xl border border-os-hairline px-4 py-2.5 text-sm text-[var(--os-text-primary)]"
-          >
-            Ask Arjun
-          </button>
-          <Link
-            href={`mailto:${profile.contact.email}`}
-            className="rounded-xl border border-os-hairline px-4 py-2.5 text-sm text-[var(--os-text-primary)]"
-          >
-            Email
-          </Link>
-        </div>
+        <dl className="pf-proof" aria-label="At a glance">{profile.proof.map(item => <div key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>
+      </section>
+      <div className="pf-section-heading"><h3>A little of what I’ve been building</h3><button className="pf-link" onClick={() => openApp("work")}>All work<ArrowRight size={14} aria-hidden /></button></div>
+      <div className="pf-home-features">
+        <button className="pf-feature pf-feature-roadpack" onClick={() => openProject("roadpack")}>
+          <div className="pf-feature-copy"><p className="pf-eyebrow">Shipped · iPhone & iPad</p><h3>Roadpack</h3><p>Separate cars.<br />One shared adventure.</p><span className="pf-link">Watch the launch film<ArrowRight size={15} aria-hidden /></span></div>
+          <ProjectArt id="roadpack" />
+        </button>
+        <button className="pf-feature pf-feature-research" onClick={() => openApp("research")}>
+          <div className="pf-feature-copy"><p className="pf-eyebrow">Public preprint · UBC SOCIUS</p><h3>Can an AI audit<br />show its work?</h3><p>Criterion-specific agents.<br />Inspectable accessibility evidence.</p><span className="pf-link">Explore the research<ArrowRight size={15} aria-hidden /></span></div>
+          <ProjectArt id="ai-accessibility-analyzer" />
+        </button>
       </div>
+      <section className="pf-recent-products" aria-label="More recent products">
+        {[{ id: "buildstory" as const, title: "BuildStory", detail: "Open-source tooling · 330+ automated tests" }, { id: "mune" as const, title: "Mune", detail: "Shipped on iOS · On-device finance AI" }].map(item => (
+          <button key={item.id} className="pf-feature" onClick={() => openProject(item.id)}>
+            <div className="pf-feature-copy"><p className="pf-eyebrow">{item.id === "mune" ? "Personal finance" : "Developer tools"}</p><h3>{item.title}</h3><p>{item.detail}</p><span className="pf-link">Explore the project<ArrowRight size={15} aria-hidden /></span></div>
+            <ProjectArt id={item.id} />
+          </button>
+        ))}
+      </section>
+      <div className="pf-home-notes">
+        <button onClick={() => openApp("experience")}><span className="pf-eyebrow">In practice</span><strong>AI implementations<br />at IFS Copperleaf.</strong><span>Part-time engineer. HCI/AI research at UBC.<ArrowRight size={15} aria-hidden /></span></button>
+        <button onClick={() => openApp("life")} className="pf-home-life"><span className="pf-home-life-photo"><Image src="/life/photos/fuji-fujiyoshida.webp" alt="" fill sizes="(max-width: 640px) 100vw, 420px" className="object-cover" /></span><span className="pf-eyebrow">Away from the keyboard</span><strong>Drone films, LEGO supercars,<br />and a good chai.</strong><span>Meet the person behind the projects.<ArrowRight size={15} aria-hidden /></span></button>
+      </div>
+      <section className="pf-credentials" aria-labelledby="education-heading">
+        <p className="pf-eyebrow">University of British Columbia</p><h3 id="education-heading">{profile.education.degree}</h3>
+        <p>{profile.education.minor} · {profile.education.graduation}</p><p className="pf-caption">{profile.education.period}</p>
+        <details><summary>Technical skills</summary><div className="pf-skills-grid">{profile.skills.map(group => <div key={group.title}><h4>{group.title}</h4><p>{group.items.join(" · ")}</p></div>)}</div></details>
+        <details><summary>Awards & recognition</summary><ul>{profile.education.awards.map(award => <li key={award}>{award}</li>)}</ul></details>
+      </section>
+      <footer className="pf-home-footer"><span>{profile.availability}</span><div><a className="pf-link" href={profile.contact.github} target="_blank" rel="noreferrer">GitHub</a><a className="pf-link" href={profile.contact.linkedin} target="_blank" rel="noreferrer">LinkedIn</a></div></footer>
     </div>
   );
 }

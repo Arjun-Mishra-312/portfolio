@@ -225,7 +225,7 @@ export function LinkedinWidget() {
 }
 
 const DEVPOST_ITEMS = [
-  { title: "LLM Pro Max", award: "Hack the North 2024 winner", href: "https://devpost.com/software/llm-pro-max", accent: "violet" },
+  { title: "LLM Pro Max", award: "Hack the North 2024 Codegen prize", href: "https://devpost.com/software/llm-pro-max", accent: "violet" },
   { title: "Re-Plate", award: "youCode 2025 SAP Stream winner", href: "https://devpost.com/software/replate-z3b5mg", accent: "mint" },
 ] as const;
 

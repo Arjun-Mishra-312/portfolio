@@ -377,7 +377,7 @@ const LLMProMaxContent = () => (
       <div className="flex items-center gap-2 mt-6 mb-4">
         <IconTrophy className="w-6 h-6 text-yellow-500" />
         <span className="text-2xl font-bold text-neutral-900 dark:text-white">
-          🏆 Hack the North 2024 Winner (Codegen Track)
+          🏆 Hack the North 2024 · Codegen sponsor prize
         </span>
       </div>
       <p className="text-base leading-relaxed text-neutral-700 dark:text-neutral-300">

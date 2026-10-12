@@ -19,6 +19,8 @@ const EXPLICIT_WIDGET_INTENTS: Record<WidgetType, RegExp[]> = {
     /introduce\s*yourself/i,
   ],
   projects: [
+    /\broadpack\b/i,
+    /\b(buildstory|mune)\b/i,
     /show\s*(me\s*)?(the\s*)?(your\s*)?projects?/i,
     /show\s*(me\s*)?(the\s*)?projects?\s+section/i,
     /what\s*(are\s*)?(your\s*)?projects?/i,
@@ -66,7 +68,7 @@ const EXPLICIT_WIDGET_INTENTS: Record<WidgetType, RegExp[]> = {
 // Fallback keyword mapping for full widgets (lower priority)
 const FULL_WIDGET_KEYWORDS: Record<WidgetType, string[]> = {
   me: ['about', 'who are you', 'yourself', 'introduce', 'bio', 'background'],
-  projects: ['project', 'portfolio', 'built', 'created', 'developed'],
+  projects: ['roadpack', 'buildstory', 'mune', 'project', 'portfolio', 'built', 'created', 'developed'],
   skills: ['skill', 'technology', 'tech stack', 'programming', 'expertise'],
   experience: ['experience', 'job', 'role', 'worked at', 'position', 'employment'],
   awards: ['award', 'achievement', 'win', 'won', 'prize', 'recognition', 'honor'],

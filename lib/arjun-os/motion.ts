@@ -28,27 +28,43 @@ export function useOsReducedMotion() {
   return Boolean(system || accessibility.reduceMotion);
 }
 
-export function windowOpenVariants(reduced: boolean): Variants {
+export function windowOpenVariants(reduced: boolean, dockOffset = { x: 0, y: 28 }): Variants {
   if (reduced) {
     return {
-      initial: { opacity: 0 },
-      animate: { opacity: 1, transition: { duration: 0.15 } },
-      exit: { opacity: 0, transition: { duration: 0.12 } },
+      initial: { opacity: 0, scale: 1, x: 0, y: 0 },
+      portal: { opacity: 0, scale: 1, x: 0, y: 0 },
+      animate: { opacity: 1, scale: 1, x: 0, y: 0, transition: { duration: 0.12 } },
+      minimized: { opacity: 0, scale: 1, x: 0, y: 0, transition: { duration: 0.1 } },
+      exit: { opacity: 0, transition: { duration: 0.1 } },
     };
   }
   return {
-    initial: { opacity: 0, scale: 0.86, y: 28 },
+    initial: { opacity: 0, scale: 0.94, x: 0, y: 16 },
+    portal: { opacity: 0, scale: 0.06, x: dockOffset.x, y: dockOffset.y },
     animate: {
       opacity: 1,
       scale: 1,
+      x: 0,
       y: 0,
-      transition: { duration: 0.42, ease: OS_EASE },
+      transition: { duration: 0.48, ease: OS_EASE, opacity: { duration: 0.2 } },
+    },
+    minimized: {
+      opacity: 0,
+      scale: 0.06,
+      x: dockOffset.x,
+      y: dockOffset.y,
+      transition: {
+        duration: 0.5,
+        ease: [0.4, 0, 0.2, 1],
+        opacity: { duration: 0.16, delay: 0.3 },
+      },
     },
     exit: {
       opacity: 0,
-      scale: 0.72,
-      y: 48,
-      transition: { duration: 0.28, ease: OS_EASE },
+      scale: 0.96,
+      x: 0,
+      y: 10,
+      transition: { duration: 0.2, ease: OS_EASE_IN },
     },
   };
 }

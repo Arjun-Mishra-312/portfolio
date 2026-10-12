@@ -2,6 +2,7 @@ import type { ChatCompletionTool } from "openai/resources/chat/completions";
 import { fetchGithubPulse, type GithubPulsePayload } from "@/lib/github-pulse";
 import { isAppId, isProjectId, portfolioData } from "./portfolio-data";
 import type { DesktopWidgetId, IslandAction, IslandEvidence } from "./types";
+import { accessibilityPublication, researchSubmissions } from "./research-data";
 
 export const DESKTOP_WIDGET_IDS: DesktopWidgetId[] = [
   "github-pulse",
@@ -48,7 +49,7 @@ export const AI_OS_TOOLS: ChatCompletionTool[] = [
           },
           projectId: {
             type: "string",
-            enum: ["ai-accessibility-analyzer", "llm-pro-max", "re-plate"],
+            enum: portfolioData.projects.map((project) => project.id),
           },
           experienceId: {
             type: "string",
@@ -213,7 +214,7 @@ export function getPortfolioSlice(slice: string) {
     case "experience":
       return portfolioData.experience.map(({ logo, ...experience }) => experience);
     case "research":
-      return portfolioData.research;
+      return { publication: accessibilityPublication, submissions: researchSubmissions, threads: portfolioData.research };
     case "life":
       return portfolioData.life;
     default:

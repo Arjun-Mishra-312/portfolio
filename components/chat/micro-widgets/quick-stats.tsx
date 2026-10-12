@@ -19,25 +19,25 @@ interface Stat {
 const stats: Stat[] = [
   {
     icon: <IconBrain className="w-4 h-4" />,
-    value: "3+",
-    label: "AI Projects",
+    value: "40",
+    label: "WCAG Agents",
     color: "from-blue-500 to-cyan-500"
   },
   {
     icon: <IconCode className="w-4 h-4" />,
-    value: "6+",
-    label: "Full-Stack Apps",
+    value: "330+",
+    label: "BuildStory Tests",
     color: "from-purple-500 to-pink-500"
   },
   {
     icon: <IconTrophy className="w-4 h-4" />,
-    value: "5+",
-    label: "Hackathon Wins",
+    value: "2",
+    label: "App Store Apps",
     color: "from-orange-500 to-red-500"
   },
   {
     icon: <IconSchool className="w-4 h-4" />,
-    value: "100+",
+    value: "250+",
     label: "Students Taught",
     color: "from-green-500 to-emerald-500"
   },

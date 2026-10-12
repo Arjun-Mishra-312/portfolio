@@ -7,7 +7,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { useOSActions, useOSState } from "@/lib/arjun-os/os-context";
 import { snappedBounds, TOP_RAIL_HEIGHT } from "@/lib/arjun-os/constants";
 import { islandTransition, stateTransition, useOsReducedMotion } from "@/lib/arjun-os/motion";
-import { portfolioData } from "@/lib/arjun-os/portfolio-data";
 import type { AppId } from "@/lib/arjun-os/types";
 import { AccessibilityPanel } from "./accessibility-panel";
 import { AppWindow } from "./app-window";
@@ -73,34 +72,11 @@ function WallpaperLayers({ theme, reduced }: { theme: keyof typeof WALLPAPERS; r
   );
 }
 
-function MobileHome({ theme, reduced }: { theme: keyof typeof WALLPAPERS; reduced: boolean }) {
-  const { profile } = portfolioData;
-
+function MobileHome() {
   return (
-    <div className="os-phone-home flex h-full flex-col gap-4 overflow-y-auto p-4">
-      <div className="os-phone-glass-widget overflow-hidden rounded-2xl">
-        <div className="relative h-36">
-          <WallpaperLayers theme={theme} reduced={reduced} />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-          <div className="absolute bottom-3 left-3 right-3">
-            <p className="text-xs font-medium text-white/90">Vancouver, BC</p>
-            <p className="mt-0.5 text-[11px] text-white/70">Pacific Time · live widgets below</p>
-          </div>
-        </div>
-      </div>
-
-      <section className="os-phone-glass-widget rounded-2xl p-4">
-        <div className="flex items-center gap-3">
-          <Image src={profile.avatar} alt="" width={52} height={52} className="rounded-full object-cover" />
-          <div>
-            <h2 className="text-lg font-semibold text-os-primary">{profile.name}</h2>
-            <p className="text-xs text-[var(--os-accent-violet-text)]">{profile.title}</p>
-          </div>
-        </div>
-        <p className="mt-3 text-sm leading-6 text-os-secondary">{profile.positioning}</p>
-      </section>
-
-      <MobileConnectedWidgets />
+    <div className="os-phone-home flex h-full flex-col overflow-y-auto">
+      <ProfileApp />
+      <div className="px-5 pb-8"><MobileConnectedWidgets /></div>
     </div>
   );
 }
@@ -312,7 +288,7 @@ export function ArjunOSShell() {
           <div className={cn("h-full", isTabletPortrait && "flex bg-[var(--os-solid-fallback)]")}>
             {isTabletPortrait && <TabletSidebar />}
             <div className="h-full min-w-0 flex-1">
-              {(activeAppId ?? "profile") === "profile" && isMobile ? <MobileHome theme={theme} reduced={reduced} /> : <AdaptiveAppContent appId={activeAppId ?? "profile"} />}
+              {(activeAppId ?? "profile") === "profile" && isMobile ? <MobileHome /> : <AdaptiveAppContent appId={activeAppId ?? "profile"} />}
             </div>
           </div>
           </motion.div>

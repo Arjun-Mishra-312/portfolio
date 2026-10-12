@@ -1624,13 +1624,13 @@ body {
 }
 
 .os-dock {
-  overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--os-inset-highlight) 34%, var(--os-border));
-  border-radius: 25px;
-  background: color-mix(in srgb, var(--os-dock-bg) 66%, transparent);
-  backdrop-filter: blur(30px) saturate(180%);
-  -webkit-backdrop-filter: blur(30px) saturate(180%);
-  box-shadow: inset 0 1px 0 color-mix(in srgb, white 32%, transparent), 0 18px 52px rgba(0,0,0,.24), 0 3px 12px rgba(0,0,0,.12);
+  overflow: visible;
+  border: 1px solid var(--os-border);
+  border-radius: 24px;
+  background: var(--os-dock-bg);
+  backdrop-filter: blur(24px) saturate(130%);
+  -webkit-backdrop-filter: blur(24px) saturate(130%);
+  box-shadow: inset 0 1px 0 var(--os-inset-highlight), 0 12px 32px rgba(0,0,0,.18);
   isolation: isolate;
 }
 
@@ -1639,13 +1639,37 @@ body {
   position: absolute;
   z-index: 0;
   inset: 0;
+  border-radius: inherit;
   pointer-events: none;
-  background: linear-gradient(145deg, rgba(255,255,255,.2), transparent 36%, rgba(255,255,255,.045));
+  background: linear-gradient(180deg, rgba(255,255,255,.06), transparent 50%);
 }
 
 .os-dock > * { position: relative; z-index: 1; }
 .os-dock > button { transition: color .2s ease, background-color .2s ease, box-shadow .2s ease; }
-.os-dock > button.bg-os-fill { background: color-mix(in srgb, var(--os-surface-elevated) 70%, transparent); box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 5px 14px rgba(0,0,0,.12); }
+.os-dock > button.bg-os-fill { background: var(--os-fill-strong); }
+
+.os-dock-label {
+  position: absolute;
+  right: calc(100% + 14px);
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 7px 11px;
+  border: 1px solid var(--os-border);
+  border-radius: 9px;
+  background: var(--os-solid-fallback);
+  color: var(--os-text-primary);
+  box-shadow: 0 4px 16px rgba(0,0,0,.12);
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 500;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .15s ease;
+}
+
+.os-dock-button:hover .os-dock-label,
+.os-dock-button:focus-visible .os-dock-label { opacity: 1; }
+.os-dock-button:focus-visible { outline: 2px solid var(--os-text-primary); outline-offset: 3px; }
 
 @supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))) {
   .os-dock { background: var(--os-dock-bg); }
@@ -1924,8 +1948,7 @@ body {
 
 .os-phone-tab { position: relative; display: flex; min-width: 0; min-height: 58px; align-items: center; justify-content: center; flex-direction: column; gap: 1px; border-radius: 19px; color: var(--os-text-secondary); font-size: 9px; font-weight: 500; transition: background .22s ease, color .22s ease, transform .22s ease; }
 .os-phone-tab .os-dock-tile { width: 34px; height: 34px; flex: 0 0 34px; }
-.os-phone-tab .os-dock-tile > span:last-child { display: grid; place-items: center; }
-.os-phone-tab .os-enamel-icon { display: block; width: 34px; height: 34px; margin: auto; }
+.os-phone-tab .os-app-icon { display: block; width: 34px; height: 34px; margin: auto; }
 .os-phone-tab-active { color: var(--os-text-primary); background: color-mix(in srgb, var(--os-surface-elevated) 72%, transparent); box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 4px 12px rgba(0,0,0,.1); }
 .os-phone-tab:active { transform: scale(.94); }
 
@@ -2234,7 +2257,7 @@ body {
 }
 
 .os-tablet-sidebar-item { display: flex; width: 100%; min-height: 48px; align-items: center; gap: 10px; border-radius: 12px; padding: 5px 9px; color: var(--os-text-secondary); text-align: left; font-size: 14px; }
-.os-tablet-sidebar-item .os-enamel-icon { width: 38px; height: 38px; }
+.os-tablet-sidebar-item .os-app-icon { width: 38px; height: 38px; }
 .os-tablet-sidebar-item-active { color: var(--os-text-primary); background: var(--os-fill-strong); }
 
 .experience-layout { grid-template-columns: 260px minmax(0, 1fr) 220px; }
@@ -2336,23 +2359,11 @@ body {
 }
 
 /* ===== Arjun OS motion + assets ===== */
-.os-dock-tile-face {
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-}
-
-.os-dock-tile[data-active="true"] .os-dock-tile-face {
-  background: radial-gradient(circle, color-mix(in srgb, var(--dock-accent) 22%, transparent), transparent 68%);
-  box-shadow: 0 0 20px color-mix(in srgb, var(--dock-accent) 22%, transparent);
-}
-
 .os-dock-item-active-line {
-  height: 2px;
-  width: 18px;
+  height: 4px;
+  width: 4px;
   border-radius: 999px;
   background: var(--dock-accent, #22d3ee);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--dock-accent, #22d3ee) 60%, transparent);
 }
 
 .os-island-pill {
@@ -3137,38 +3148,21 @@ body {
 
 @keyframes os-weather-load { to { transform: translateX(110%); } }
 
-.os-enamel-icon {
-  filter: drop-shadow(0 8px 10px rgba(0,0,0,.32));
-  transform: translateZ(0);
-}
-
-.os-enamel-sheen,
-.os-enamel-symbol {
-  transform-origin: 50% 50%;
-  transition: transform .42s cubic-bezier(.22,1,.36,1), opacity .3s ease;
-}
-
-.group:hover .os-enamel-sheen {
-  transform: translate3d(4px, 3px, 0) skewX(-5deg);
-  opacity: .92;
-}
-
-.group:hover .os-enamel-symbol { transform: translate3d(0,-1.5px,0) scale(1.035); }
-.group:active .os-enamel-symbol { transform: scale(.94); }
+.os-app-icon { display: block; }
 
 .os-dock-launching { animation: os-dock-launch .52s cubic-bezier(.22,1,.36,1); }
 .os-dock-launching::after {
   content: "";
   position: absolute;
   inset: 2px;
-  border-radius: 14px;
+  border-radius: 12px;
   border: 1px solid var(--dock-accent);
   animation: os-dock-launch-ring .52s ease-out forwards;
 }
 
 @keyframes os-dock-launch {
   0%,100% { transform: translateY(0) scale(1); }
-  42% { transform: translateY(-8px) scale(1.05); }
+  42% { transform: translateY(-3px) scale(1.02); }
 }
 @keyframes os-dock-launch-ring {
   from { opacity: .8; transform: scale(.88); }
@@ -3267,8 +3261,7 @@ body {
   background: #000;
 }
 
-[data-high-contrast="true"] .os-enamel-icon rect:first-of-type { fill: #000; stroke: #fff; }
-[data-reduce-transparency="true"] .os-enamel-icon rect:first-of-type { fill-opacity: 1; }
+[data-high-contrast="true"] .os-app-icon { filter: grayscale(1) contrast(1.5); outline: 1px solid #fff; border-radius: 12px; }
 
 [data-reduce-motion="true"] .os-weather-skeleton::after,
 [data-reduce-motion="true"] .os-dock-launching,

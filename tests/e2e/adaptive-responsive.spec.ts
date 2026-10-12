@@ -1,7 +1,27 @@
 import { expect, test } from "@playwright/test";
+import { registerCaseStudyCoverage } from "./case-study-coverage";
+
+registerCaseStudyCoverage();
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem("arjun-os-booted", "true"));
+});
+
+test("recent resume projects have readable case studies and working links across devices", async ({ page }, testInfo) => {
+  await page.goto("/");
+  await page.locator(".pf-recent-products").getByRole("button", { name: /BuildStory/ }).click();
+  await expect(page).toHaveURL(/project=buildstory/);
+  await expect(page.getByRole("heading", { name: "BuildStory", exact: true }).last()).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "BuildStory", exact: true }).last()).toBeVisible();
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.goto("/?app=work&project=mune");
+  await expect(page.getByRole("heading", { name: "Mune", exact: true }).last()).toBeVisible();
+  if (testInfo.project.name.startsWith("phone")) await page.getByRole("link", { name: "Links", exact: true }).click();
+  else await page.getByRole("button", { name: "Links", exact: true }).click();
+  const links = testInfo.project.name.startsWith("phone") ? page.locator("#chapter-links") : page.locator(".pf-chapter-body");
+  await expect(links.getByRole("link", { name: "Get Mune", exact: true })).toHaveAttribute("href", "https://apps.apple.com/app/mune-private-finance-ai/id6777609206");
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
 test("AI Island stays top-aligned on phones and bottom-aligned on iPad", async ({ page }, testInfo) => {
@@ -39,9 +59,10 @@ test("adaptive shell presents the correct navigation and readable app content", 
     const sidebar = page.getByRole("complementary", { name: "Portfolio sections" });
     await expect(sidebar).toBeVisible();
     await sidebar.getByRole("button", { name: "Experience" }).click();
-    await expect(page.getByText("Experience + Research")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Experience", exact: true }).first()).toBeVisible();
     await sidebar.getByRole("button", { name: "Work" }).click();
-    await expect(page.getByRole("navigation", { name: "Projects" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "A few things I’ve put into the world." })).toBeVisible();
+    await page.getByRole("button", { name: /AI Accessibility Analyzer/ }).click();
     await expect(page.getByRole("heading", { name: "AI Accessibility Analyzer" })).toBeVisible();
     await expect(page.getByRole("navigation", { name: "Portfolio sections" })).toHaveCount(0);
     return;
@@ -60,10 +81,16 @@ test("phone apps scroll, preserve position, and return through the stable Home t
   const tabs = page.getByRole("navigation", { name: "Portfolio sections" });
   await tabs.getByRole("button", { name: "Life + Play" }).click();
   await expect(page.getByRole("heading", { name: "Life + Play" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Interests", exact: true })).toHaveCount(0);
   const viewport = page.locator(".os-app-viewport");
   await expect.poll(() => viewport.evaluate((element) => element.scrollHeight > element.clientHeight)).toBe(true);
-  await viewport.evaluate((element) => element.scrollTo({ top: 420 }));
-  await expect.poll(() => viewport.evaluate((element) => element.scrollTop)).toBeGreaterThan(100);
+  const targetScroll = await viewport.evaluate((element) => {
+    const target = Math.min(420, element.scrollHeight - element.clientHeight);
+    element.scrollTo({ top: target });
+    return target;
+  });
+  expect(targetScroll).toBeGreaterThan(0);
+  await expect.poll(() => viewport.evaluate((element) => element.scrollTop)).toBeCloseTo(targetScroll, 0);
   const savedScroll = await viewport.evaluate((element) => element.scrollTop);
   await tabs.getByRole("button", { name: "Work" }).click();
   await page.getByRole("navigation", { name: "Portfolio sections" }).getByRole("button", { name: "Life + Play" }).click();
@@ -90,19 +117,20 @@ test("phone AI compose expands into a modal full sheet only after submit", async
 
 test("phone AI artifacts use a child screen with Back navigation", async ({ page }, testInfo) => {
   test.skip(!testInfo.project.name.startsWith("phone"), "phone interaction");
-  await page.route("**/api/chat", (route) => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ response: "Here is Arjun's selected work.", widgetType: "projects" }) }));
+  await page.route("**/api/chat", (route) => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ response: "Here is Arjun's GitHub activity.", evidence: { kind: "github-pulse", title: "GitHub Pulse", total: 42, streak: 3, latest: null, status: "ready" } }) }));
   await page.goto("/");
   await page.getByLabel("Ask Arjun", { exact: true }).click();
   await page.getByPlaceholder(/Ask about my work/).fill("Show projects");
   await page.getByRole("button", { name: "Send", exact: true }).click();
-  await expect(page.getByRole("complementary", { name: "Artifact" })).toBeVisible();
+  await expect(page.getByRole("complementary", { name: "Evidence", exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Back to answer" }).click();
-  await expect(page.getByText("Here is Arjun's selected work.")).toBeVisible();
-  await expect(page.getByRole("button", { name: "View artifact" })).toBeVisible();
+  await expect(page.getByText("Here is Arjun's GitHub activity.")).toBeVisible();
+  await expect(page.getByRole("button", { name: "View evidence" })).toBeVisible();
 });
 
 test("phone apps use Files, Notes, Journal, and Photos interaction models", async ({ page }, testInfo) => {
   test.skip(!testInfo.project.name.startsWith("phone"), "phone interaction");
+  await page.addInitScript(() => sessionStorage.setItem("arjun-os-phone-life-album", JSON.stringify("Interests")));
   await page.goto("/");
   const tabs = page.getByRole("navigation", { name: "Portfolio sections" });
   await tabs.getByRole("button", { name: "Work" }).click();
@@ -114,10 +142,12 @@ test("phone apps use Files, Notes, Journal, and Photos interaction models", asyn
   await tabs.getByRole("button", { name: "Experience" }).click();
   await expect(page.getByText("Arjun OS · Notes")).toBeVisible();
   await tabs.getByRole("button", { name: "Research" }).click();
-  await expect(page.getByText("Arjun OS · Journal")).toBeVisible();
+  await expect(page.getByText(/Public preprint · September 2026/)).toBeVisible();
   await tabs.getByRole("button", { name: "Life + Play" }).click();
-  await page.getByRole("button", { name: "Open Vancouver photograph 1" }).click();
-  await expect(page.getByRole("dialog", { name: "Photo 1 of 6" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Library", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("button", { name: /^Interests/ })).toHaveCount(0);
+  await page.getByRole("button", { name: "Open photograph 1" }).click();
+  await expect(page.getByRole("dialog", { name: /Photo 1 of/ })).toBeVisible();
   await page.goBack();
   await expect(page.getByRole("heading", { name: "Life + Play" })).toBeVisible();
 });
@@ -131,6 +161,30 @@ test("phone dock icons are centered within every tab", async ({ page }, testInfo
     return Math.abs((icon.left + icon.width / 2) - (button.left + button.width / 2));
   }));
   expect(Math.max(...offsets)).toBeLessThanOrEqual(1);
+});
+
+test("Roadpack's film hero and real captures work across adaptive layouts", async ({ page }, testInfo) => {
+  await page.goto("/?app=work&project=roadpack");
+  await expect(page.getByRole("heading", { name: "Separate cars. One shared adventure." })).toBeVisible();
+  const film = page.locator(".pf-media-hero .pf-media-frame");
+  await expect.poll(() => film.evaluate(element => {
+    const rect = element.getBoundingClientRect();
+    const viewport = element.closest(".os-window") ?? element.closest(".os-app-viewport");
+    return rect.top >= 0 && rect.bottom <= (viewport?.getBoundingClientRect().bottom ?? innerHeight);
+  })).toBe(true);
+  if (testInfo.project.name === "phone-large") await page.screenshot({ path: "docs/design/arjun-os/sprint-roadpack-phone.png" });
+  await page.getByRole("button", { name: "Pack votes", exact: true }).click();
+  await expect(page.getByRole("img", { name: /Roadpack — Pack votes/ })).toBeVisible();
+  await expect(page.locator("video")).toHaveCount(0);
+  await page.getByRole("button", { name: "Play Roadpack launch film", exact: true }).click();
+  await expect(page.locator("video")).toHaveAttribute("controls", "");
+  await expect(page.locator("video")).toBeFocused();
+  await expect(page.locator("video source")).toHaveAttribute("src", "/roadpack/launch.mp4");
+  await expect.poll(() => page.locator(".roadpack-case").evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+  await page.getByRole("button", { name: "Home", exact: true }).click();
+  await expect(page).toHaveURL("/");
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "Apps that ship. Agents that show their work." })).toBeVisible();
 });
 
 test("matches the adaptive shell baseline", async ({ page }, testInfo) => {

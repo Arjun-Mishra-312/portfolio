@@ -120,12 +120,6 @@ export const questionSections: QuestionSection[] = [
         text: 'Tell me about your work philosophy',
         widgetType: 'experience',
       },
-      {
-        id: 'pro-easter',
-        text: "What's your biggest professional failure? 🔐",
-        easterEgg: true,
-        widgetType: 'experience',
-      },
     ],
   },
   {
@@ -166,6 +160,9 @@ export const questionSections: QuestionSection[] = [
         text: 'What are you building right now?',
         widgetType: 'projects',
       },
+      { id: 'proj-buildstory', text: 'What is BuildStory?', featured: true, widgetType: 'projects' },
+      { id: 'proj-mune', text: 'Tell me about Mune and its on-device AI', featured: true, widgetType: 'projects' },
+      { id: 'proj-wrap', text: 'What is WRAP and your CHI research?', widgetType: 'projects' },
       {
         id: 'proj-easter',
         text: 'What project idea keeps you up at night? 🔐',

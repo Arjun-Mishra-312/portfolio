@@ -26,6 +26,7 @@ export function BootScreen({
   const finish = () => {
     if (finishedRef.current) return;
     finishedRef.current = true;
+    sessionStorage.setItem("arjun-os-booted", "true");
     setPhase("done");
     onCompleteRef.current();
   };
@@ -40,7 +41,7 @@ export function BootScreen({
       (appDestination !== null && appDestination !== "profile") ||
       ["project", "ai", "tour"].some((key) => params.has(key));
 
-    if (!forceBoot && hasDirectDestination) {
+    if (!forceBoot && (hasDirectDestination || sessionStorage.getItem("arjun-os-booted") === "true" || window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {
       finish();
       return;
     }
@@ -63,21 +64,10 @@ export function BootScreen({
       return Math.max(0, FULL_MS - elapsed) + 80;
     };
 
-    let startId = 0;
-    let doneId = 0;
-    const raf1 = window.requestAnimationFrame(() => {
-      startId = window.requestAnimationFrame(() => {
-        setPhase("playing");
-        // Timeout is the source of truth — animationend is unreliable under reduce-motion CSS.
-        doneId = window.setTimeout(finish, remainingDuration());
-      });
-    });
-
-    return () => {
-      window.cancelAnimationFrame(raf1);
-      window.cancelAnimationFrame(startId);
-      window.clearTimeout(doneId);
-    };
+    // The intro already starts in server HTML. A wall-clock timer also completes
+    // it in background tabs, where requestAnimationFrame may be throttled.
+    const doneId = window.setTimeout(finish, remainingDuration());
+    return () => window.clearTimeout(doneId);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- mount-only boot choreography
   }, []);
 

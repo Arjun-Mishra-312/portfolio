@@ -2,143 +2,64 @@
 
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
-import { portfolioData } from "@/lib/arjun-os/portfolio-data";
+import { portfolioData, type PortfolioExperience } from "@/lib/arjun-os/portfolio-data";
 import { useOSActions, useOSState } from "@/lib/arjun-os/os-context";
-import { cinematicItem, staggerContainer, useOsReducedMotion } from "@/lib/arjun-os/motion";
-import { cn } from "@/utils/cn";
-import { ChevronRight, FileText } from "lucide-react";
+import { useOsReducedMotion } from "@/lib/arjun-os/motion";
+import { ChevronRight, FileText, ArrowUpRight } from "lucide-react";
 import { PhoneLargeTitle, PhoneSection } from "@/components/arjun-os/phone-ui";
+
+const roleFeatures: Record<string, { headline: string; value: string; label: string; detail: string }> = {
+  copperleaf: { headline: "AI, from prototype to practice.", value: "160+", label: "employee hours / year", detail: "Estimated annual time savings from the Data Validation Portal." },
+  socius: { headline: "Better AI starts with people.", value: "86%", label: "recall in the study", detail: "Accessibility auditing research: 56% precision on the audited page–criterion records." },
+  ta: { headline: "Making complex ideas click.", value: "250+", label: "students supported", detail: "Computer systems, networking, and hands-on C/C++ tutorials." },
+};
+
+function ExperienceDocument({ active, openResume, phone }: { active: PortfolioExperience; openResume: () => void; phone: boolean }) {
+  const feature = roleFeatures[active.id];
+  return <>
+    <header className="pf-role-heading">
+      <p className="pf-eyebrow">Experience · {active.period}</p>
+      <div className="pf-role-identity">{active.logo && <Image src={active.logo} alt="" width={48} height={48} className="pf-company-logo" />}<h2>{active.organization}</h2></div>
+      <h3>{feature.headline}</h3><p className="pf-role-title">{active.role}</p>
+      <p className="os-note-metadata">{active.period} · {active.location}</p>
+    </header>
+    <div className="pf-role-feature"><strong>{feature.value}</strong><div><span>{feature.label}</span><p>{feature.detail}</p></div></div>
+    <p className="os-note-summary">{active.summary}</p>
+    <section className="pf-role-section"><p className="pf-eyebrow">The work</p><h3>Highlights</h3><ul>{active.responsibilities.map(item => <li key={item}>{item}</li>)}</ul></section>
+    <section className="pf-role-section"><p className="pf-eyebrow">How I work</p><h3>Tools & methods</h3><div className="os-note-tags">{active.tools.map(tool => <span key={tool}>{tool}</span>)}</div></section>
+    <button type="button" onClick={openResume} className="pf-button pf-resume-action">{phone ? "Open Résumé" : "Download Résumé"}<ArrowUpRight size={15} aria-hidden /></button>
+  </>;
+}
 
 export function ExperienceApp() {
   const { activeExperienceId, layoutMode } = useOSState();
   const { openResume, dispatch } = useOSActions();
   const reduced = useOsReducedMotion();
   const isPhone = layoutMode === "phone";
-  const activeId = activeExperienceId ?? portfolioData.experience[1]?.id ?? portfolioData.experience[0].id;
-  const active = portfolioData.experience.find((item) => item.id === activeId) ?? portfolioData.experience[0];
+  const activeId = activeExperienceId ?? portfolioData.experience[0].id;
+  const active = portfolioData.experience.find(item => item.id === activeId) ?? portfolioData.experience[0];
 
-  if (isPhone && !activeExperienceId) {
-    return (
-      <div className="os-phone-screen os-notes-screen">
-        <PhoneLargeTitle title="Experience" eyebrow="Arjun OS · Notes" trailing={<span className="os-phone-title-icon"><FileText aria-hidden /></span>} />
-        <PhoneSection title="Roles">
-          <div className="os-phone-grouped-list">
-            {portfolioData.experience.map((item) => (
-              <button key={item.id} type="button" className="os-notes-row" onClick={() => dispatch({ type: "SET_ACTIVE_EXPERIENCE", experienceId: item.id })}>
-                <span className="min-w-0 flex-1"><strong>{item.organization}</strong><span>{item.role}</span><small>{item.summary}</small><time>{item.period}</time></span>
-                <ChevronRight aria-hidden />
-              </button>
-            ))}
-          </div>
-        </PhoneSection>
-      </div>
-    );
-  }
+  if (isPhone && !activeExperienceId) return <div className="os-phone-screen os-notes-screen pf-notes-list">
+    <PhoneLargeTitle title="Experience" eyebrow="Arjun OS · Notes" trailing={<span className="os-phone-title-icon"><FileText aria-hidden /></span>} />
+    <PhoneSection title="Roles"><div className="os-phone-grouped-list">{portfolioData.experience.map(item => <button key={item.id} type="button" className="os-notes-row" onClick={() => dispatch({ type: "SET_ACTIVE_EXPERIENCE", experienceId: item.id })}>
+      <span className="min-w-0 flex-1"><strong>{item.organization}</strong><span>{item.role}</span><small>{item.summary}</small><time>{item.period}</time></span><ChevronRight aria-hidden />
+    </button>)}</div></PhoneSection>
+  </div>;
+  if (isPhone) return <article className="pf-document pf-experience-document os-phone-note-document"><ExperienceDocument active={active} openResume={openResume} phone /></article>;
 
-  if (isPhone && activeExperienceId) {
-    return (
-      <article className="os-phone-note-document">
-        <p className="os-phone-eyebrow">Experience note</p>
-        <div className="mt-3 flex items-center gap-3">
-          {active.logo && <Image src={active.logo} alt="" width={46} height={46} className="rounded-xl bg-white object-contain p-1" />}
-          <div><h2>{active.organization}</h2><p className="os-note-role">{active.role}</p></div>
-        </div>
-        <p className="os-note-metadata">{active.period} · {active.location}</p>
-        <p className="os-note-summary">{active.summary}</p>
-        <h3>Highlights</h3>
-        <ul>{active.responsibilities.map((item) => <li key={item}>{item}</li>)}</ul>
-        <h3>Tools & methods</h3>
-        <div className="os-note-tags">{active.tools.map((tool) => <span key={tool}>{tool}</span>)}</div>
-        <button type="button" onClick={openResume} className="os-phone-primary-action">Open Résumé</button>
-      </article>
-    );
-  }
-
-  return (
-    <div className="experience-layout grid h-full">
-      <aside className={cn("border-r border-os-hairline bg-os-fill-strong p-4", isPhone && activeExperienceId && "hidden")}>
-        <p className="os-phone-eyebrow">Notes</p>
-        <h3 className="mt-1 text-xl font-semibold tracking-tight text-[var(--os-text-primary)]">Experience</h3>
-        <motion.div
-          className="os-notes-desktop-list mt-4"
-          variants={staggerContainer(reduced, 0.07)}
-          initial="initial"
-          animate="animate"
-        >
-          {portfolioData.experience.map((item) => (
-            <motion.button
-              key={item.id}
-              type="button"
-              variants={cinematicItem(reduced)}
-              onClick={() => dispatch({ type: "SET_ACTIVE_EXPERIENCE", experienceId: item.id })}
-              className={cn("os-notes-row", activeId === item.id && "is-active")}
-              aria-current={activeId === item.id ? "page" : undefined}
-            >
-              <span className="min-w-0 flex-1">
-                <strong>{item.organization}</strong>
-                <span>{item.role}</span>
-                <time>{item.period}</time>
-              </span>
-              <ChevronRight aria-hidden />
-            </motion.button>
-          ))}
-        </motion.div>
+  return <div className="os-experience-viewport h-full">
+    <div className="experience-layout pf-experience-layout">
+      <aside className="pf-role-rail"><p className="pf-eyebrow">In practice</p><h3>Experience</h3>
+        <nav className="os-notes-desktop-list" aria-label="Professional roles">{portfolioData.experience.map(item => <button key={item.id} type="button" className={"os-notes-row " + (activeId === item.id ? "is-active" : "")} onClick={() => dispatch({ type: "SET_ACTIVE_EXPERIENCE", experienceId: item.id })} aria-current={activeId === item.id ? "page" : undefined}>
+          <span className="min-w-0 flex-1"><strong>{item.organization}</strong><span>{item.role}</span><time>{item.period}</time></span><ChevronRight aria-hidden />
+        </button>)}</nav>
       </aside>
-
-      <div className={cn("p-5 sm:p-7", isPhone && !activeExperienceId && "hidden")}>
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.article
-            key={active.id}
-            className="os-notes-desktop-document os-phone-note-document"
-            initial={reduced ? { opacity: 0 } : { opacity: 0, x: 16, filter: "blur(4px)" }}
-            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-            exit={reduced ? { opacity: 0 } : { opacity: 0, x: -10, filter: "blur(3px)" }}
-          >
-            <p className="os-phone-eyebrow">Experience note</p>
-            <div className="mt-3 flex items-center gap-3">
-              {active.logo && (
-                <Image src={active.logo} alt="" width={46} height={46} className="rounded-xl bg-white object-contain p-1" />
-              )}
-              <div>
-                <h2>{active.organization}</h2>
-                <p className="os-note-role">{active.role}</p>
-              </div>
-            </div>
-            <p className="os-note-metadata">
-              {active.period} · {active.location}
-            </p>
-            <p className="os-note-summary">{active.summary}</p>
-            <h3>Highlights</h3>
-            <ul>
-              {active.responsibilities.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-            <h3>Tools & methods</h3>
-            <div className="os-note-tags">
-              {active.tools.map((tool) => (
-                <span key={tool}>{tool}</span>
-              ))}
-            </div>
-            <button type="button" onClick={openResume} className="os-phone-primary-action max-w-xs">
-              Download Résumé
-            </button>
-          </motion.article>
-        </AnimatePresence>
-      </div>
-
-      <aside className="hidden border-l border-os-hairline p-4 lg:block">
-        <p className="os-phone-eyebrow">Sticky notes</p>
-        <p className="mt-1 text-sm font-semibold text-[var(--os-text-primary)]">Research threads</p>
-        <div className="mt-3 space-y-3">
-          {portfolioData.research.map((note) => (
-            <article key={note.id} className="os-notes-sticky">
-              <h4>{note.title}</h4>
-              <p>{note.summary}</p>
-            </article>
-          ))}
-        </div>
-      </aside>
+      <div className="pf-experience-main"><AnimatePresence mode="wait" initial={false}>
+        <motion.article key={active.id} className="pf-document pf-experience-document" initial={reduced ? false : {opacity:0,y:8}} animate={{opacity:1,y:0}} exit={{opacity:0}} transition={{duration:.18}}>
+          <ExperienceDocument active={active} openResume={openResume} phone={false} />
+          <section className="pf-role-section pf-role-threads"><p className="pf-eyebrow">Alongside the work</p><h3>Research threads</h3>{portfolioData.research.map(note => <div key={note.id}><h4>{note.title}</h4><p>{note.summary}</p></div>)}</section>
+        </motion.article>
+      </AnimatePresence></div>
     </div>
-  );
+  </div>;
 }

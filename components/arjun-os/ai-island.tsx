@@ -39,7 +39,7 @@ import { useOutsideClick } from "@/hooks/use-outside-click";
 import { IslandMark } from "./icons";
 import { cn } from "@/utils/cn";
 
-const suggestions = ["Strongest project", "Why Arjun?", "Recruiter tour"];
+const suggestions = ["Show me Roadpack", "Your research paper", "Recruiter tour"];
 
 function GooeyBackdrop({ enabled }: { enabled: boolean }) {
   if (!enabled) return null;

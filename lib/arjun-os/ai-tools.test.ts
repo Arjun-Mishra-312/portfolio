@@ -15,6 +15,24 @@ import {
 } from "./action-mapper";
 
 describe("ai-tools allowlist", () => {
+  it.each(["buildstory", "mune"])("loads and opens the new %s case study through the AI tools", async (projectId) => {
+    const slice = await executeAiTool("get_portfolio_slice", '{"slice":"projects"}', { actions: [] });
+    expect(JSON.parse(slice.result).some((project: { id: string }) => project.id === projectId)).toBe(true);
+    const navigation = await executeAiTool("control_os", JSON.stringify({ action: "open-project", projectId }), slice.state);
+    expect(navigation.state.actions).toEqual([expect.objectContaining({ type: "open-project", projectId })]);
+    expect(pickPrimaryAutoRunAction(inferActionsFromAnswer(`Explore ${projectId}.`))).toMatchObject({ type: "open-project", projectId });
+  });
+
+  it("provides education and submission status to the guide", async () => {
+    const profile = await executeAiTool("get_portfolio_slice", '{"slice":"profile"}', { actions: [] });
+    expect(JSON.parse(profile.result).education).toMatchObject({ graduation: "Expected May 2027", minor: "Commerce Minor" });
+    const research = await executeAiTool("get_portfolio_slice", '{"slice":"research"}', { actions: [] });
+    expect(JSON.parse(research.result).submissions).toEqual([
+      expect.objectContaining({ authorship: "First author", status: "Submitted to ACM CHI 2027" }),
+      expect.objectContaining({ title: "WRAP", authorship: "Second author", status: "Submitted to ACM CHI 2027" }),
+    ]);
+  });
+
   it("accepts only known desktop widget ids", () => {
     expect(isDesktopWidgetId("focus-radio")).toBe(true);
     expect(isDesktopWidgetId("github-pulse")).toBe(true);

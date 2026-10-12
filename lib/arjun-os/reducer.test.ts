@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createInitialState, defaultWorkArea, getLayoutMode } from "./constants";
+import { createInitialState, defaultBoundsFor, defaultWorkArea, getLayoutMode } from "./constants";
 import { osReducer } from "./reducer";
 import { mapChatActionsToIsland, inferActionsFromAnswer } from "./action-mapper";
 import { TOUR_STEP_COUNT } from "./tour";
@@ -30,8 +30,8 @@ describe("osReducer window lifecycle", () => {
 
     state = osReducer(state, { type: "SET_WORK_AREA", workArea: desktopArea, layoutMode: "desktop" });
 
-    expect(state.windows.profile.bounds.width).toBe(860);
-    expect(state.windows.work.bounds.width).toBe(920);
+    expect(state.windows.profile.bounds.width).toBe(960);
+    expect(state.windows.work.bounds.width).toBe(1040);
     expect(state.windows.work.bounds.x).toBeGreaterThan(100);
     expect(state.windows.work.mode).toBe("normal");
   });
@@ -44,6 +44,17 @@ describe("osReducer window lifecycle", () => {
     state = osReducer(state, { type: "SET_WORK_AREA", workArea: defaultWorkArea(820, 1180), layoutMode: "tabletPortrait" });
 
     expect(state.windows.profile.bounds).toEqual(desktopBounds);
+  });
+  it("uses available desktop height while keeping every default window inside the workspace", () => {
+    for (const [width, height] of [[1280, 720], [1440, 900], [1920, 1080]]) {
+      const area = defaultWorkArea(width, height);
+      for (const app of ["profile", "work", "experience", "research", "life"] as const) {
+        const bounds = defaultBoundsFor(app, area);
+        expect(bounds.height).toBeGreaterThan(area.height * 0.9);
+        expect(bounds.y).toBeGreaterThanOrEqual(area.top);
+        expect(bounds.y + bounds.height).toBeLessThanOrEqual(area.top + area.height);
+      }
+    }
   });
   it("opens, focuses, minimizes, restores, and closes apps without duplicates", () => {
     let state = createInitialState(defaultWorkArea(1440, 900));
@@ -102,7 +113,7 @@ describe("recruiter tour", () => {
 
     state = osReducer(state, { type: "TOUR_NEXT" });
     expect(state.island.activeTourStep).toBe(1);
-    expect(state.activeProjectId).toBe("ai-accessibility-analyzer");
+    expect(state.activeProjectId).toBe("roadpack");
 
     for (let i = 0; i < TOUR_STEP_COUNT; i += 1) {
       state = osReducer(state, { type: "TOUR_NEXT" });

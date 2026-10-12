@@ -28,9 +28,9 @@ export const RECRUITER_TOUR_STEPS: TourStep[] = [
   {
     id: "strongest-project",
     title: "Strongest project",
-    summary: "AI Accessibility Analyzer — VLM-assisted WCAG evaluation for real evaluator workflows.",
+    summary: "Roadpack — a shipped native iPhone app. Watch the launch film and explore the real interface.",
     appId: "work",
-    projectId: "ai-accessibility-analyzer",
+    projectId: "roadpack",
     arrange: (workArea) => ({
       profile: { isOpen: false },
       work: { isOpen: true, bounds: defaultBoundsFor("work", workArea), mode: "normal" },
@@ -42,7 +42,7 @@ export const RECRUITER_TOUR_STEPS: TourStep[] = [
   {
     id: "experience-impact",
     title: "Experience + impact",
-    summary: "Industry AI engineering at IFS Copperleaf alongside HCI research and teaching at UBC.",
+    summary: "Part-time AI implementations at IFS Copperleaf: production portals, leadership adoption, and an estimated 160+ employee hours saved annually.",
     appId: "experience",
     arrange: (workArea) => ({
       profile: { isOpen: false },
@@ -59,7 +59,7 @@ export const RECRUITER_TOUR_STEPS: TourStep[] = [
   {
     id: "research-depth",
     title: "Research depth",
-    summary: "Accessibility, multimodal AI, HCI, and developer-tool research threads.",
+    summary: "First-author agentic accessibility research, second-author WRAP, and two CHI 2027 submissions. Explore the public preprint and its evidence walkthrough.",
     appId: "research",
     arrange: (workArea) => ({
       profile: { isOpen: false },

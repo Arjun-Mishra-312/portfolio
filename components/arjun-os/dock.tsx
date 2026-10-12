@@ -40,9 +40,8 @@ export function Dock({ onOpenAccessibility }: { onOpenAccessibility?: () => void
   const scaleFor = (index: number) => {
     if (reduced || isMobile || hoverIndex === null) return 1;
     const distance = Math.abs(index - hoverIndex);
-    if (distance === 0) return 1.22;
-    if (distance === 1) return 1.1;
-    if (distance === 2) return 1.04;
+    if (distance === 0) return 1.12;
+    if (distance === 1) return 1.04;
     return 1;
   };
 
@@ -55,7 +54,7 @@ export function Dock({ onOpenAccessibility }: { onOpenAccessibility?: () => void
   return (
     <nav
       className={cn(
-        "os-dock pointer-events-auto fixed right-5 top-1/2 z-[70] flex -translate-y-1/2 flex-col items-center gap-1 rounded-2xl px-2 py-2",
+        "os-dock pointer-events-auto fixed right-5 top-1/2 z-[70] flex -translate-y-1/2 flex-col items-center gap-1 rounded-2xl p-2",
         isMobile &&
           "bottom-[max(0.75rem,env(safe-area-inset-bottom))] left-1/2 right-auto top-auto w-[calc(100vw-1.5rem)] max-w-md -translate-x-1/2 translate-y-0 flex-row justify-between",
       )}
@@ -69,16 +68,18 @@ export function Dock({ onOpenAccessibility }: { onOpenAccessibility?: () => void
               key="resume"
               type="button"
               onMouseEnter={() => setHoverIndex(index)}
+              onFocus={() => setHoverIndex(index)}
+              onBlur={() => setHoverIndex(null)}
               onClick={() => launch("resume", openResume)}
-              animate={{ scale: scaleFor(index), y: scaleFor(index) > 1 ? -6 : 0 }}
+              animate={{ scale: scaleFor(index), x: scaleFor(index) > 1 ? -3 : 0 }}
               transition={dockItemTransition(reduced)}
-              className="group relative flex min-h-11 min-w-11 flex-col items-center justify-center rounded-xl px-1.5 py-1"
+              className="os-dock-button group relative flex h-14 w-14 items-center justify-center rounded-2xl"
               aria-label="Resume"
               style={{ "--dock-accent": "#94a3b8" } as CSSProperties}
             >
               <DockTile name="resume" className={launching === "resume" ? "os-dock-launching" : undefined} />
               {!isMobile && (
-                <span className="mt-1 text-[10px] text-[var(--os-text-muted)] opacity-0 transition group-hover:opacity-100">
+                <span className="os-dock-label" aria-hidden>
                   Resume
                 </span>
               )}
@@ -99,12 +100,14 @@ export function Dock({ onOpenAccessibility }: { onOpenAccessibility?: () => void
             id={`dock-${appId}`}
             type="button"
             onMouseEnter={() => setHoverIndex(index)}
+            onFocus={() => setHoverIndex(index)}
+            onBlur={() => setHoverIndex(null)}
             onClick={() => launch(appId, () => openApp(appId))}
-            animate={{ scale: scaleFor(index), y: scaleFor(index) > 1 ? -6 : 0 }}
+            animate={{ scale: scaleFor(index), x: scaleFor(index) > 1 ? -3 : 0 }}
             transition={dockItemTransition(reduced)}
             whileTap={reduced ? undefined : { scale: 0.92 }}
             className={cn(
-              "group relative flex min-h-11 min-w-11 flex-col items-center justify-center rounded-xl px-1.5 py-1",
+              "os-dock-button group relative flex h-14 w-14 items-center justify-center rounded-2xl",
               isActive && "bg-os-fill",
             )}
             aria-label={meta.dockLabel}
@@ -113,7 +116,7 @@ export function Dock({ onOpenAccessibility }: { onOpenAccessibility?: () => void
           >
             <DockTile name={iconName[appId]} active={isActive} className={launching === appId ? "os-dock-launching" : undefined} />
             {!isMobile && (
-              <span className="mt-1 max-w-[72px] truncate text-[10px] text-[var(--os-text-muted)] opacity-0 transition group-hover:opacity-100">
+              <span className="os-dock-label" aria-hidden>
                 {meta.dockLabel}
               </span>
             )}
@@ -121,7 +124,7 @@ export function Dock({ onOpenAccessibility }: { onOpenAccessibility?: () => void
               {(isOpen || isActive) && (
                 <motion.span
                   layoutId={`dock-open-${appId}`}
-                  className="os-dock-item-active-line absolute bottom-0.5"
+                  className="os-dock-item-active-line absolute right-0 top-1/2 -translate-y-1/2"
                   initial={{ opacity: 0, scaleX: 0 }}
                   animate={{ opacity: 1, scaleX: 1 }}
                   exit={{ opacity: 0, scaleX: 0 }}

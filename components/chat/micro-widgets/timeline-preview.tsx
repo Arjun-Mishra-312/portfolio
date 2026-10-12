@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { useTheme } from '@/lib/theme-context';
 import Image from 'next/image';
+import { portfolioData } from '@/lib/arjun-os/portfolio-data';
 import {
   IconBriefcase,
   IconSchool,
@@ -18,32 +19,14 @@ interface TimelineItem {
   color: string;
 }
 
-const timeline: TimelineItem[] = [
-  {
-    role: 'AI Engineering Co-op',
-    company: 'IFS Copperleaf',
-    period: 'Oct 2025 - Present',
-    logo: '/copperleaf-logo.png',
-    icon: <IconBriefcase className="w-4 h-4" />,
-    color: 'from-blue-500 to-cyan-500',
-  },
-  {
-    role: 'AI Research Assistant',
-    company: 'UBC SOCIUS Lab',
-    period: 'Sept 2024 - Present',
-    logo: '/UBC_CS_logo.png',
-    icon: <IconFlask className="w-4 h-4" />,
-    color: 'from-purple-500 to-pink-500',
-  },
-  {
-    role: 'Teaching Assistant',
-    company: 'UBC Computer Science',
-    period: 'Jan 2024 - Present',
-    logo: '/UBC_logo.png',
-    icon: <IconSchool className="w-4 h-4" />,
-    color: 'from-green-500 to-emerald-500',
-  },
-];
+const timeline: TimelineItem[] = portfolioData.experience.map((item, index) => ({
+  role: item.role,
+  company: item.organization,
+  period: item.period,
+  logo: item.logo,
+  icon: index === 0 ? <IconBriefcase className="w-4 h-4" /> : index === 1 ? <IconFlask className="w-4 h-4" /> : <IconSchool className="w-4 h-4" />,
+  color: ['from-blue-500 to-cyan-500', 'from-purple-500 to-pink-500', 'from-green-500 to-emerald-500'][index],
+}));
 
 export function TimelinePreview() {
   const { theme } = useTheme();
@@ -95,7 +78,7 @@ export function TimelinePreview() {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <div className={`text-sm font-semibold truncate ${
+                <div className={`text-sm font-semibold ${
                   theme === 'light' ? 'text-gray-900' : 'text-white'
                 }`}>
                   {item.role}
@@ -106,10 +89,10 @@ export function TimelinePreview() {
                   {item.company}
                 </div>
               </div>
-              <div className={`text-xs flex-shrink-0 ${
+              <div className={`text-xs max-w-24 text-right ${
                 theme === 'light' ? 'text-gray-500' : 'text-gray-500'
               }`}>
-                {item.period.split(' - ')[0]}
+                {item.period}
               </div>
             </div>
           </motion.div>

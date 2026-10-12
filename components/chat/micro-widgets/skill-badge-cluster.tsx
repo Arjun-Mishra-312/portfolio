@@ -9,6 +9,7 @@ import {
   IconBrain,
   IconDatabase,
   IconBrandDocker,
+  IconBrandSwift,
 } from '@tabler/icons-react';
 
 interface SkillBadge {
@@ -22,7 +23,9 @@ const skills: SkillBadge[] = [
   { name: 'Python', icon: <IconBrandPython className="w-3 h-3" />, category: 'backend' },
   { name: 'TypeScript', icon: <IconBrandTypescript className="w-3 h-3" />, category: 'frontend' },
   { name: 'OpenAI', icon: <IconBrain className="w-3 h-3" />, category: 'ai' },
-  { name: 'ChromaDB', icon: <IconDatabase className="w-3 h-3" />, category: 'ai' },
+  { name: 'MLX Swift', icon: <IconBrain className="w-3 h-3" />, category: 'ai' },
+  { name: 'SwiftUI', icon: <IconBrandSwift className="w-3 h-3" />, category: 'frontend' },
+  { name: 'Databricks', icon: <IconDatabase className="w-3 h-3" />, category: 'backend' },
   { name: 'Docker', icon: <IconBrandDocker className="w-3 h-3" />, category: 'backend' },
 ];
 

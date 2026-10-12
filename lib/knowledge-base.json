@@ -10,7 +10,7 @@
     },
     "me-3": {
       "question": "What are your passions?",
-      "answer": "Beyond my obsession with AI and technology, I am a builder at heart. I never stopped playing with LEGO; the sets just evolved from hundreds of pieces to thousands. I believe that you don't stop playing because you grow up, you grow up because you stop playing—so I keep that creative inner child alive by tackling complex builds. I share a similar fascination with Transformers, constantly amazed by the engineering required to make a figure like Optimus Prime detailed and functional in both modes. (Check out the 'Fun' section for a glimpse of my collection!) When I step away from the desk, I enjoy Chess—I play at roughly a 1200 ELO level, though let's not talk about my official online rating! Lately, living in Vancouver has also sparked a growing passion for hiking; the mountains here are impossible to ignore."
+      "answer": "Beyond my obsession with AI and technology, I am a builder at heart. I never stopped playing with LEGO; the sets just evolved from hundreds of pieces to thousands. I believe that you don't stop playing because you grow up, you grow up because you stop playing—so I keep that creative inner child alive by tackling complex builds. I share a similar fascination with Transformers, constantly amazed by the engineering required to make a figure like Optimus Prime detailed and functional in both modes. (Check out the 'Fun' section for a glimpse of my collection!) When I step away from the desk, I play chess for fun, fly my drone and cut the footage into short films, and go hiking. Lately, living in Vancouver has also sparked a growing passion for hiking; the mountains here are impossible to ignore."
     },
     "me-4": {
       "question": "How did you get started in tech?",
@@ -32,7 +32,7 @@
   "professional": {
     "pro-1": {
       "question": "Can I see your resume?",
-      "answer": "Absolutely. You can view or download the full document using the widget below. In a nutshell: I am a Computer Science student with a strong blend of industry and academic experience. My background includes working as an AI Engineering Co-op at IFS Copperleaf, contributing to HCI research as an Undergraduate Research Assistant, and serving as a Teaching Assistant. My technical expertise centers on Python, Full-Stack development, and Large Language Models."
+      "answer": "Open Resume from the dock or Home to view the updated PDF. I am a software engineer and HCI/AI researcher: a part-time Jr. AI Implementations Engineer at IFS Copperleaf, an undergraduate research assistant at UBC SOCIUS Lab, and a builder of Roadpack, Mune, and BuildStory."
     },
     "pro-2": {
       "question": "Why should I hire you?",
@@ -44,37 +44,33 @@
     },
     "pro-4": {
       "question": "Where are you working now?",
-      "answer": "I am currently balancing three key roles that span industry, research, and social impact. Industry (IFS Copperleaf): I am working as an AI Engineering Co-op, architecting a full-stack internal tool for Customer Success Managers. The platform leverages modern LLM technology to centralize data from over five distinct sources. Research (URA): I am developing an AI Accessibility Analyzer that utilizes Vision Language Models (VLMs) to assist WCAG certifiers. Personal Initiative: I am building 'Ableify', an AI-powered community platform tailored for the disabled community to connect users with relevant resources."
+      "answer": "Since October 2025, my IFS Copperleaf work has progressed from an AI Engineering Co-op to a part-time Jr. AI Implementations Engineer role. I take production AI and data applications from stakeholder discovery to deployment using Databricks, Spark, Delta Lake, and LLM APIs. I owned an ROI Analytics Portal adopted by Department Leaders and Senior Leadership, and built a Data Validation Portal saving an estimated 160+ employee hours annually. I also research HCI/AI at UBC SOCIUS Lab under Professor Dongwook Yoon, since February 2025."
     },
     "pro-5": {
       "question": "What's your educational background?",
-      "answer": "I am currently in my final year of a Bachelor of Science in Computer Science at the University of British Columbia (UBC). My academic focus is heavily centered on Artificial Intelligence and Software Engineering, with advanced coursework in Machine Learning, Data Mining, and Relational Databases. I maintain a cumulative 3.75 GPA, which has earned me a spot on the Dean's List and the Faculty of Science International Student Scholarship. My degree is also practical by design; I am actively completing the Co-operative Education program, which integrates three terms of full-time industry work directly into my curriculum."
+      "answer": "I am pursuing a BSc in Computer Science with an AI Specialization and a Commerce Minor at the University of British Columbia, September 2022 to expected graduation in May 2027. My recognition includes the Work Learn International Undergraduate Research Award, Faculty of Science International Student Scholar, and Dean’s Honors List. I also won the Codegen sponsor prize at Hack the North 2024 and first place in the SAP Stream at youCode 2025."
     },
     "pro-6": {
       "question": "Tell me about your work philosophy",
       "answer": "My work philosophy is built on the concept of 'informed iteration.' I don't believe in rushing to a solution without understanding the problem space, but I also don't believe in analysis paralysis. I scope thoroughly, build a strong foundation, and then iterate rapidly based on data and feedback. I believe that good code is readable, scalable, and above all, solves the actual human problem it was intended to address."
-    },
-    "pro-easter": {
-      "question": "What's your biggest professional failure?",
-      "answer": "[Placeholder: Did you want to fill this one in? If not, we can remove it or use a generic 'learning from a bug' story!]"
     }
   },
   "projects": {
     "proj-1": {
       "question": "What projects are you most proud of?",
-      "answer": "I am most proud of three projects that span the full spectrum of my interests: deep research, enterprise scale, and social impact. First is my research at SOCIUS Lab, where I developed an AI Accessibility Analyzer. I engineered a multimodal transformer to benchmark Vision-Language Models (VLMs) against WCAG guidelines, aiming for an ACM ASSETS 2026 publication. On the industry side, I’m building an LLM-based Automation Agent at IFS Copperleaf. It’s a high-stakes internal tool where I’m directly tackling the challenges of agent decision latency in a production environment. Finally, my passion project is Ableify, a cross-platform app for the disabled community. It features a RAG-enhanced AI support agent and military-grade End-to-End Encryption (AES-256) to ensure user privacy."
+      "answer": "My recent projects are Roadpack, Mune, and BuildStory. Roadpack is a live App Store app for coordinating trips across vehicles, with a real-time Cloudflare backend. I co-founded Mune, a live App Store personal finance app with on-device AI and production Plaid connectivity. BuildStory is a local-first CLI/TUI that turns Git and AI coding sessions into engineering stories, with an open-source scanner and 330+ automated tests. At UBC, I am first author of Agentic Web Accessibility Auditing and second author of WRAP; both are submitted to ACM CHI 2027."
     },
     "proj-2": {
       "question": "Show me something impressive",
-      "answer": "My most impressive achievement is the AI Accessibility Analyzer research project. I developed a three-stage VLM evaluation protocol that systematically benchmarks five different Vision-Language Models (Claude 4.5 Sonnet, GPT-5.1, Gemini 3 Pro, Gemma 3, Qwen 2.5) against WCAG 2.2 guidelines. The system achieved F1=0.688 with Claude 4.5 Sonnet, with precision of 0.606 and recall of 0.795. Most critically, I demonstrated that combining static analysis with VLM reasoning achieves 94.3% recall, detecting 115 of 122 violations. The research shows VLMs excel at visual criteria like color contrast (F1=0.67) where static tools completely fail (F1=0.0), while static analysis dominates structural criteria. This work is being prepared for ACM ASSETS 2026 publication and provides evidence-based guidelines for hybrid accessibility workflows."
+      "answer": "Roadpack and Mune are live on the App Store, and BuildStory has an open-source scanner with 330+ automated tests. My first-author public accessibility preprint evaluates 40 WCAG-specific agents and a shared 31-tool library on 250 page–criterion records across 11 platforms. The agents recovered 67/78 positive cases: 86% recall at 56% precision, compared with 36% axe-core and 67% uncued-VLM recall. Agentic Web Accessibility Auditing and my second-author work WRAP are submitted to ACM CHI 2027."
     },
     "proj-7": {
       "question": "Tell me about LLM Pro Max",
-      "answer": "LLM Pro Max was my Hack the North 2024 winning project in the Codegen track. It's a revolutionary codebase analysis platform that intelligently breaks codebases into manageable chunks and feeds only relevant information to LLMs, ensuring token efficiency and improved response accuracy. The system uses advanced RAG techniques including query expansion and re-ranking, leveraging ChromaDB for vector embeddings and Cohere for the chatbot. I built an interactive dependency graph visualization using NetworkX and Pyvis that shows relationships between different parts of the codebase. The platform achieved 86% query relevancy score, significantly improving how developers interact with large codebases. The tech stack includes React.js, Python, FastAPI, ChromaDB, NetworkX, Auth0 for authentication, and Convex for backend and database storage."
+      "answer": "LLM Pro Max won the Codegen sponsor prize at Hack the North 2024. It's a revolutionary codebase analysis platform that intelligently breaks codebases into manageable chunks and feeds only relevant information to LLMs, ensuring token efficiency and improved response accuracy. The system uses advanced RAG techniques including query expansion and re-ranking, leveraging ChromaDB for vector embeddings and Cohere for the chatbot. I built an interactive dependency graph visualization using NetworkX and Pyvis that shows relationships between different parts of the codebase. The platform achieved 86% query relevancy score, significantly improving how developers interact with large codebases. The tech stack includes React.js, Python, FastAPI, ChromaDB, NetworkX, Auth0 for authentication, and Convex for backend and database storage."
     },
     "proj-8": {
       "question": "Tell me about Re-Plate",
-      "answer": "Re-Plate is my youCode 2025 1st Place winning project in the SAP Stream. It's an AI-powered food donation platform that connects surplus food to food-insecure people through intelligent donation matching. The system uses Google Gemini Vision API for automated food classification and combines it with three optimized Machine Learning models (TensorFlow and PyTorch) for image analysis. I achieved 100% accuracy on expiration date detection by developing a combined endpoint that leverages both image analysis from the ML models and text recognition from Gemini. The platform features food safety assessment, donation impact tracking (measuring CO₂ emissions offset and waste reduction), and shelter matching. Built with Next.js, Tailwind CSS, Python FastAPI backend, and ApexCharts for analytics visualization. The system addresses the critical problem of 1.3 billion tons of food wasted globally while 828 million people go hungry."
+      "answer": "Re-Plate won 1st place in the SAP Stream at youCode 2025. I built the entire backend and connected it to the frontend, along with parts of the frontend itself. It's an AI-powered food donation platform that connects surplus food to food-insecure people through intelligent donation matching. The system uses Google Gemini Vision API for automated food classification and combines it with three optimized Machine Learning models (TensorFlow and PyTorch) for image analysis. I built a combined endpoint that joins the team's image models with Gemini text recognition, which reached 100% expiration-date accuracy on our test set. I also built the ApexCharts impact dashboard. The platform features food safety assessment, donation impact tracking (measuring CO₂ emissions offset and waste reduction), and shelter matching. Built with Next.js, Tailwind CSS, Python FastAPI backend, and ApexCharts for analytics visualization. The system addresses the critical problem of 1.3 billion tons of food wasted globally while 828 million people go hungry."
     },
     "proj-9": {
       "question": "Tell me about CoviNet",
@@ -82,41 +78,61 @@
     },
     "proj-10": {
       "question": "Tell me about the AI Policy Aggregator",
-      "answer": "The AI Policy Aggregator is a production-ready full-stack application I built over five months (February-June 2025) that addresses information overload in AI policy through systematic content curation and personalized summarization. The system aggregates content from four major policy sources (OECD, CAIDP, arXiv, Brookings) using custom scrapers, encodes them into ChromaDB using sentence transformers, and generates personalized weekly briefings. The key innovation is a two-stage anti-hallucination approach: Stage 1 uses semantic filtering with query expansion to narrow 200 retrieved articles to 20-50 highly relevant documents, and Stage 2 enforces strict source attribution through systematic prompt engineering with JSON mode validation. The system achieved 40% improvement in content relevance and maintains 100% source attribution. Deployed on AWS with 296 automated tests (100% pass rate), built with FastAPI backend, React 19 + TypeScript frontend, and Firebase authentication."
+      "answer": "The AI Policy Aggregator is a production-ready full-stack application I built over five months (February-June 2025) that addresses information overload in AI policy through systematic content curation and personalized summarization. The system aggregates content from four major policy sources (OECD, CAIDP, arXiv, Brookings) using custom scrapers, encodes them into ChromaDB using sentence transformers, and generates personalized weekly briefings. The key innovation is a two-stage anti-hallucination approach: Stage 1 uses semantic filtering with query expansion to narrow 200 retrieved articles to 20-50 highly relevant documents, and Stage 2 enforces strict source attribution through systematic prompt engineering with JSON mode validation. It was deployed on AWS, built with FastAPI backend, React 19 + TypeScript frontend, and Firebase authentication."
     },
     "proj-3": {
       "question": "Tell me about your AI/ML projects",
-      "answer": "My AI work spans research, production systems, and hackathon projects. On the research side, I built the AI Accessibility Analyzer using a three-stage VLM protocol that evaluates Vision-Language Models for WCAG compliance, achieving F1=0.688 and demonstrating 94.3% recall when combined with static analysis. For production, I architected the AI Policy Aggregator, a RAG system with two-stage anti-hallucination approach deployed on AWS. It uses ChromaDB for semantic search, sentence transformers for embeddings, and achieves 40% relevance improvement through query expansion. The system has 296 automated tests with 100% pass rate. My hackathon projects include LLM Pro Max (Hack the North 2024 winner) with advanced RAG techniques achieving 86% relevancy, and Re-Plate (youCode 2025 1st place) using Gemini Vision and custom TensorFlow/PyTorch models for food classification with 100% expiration date detection accuracy."
+      "answer": "My AI work spans production enterprise applications at IFS Copperleaf, agentic accessibility research, and on-device models in Mune. The accessibility framework has 40 WCAG-specific agents and a shared 31-tool browser/accessibility library. On 250 page–criterion records across 11 platforms, it achieved 86% recall at 56% precision; findings require human review. In Mune I built the on-device Gemma pipeline and made small models call finance tools reliably. BuildStory normalizes coding-session data from Claude Code, Codex, Cursor, and Gemini Antigravity."
     },
     "proj-4": {
       "question": "What's your biggest technical challenge?",
-      "answer": "My biggest technical challenge was solving the 'cost vs. accuracy' dilemma for the AI Accessibility Analyzer I built at SOCIUS Lab. We needed to use powerful Vision-Language Models (VLMs) to visually inspect web elements, but running high-end models like Claude 4.5 Sonnet on every DOM element was prohibitively expensive. I had to re-engineer the inference pipeline to be smarter. I implemented a hybrid strategy that utilized token management and optimized prompt engineering (like Chain-of-Thought and ReAct) to maximize the model's focus. The result was a 35% reduction in per-page inference costs without sacrificing F1 scores or Recall. Additionally, I developed a three-stage protocol that decomposes accessibility evaluation into focused analysis passes, reducing hallucination and improving grounding by constraining model attention to criterion-specific contexts."
+      "answer": "Roadpack required coordinating shared state across intermittently connected vehicles. Its backend uses Cloudflare Durable Objects and WebSockets for authoritative snapshots, idempotent commands, and offline outboxes, with D1, R2, and queued push delivery. I also don't own a Mac, so every TestFlight and App Store release (1.0.0, 1.0.1 and 1.1.0) ships from Windows through GitHub Actions macOS runners. The hardest part was signing: each run starts with an empty keychain, so automatic signing asked Apple for a new certificate on every build until the account hit Apple's certificate cap. I fixed the cause by importing one existing signing identity from repository secrets into a temporary keychain that is deleted at the end of every job, and by asking the App Store Connect API for the next build number. The app spans 203 Swift files across 13 feature areas, with 40 iOS and 20 backend test files."
     },
     "proj-5": {
       "question": "Which project taught you the most?",
-      "answer": "The AI Policy Aggregator taught me the most about production engineering and system design. Over five months of development, I learned to balance multiple concerns: building a two-stage anti-hallucination system that ensures 100% source attribution, implementing semantic search with query expansion that improved relevance by 40%, and maintaining production quality with 296 comprehensive tests. The project required integrating heterogeneous sources (PDFs, APIs, HTML pages), building a scalable FastAPI backend, deploying to AWS, and creating a React 19 frontend with Firebase authentication. I learned that eliminating hallucinations in high-stakes domains requires systematic architecture, not just prompt engineering. The two-stage approach combining semantic filtering with strict attribution prompting became a core design pattern I now apply to other RAG systems."
+      "answer": "Roadpack taught me the most, because I had to own everything: the native app, a real-time backend, and a release pipeline for an iPhone app I built without owning a Mac. Getting releases out of GitHub Actions meant understanding Apple code signing properly: a fresh runner with an empty keychain kept asking Apple for new certificates until the account hit its cap, so I imported one signing identity into a temporary keychain instead. Earlier, the AI Policy Aggregator taught me that grounded RAG output comes from architecture (filter first, then generate with strict source attribution), not from prompt wording alone."
     },
     "proj-6": {
       "question": "What are you building right now?",
-      "answer": "Right now, my primary focus is pushing the boundaries of Automated Web Accessibility. I am actively leading an experimental pipeline at SOCIUS Lab to benchmark how well Vision-Language Models can interpret web interfaces compared to traditional static analysis tools. I am currently authoring a research paper for ACM ASSETS 2026 titled 'Evaluating Vision-Language Models for Automated Web Accessibility Auditing: Implications for Human-AI Hybrid Evaluation'. My daily work involves running large-scale evaluations across 10 academic library websites comprising 35 viewport states and 122 ground-truth violations. I'm testing five VLM architectures (Claude 4.5 Sonnet, GPT-5.1, Gemini 3 Pro, Gemma 3, Qwen 2.5) and quantifying their complementarity with static analysis tools, with results showing that combined approaches achieve 94.3% recall."
+      "answer": "My ongoing work includes Roadpack (since August 2026), BuildStory (since July 2026), and Mune (since May 2026). Roadpack and Mune are live on the App Store; BuildStory’s scanner and report engine are open source, with an optional hosted portal for recaps, receipts, and published chapters. Alongside those products, I work part-time on AI implementations at IFS Copperleaf and research accessibility at UBC SOCIUS Lab. I am first author of Agentic Web Accessibility Auditing and second author of WRAP, both submitted to ACM CHI 2027."
     },
     "proj-easter": {
       "question": "What project idea keeps you up at night?",
       "answer": "I dream of building the 'Universal LEGO Architect.' Ideally, you would just snap a photo of a random pile of loose bricks, and an AI—powered by object detection and geometric constraint solving—would analyze your exact inventory. It would then generate step-by-step 3D instructions for a brand new model that you can build right now, optimized for the pieces you actually have. It’s the perfect intersection of my technical interests (Computer Vision, Graph Theory) and my personal obsession."
+    },
+    "proj-roadpack": {
+      "question": "Tell me about Roadpack and its launch",
+      "answer": "I independently built Roadpack, a native Swift/SwiftUI group-trip app, live on the App Store. It includes live pack locations, stop requests, regrouping, expenses, Rewind, Live Activities, widgets, App Intents, Universal Link/QR invites, and background location. Cloudflare Workers, Durable Objects, WebSockets, D1, R2, and queued push delivery support authoritative snapshots, idempotent commands, and offline outboxes. It spans 203 Swift files across 13 feature areas, with 40 iOS and 20 backend test files. I release from Windows through GitHub Actions macOS runners: three App Store releases so far (1.0.0, 1.0.1, 1.1.0). Roadpack got its first Pro subscriber within its first six downloads, before I did any marketing. Watch the launch film in Selected Work or visit https://roadpack.app."
+    },
+    "proj-paper": {
+      "question": "What is your latest research paper?",
+      "answer": "I am first author of Agentic Web Accessibility Auditing, a public September 2026 preprint with Pranav Karthik, Byungjun Bae, and Dongwook Yoon. It implements 40 WCAG-specific agents with a shared 31-tool browser/accessibility library. On 250 page–criterion records across 11 platforms, it recovered 67/78 positive cases: 86% recall at 56% precision, against 36% axe-core and 67% uncued-VLM recall. The paper is submitted to ACM CHI 2027. I am also second author of WRAP, which optimizes WCAG task allocation across automated and human audit modalities and is submitted to the same conference. The public preprint is https://arxiv.org/abs/2609.09379v2."
+    },
+    "proj-buildstory": {
+      "question": "What is BuildStory?",
+      "answer": "BuildStory is my local-first TypeScript/Node.js CLI and TUI, started in July 2026. It converts Git history and AI coding sessions from Claude Code, Codex, Cursor, and Gemini Antigravity into structured engineering stories. Its privacy scanner streams 64 KB JSONL chunks, normalizes provider token/cost data, never reads source-file bodies, and validates canonical uploads with redacted reporting. It has 330+ automated tests. The open-source scanner is at https://github.com/Arjun-Mishra-312/buildstory-scan and the site is https://buildstory.dev."
+    },
+    "proj-mune": {
+      "question": "Tell me about Mune and its on-device AI",
+      "answer": "I co-founded Mune, a personal finance iPhone app started in May 2026 and live on the App Store. It includes Safe-to-Spend, budgets, goals, subscriptions, notifications, and production Plaid bank connectivity. I built the on-device Gemma pipeline on LiteRT-LM and hardened tool calling for small models. Tiny models often describe a tool call in prose instead of making it, so I added a corrective retry, and the assistant answers from finance tool results rather than the model's own arithmetic. Phones under 8 GB default to a 2B model. Pranav and I were both iOS developers on the app. A Node.js/Vercel backend handles Plaid token exchange, webhooks, transaction refresh, authentication, and account lifecycle; RevenueCat supports subscriptions. App Store: https://apps.apple.com/app/mune-private-finance-ai/id6777609206."
+    },
+    "proj-wrap": {
+      "question": "What is WRAP and your CHI research?",
+      "answer": "I am second author of WRAP, which optimizes WCAG task allocation across automated and human audit modalities. WRAP and my first-author Agentic Web Accessibility Auditing paper are both submitted to ACM CHI 2027. Agentic Web Accessibility Auditing also has a public preprint; neither submission is described as accepted."
     }
   },
   "skills": {
     "skill-1": {
       "question": "What are your skills?",
-      "answer": "My skill set is anchored in Full-Stack Engineering and AI Systems. Languages: I am fluent in Python (my daily driver), C/C++, TypeScript, SQL, and Java. AI & ML: My core expertise lies in LLM Agents, RAG pipelines, and Vision-Language Models (VLMs). I work extensively with frameworks like PyTorch, LangChain, and ChromaDB. Web & Systems: I build scalable applications using React, FastAPI, and Flutter, and I deploy them using Docker and AWS."
+      "answer": "My languages include Swift, TypeScript/JavaScript, Python, C/C++, SQL, Java, and Dart. I build native apps with SwiftUI and the iOS SDK; web products with React/Next.js; and systems with Node.js, FastAPI, Cloudflare Workers, Durable Objects, WebSockets, D1, R2, Databricks, Spark, and Delta Lake. My AI work includes LLM agents, MCP, RAG, VLMs, LangChain, OpenAI, Gemini, Claude, PyTorch, MLX Swift, and LLM evaluation. I also use Flutter, Playwright, GitHub Actions, and Docker."
     },
     "skill-2": {
       "question": "What's your tech stack?",
-      "answer": "For AI Engineering, my stack is built around PyTorch and LangChain. I use Ollama and Gemini for inference, and ChromaDB for vector storage. For Product Development, I prefer the FAST stack (FastAPI, React, SQL/Supabase). I rely on Docker for containerization and AWS (App Runner) for deployment. For Mobile, I am a big fan of Flutter for its ability to deploy high-performance apps to multiple platforms from a single codebase."
+      "answer": "Roadpack uses Swift/SwiftUI, MapKit, Cloudflare Workers, Durable Objects, WebSockets, D1, and R2. BuildStory uses TypeScript, Node.js, a CLI/TUI, Git, JSONL, and LLM APIs. Mune uses Swift, MLX Swift, LiteRT-LM, Node.js/Vercel, Plaid, and RevenueCat. At IFS Copperleaf, I work with Databricks, Spark, Delta Lake, and LLM APIs."
     },
     "skill-3": {
       "question": "What technologies do you work with?",
-      "answer": "Python, C++, TypeScript, SQL, PyTorch, LangChain, React, FastAPI, Flutter, Docker, AWS, Git, ChromaDB, OpenAI, Gemini."
+      "answer": "Swift, TypeScript/JavaScript, Python, C/C++, SQL, Java, Dart, SwiftUI, iOS SDK, React, Next.js, Flutter, Node.js, FastAPI, Cloudflare Workers, Durable Objects, WebSockets, D1, R2, Databricks, Spark, Delta Lake, Playwright, GitHub Actions, Docker, LLM agents, MCP, RAG, VLMs, LangChain, OpenAI, Gemini, Claude, PyTorch, MLX Swift, and LLM evaluation."
     },
     "skill-4": {
       "question": "What's your favorite programming language?",
@@ -124,11 +140,11 @@
     },
     "skill-5": {
       "question": "What are you learning right now?",
-      "answer": "I am currently diving deep into Advanced Machine Learning and Agentic Architectures. I'm moving beyond standard RAG pipelines to explore autonomous agents that can plan, reason, and execute multi-step workflows with minimal human oversight. I'm also exploring the nuances of model benchmarking—specifically, how we can accurately measure the 'reasoning' capabilities of VLMs in niche domains like web accessibility."
+      "answer": "My current work develops agentic accessibility systems, on-device LLMs with MLX Swift and LiteRT-LM, real-time distributed systems for Roadpack, and privacy-aware developer tooling in BuildStory. I also take production AI/data applications from stakeholder discovery through deployment at IFS Copperleaf."
     },
     "skill-6": {
       "question": "Frontend or backend?",
-      "answer": "I view myself as Backend-Biased Full Stack. I can (and do) build responsive frontends with React and Flutter, but my true passion lies in the logic, data engineering, and architecture that lives under the hood. I love the complexity of designing efficient APIs, optimizing vector retrievals, and ensuring the system is secure and scalable."
+      "answer": "I build across the product: native iOS interfaces, web applications, backend systems, and data/AI infrastructure. Roadpack connects a SwiftUI client to real-time Cloudflare trip rooms; Mune combines a native finance app, local models, and Plaid integration; and my Copperleaf work takes enterprise AI applications end-to-end."
     },
     "skill-easter": {
       "question": "What skill do you secretly want to learn?",
@@ -184,7 +200,7 @@
     },
     "contact-5": {
       "question": "Are you open to opportunities?",
-      "answer": "Yes! I am currently seeking New Grad opportunities for 2027 or internships for Summer/Fall 2026. If you think I’d be a good fit for your team, please send me a message—I’d love to chat."
+      "answer": "Yes! I graduate from UBC in May 2027 and I'm looking for new-grad roles: software engineering, forward-deployed engineering, and AI engineering. I'm also happy to talk about iOS roles. Reach me by email or LinkedIn."
     },
     "contact-6": {
       "question": "What's your ideal next role?",

@@ -24,7 +24,7 @@ All assets used the built-in image-generation tool and the shared direction: pre
 - **Research map:** four connected domains—accessibility, multimodal AI, HCI, and developer tools—converging on a central intelligence filament, without labels.
 - **Life + Play:** decorative Vancouver coastal mountains, ocean glass, aperture geometry, and playful construction forms; explicitly not documentary photography or branded building blocks.
 
-The six dock icons are original code-native glass-enamel SVGs, not generated raster artwork. Their source components live in the Arjun OS icon module and static exports live under `public/arjun-os/icons/`.
+The six navigation icons use original geometric SVG artwork with a shared rounded shape, optical grid, and restrained two-color background. The runtime loads the canonical files from `public/arjun-os/icons/`; desktop, tablet, and phone navigation share the same assets. Regenerate them and the transparent PNG favicons with `node scripts/generate-icons.cjs`. The circular identity source lives in `assets/identity/mark.svg`. The generator verifies all four PNG corners have zero alpha.
 
 ## Connected widget concept boards
 

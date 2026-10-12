@@ -8,6 +8,7 @@ import {
   IconBrandDocker,
   IconDatabase,
   IconBrain,
+  IconBrandSwift,
 } from '@tabler/icons-react';
 
 interface Tech {
@@ -17,6 +18,8 @@ interface Tech {
 }
 
 const techStack: Tech[] = [
+  { name: 'SwiftUI', icon: <IconBrandSwift className="w-3.5 h-3.5" />, color: 'from-orange-500 to-red-500' },
+  { name: 'Cloudflare Workers', icon: <IconDatabase className="w-3.5 h-3.5" />, color: 'from-orange-600 to-amber-600' },
   {
     name: 'Next.js',
     icon: <IconBrandNextjs className="w-3.5 h-3.5" />,
@@ -38,7 +41,7 @@ const techStack: Tech[] = [
     color: 'from-purple-500 to-pink-500',
   },
   {
-    name: 'ChromaDB',
+    name: 'Databricks',
     icon: <IconDatabase className="w-3.5 h-3.5" />,
     color: 'from-orange-500 to-red-500',
   },

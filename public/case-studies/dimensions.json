@@ -1,0 +1,97 @@
+{
+  "buildstory-recap": {
+    "width": 1398,
+    "height": 862,
+    "bytes": 43776
+  },
+  "buildstory-receipt": {
+    "width": 1080,
+    "height": 1350,
+    "bytes": 99570
+  },
+  "buildstory-redaction": {
+    "width": 2000,
+    "height": 1250,
+    "bytes": 77162
+  },
+  "buildstory-story": {
+    "width": 1398,
+    "height": 862,
+    "bytes": 151950
+  },
+  "buildstory-turning-points": {
+    "width": 2000,
+    "height": 1250,
+    "bytes": 175502
+  },
+  "llm-chat": {
+    "width": 1920,
+    "height": 1080,
+    "bytes": 138252
+  },
+  "llm-dependencies": {
+    "width": 2000,
+    "height": 1002,
+    "bytes": 68222
+  },
+  "llm-graph": {
+    "width": 2000,
+    "height": 1003,
+    "bytes": 86646
+  },
+  "mune-chat": {
+    "width": 1000,
+    "height": 1778,
+    "bytes": 110452
+  },
+  "mune-dashboard": {
+    "width": 1000,
+    "height": 1778,
+    "bytes": 158380
+  },
+  "mune-recurring": {
+    "width": 1000,
+    "height": 1778,
+    "bytes": 150822
+  },
+  "mune-trends": {
+    "width": 1000,
+    "height": 1778,
+    "bytes": 140770
+  },
+  "replate-analyzer": {
+    "width": 2000,
+    "height": 1250,
+    "bytes": 89034
+  },
+  "replate-design": {
+    "width": 1536,
+    "height": 1024,
+    "bytes": 96472
+  },
+  "replate-request": {
+    "width": 2000,
+    "height": 1250,
+    "bytes": 46318
+  },
+  "replate-shelter": {
+    "width": 2000,
+    "height": 1250,
+    "bytes": 61394
+  },
+  "research-architecture": {
+    "width": 2000,
+    "height": 1218,
+    "bytes": 128768
+  },
+  "research-recall": {
+    "width": 2000,
+    "height": 691,
+    "bytes": 40134
+  },
+  "research-trace": {
+    "width": 2000,
+    "height": 1266,
+    "bytes": 142718
+  }
+}

@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "next dev",
+    "generate:icons": "node scripts/generate-icons.cjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -30,7 +31,7 @@
     "daisyui": "^5.5.14",
     "lucide-react": "^0.452.0",
     "motion": "^12.42.2",
-    "next": "^14.2.30",
+    "next": "15.5.27",
     "next-themes": "^0.3.0",
     "ogl": "^1.0.6",
     "openai": "^4.68.4",
@@ -41,6 +42,9 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.182.0"
+  },
+  "overrides": {
+    "postcss": "$postcss"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.12.1",
@@ -54,9 +58,10 @@
     "@types/react-dom": "^18",
     "@types/three": "^0.182.0",
     "eslint": "^8",
-    "eslint-config-next": "^14.2.35",
+    "eslint-config-next": "15.5.27",
     "jsdom": "^29.1.1",
     "postcss": "^8",
+    "sharp": "0.35.3",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
     "vitest": "^4.1.10"

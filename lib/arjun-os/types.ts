@@ -6,6 +6,9 @@ export type AppId = "profile" | "work" | "experience" | "research" | "life";
 export type { WidgetType, MicroWidget, WidgetPlacement };
 
 export type ProjectId =
+  | "roadpack"
+  | "buildstory"
+  | "mune"
   | "ai-accessibility-analyzer"
   | "llm-pro-max"
   | "re-plate";

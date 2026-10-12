@@ -1,9 +1,201 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { createHash } from "node:crypto";
+import { registerCaseStudyCoverage } from "./case-study-coverage";
+
+registerCaseStudyCoverage();
+
+test("editorial project covers fit the window and retain their case study chapters", async ({ page }, testInfo) => {
+  for (const project of [
+    { id: "buildstory", title: "BuildStory" },
+    { id: "mune", title: "Mune" },
+    { id: "ai-accessibility-analyzer", title: "AI Accessibility Analyzer" },
+    { id: "llm-pro-max", title: "LLM Pro Max" },
+    { id: "re-plate", title: "Re-Plate" },
+  ]) {
+    await page.goto("/?app=work&project=" + project.id);
+    const content = page.locator(".pf-case");
+    await expect(content.getByRole("heading", { name: project.title, exact: true })).toBeVisible();
+    await expect.poll(() => content.locator(".pf-case-cover img").evaluateAll(images => images.every(image => (image as HTMLImageElement).complete && (image as HTMLImageElement).naturalWidth > 0))).toBe(true);
+    await expect.poll(() => content.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
+    await expect.poll(() => content.evaluate(element => {
+      const window = element.closest(".os-window");
+      return window ? getComputedStyle(window).transform : "none";
+    })).toBe("none");
+    await page.screenshot({ path: "docs/design/arjun-os/refresh-case-" + project.id + "-" + testInfo.project.name + ".png" });
+    if (testInfo.project.name === "mobile") await content.getByRole("link", { name: "Architecture", exact: true }).click();
+    else await content.getByRole("button", { name: "Architecture", exact: true }).click();
+    await expect(content.getByRole("list", { name: project.title + " architecture flow" })).toBeVisible();
+  }
+});
+
+test("redesigned reading surfaces fit their window and keep their media visible", async ({ page }, testInfo) => {
+  for (const surface of [
+    { id: "home", url: "/", selector: ".pf-home" },
+    { id: "work", url: "/?app=work", selector: ".pf-work-list, .pf-phone-work" },
+    { id: "research", url: "/?app=research", selector: ".pf-research" },
+    { id: "experience", url: "/?app=experience&role=copperleaf", selector: ".pf-experience-document" },
+    { id: "life", url: "/?app=life", selector: ".os-photos-desktop, .os-photos-screen" },
+  ]) {
+    await page.goto(surface.url);
+    const content = page.locator(surface.selector);
+    await expect(content).toBeVisible();
+    await expect.poll(() => content.evaluate(element => {
+      const window = element.closest(".os-window");
+      return window ? getComputedStyle(window).transform : "none";
+    })).toBe("none");
+    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await page.screenshot({ path: "docs/design/arjun-os/refresh-" + surface.id + "-" + testInfo.project.name + ".png" });
+    if (surface.id === "life") {
+      await page.getByRole("button", { name: /^Builds/ }).click();
+      await expect(page.getByRole("button", { name: "Open LEGO McLaren P1 3D model", exact: true }).last()).toBeVisible();
+    }
+  }
+});
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem("arjun-os-booted", "true"));
 });
+
+test("resume actions open the updated, byte-identical uploaded PDF", async ({ page, request }) => {
+  await page.addInitScript(() => {
+    window.open = (url) => { document.documentElement.dataset.resumeUrl = String(url); return null; };
+  });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Open Resume", exact: true }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-resume-url", "/Resume.pdf?v=2026-10-05");
+  const response = await request.get("/Resume.pdf?v=2026-10-05");
+  expect(response.ok()).toBe(true);
+  expect(response.headers()["content-type"]).toContain("application/pdf");
+  expect(createHash("sha256").update(await response.body()).digest("hex")).toBe("bba60f0548f9d77e00e9c7f4707e484184d53b7bfdf7f6daf98da06df3c221d0");
+});
+
+for (const project of [
+  { id: "buildstory", title: "BuildStory", link: "Open-source scanner", href: "https://github.com/Arjun-Mishra-312/buildstory-scan" },
+  { id: "mune", title: "Mune", link: "Get Mune", href: "https://apps.apple.com/app/mune-private-finance-ai/id6777609206" },
+]) {
+  test(`${project.title} opens from Home, survives reload, and exposes its verified links`, async ({ page }, testInfo) => {
+    await page.goto("/");
+    await page.locator(".pf-recent-products").getByRole("button", { name: new RegExp(project.title) }).click();
+    await expect(page).toHaveURL(new RegExp(`project=${project.id}`));
+    await expect(page.getByRole("heading", { name: project.title, exact: true }).last()).toBeVisible();
+    await page.reload();
+    await expect(page.getByRole("heading", { name: project.title, exact: true }).last()).toBeVisible();
+    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    if (testInfo.project.name === "mobile") await page.getByRole("link", { name: "Links", exact: true }).click();
+    else await page.getByRole("button", { name: "Links", exact: true }).click();
+    const links = testInfo.project.name === "mobile" ? page.locator("#chapter-links") : page.locator(".pf-chapter-body");
+    await expect(links.getByRole("link", { name: project.link, exact: true })).toHaveAttribute("href", project.href);
+    if (testInfo.project.name === "desktop" && project.id === "buildstory") {
+      await page.getByRole("button", { name: "Overview", exact: true }).click();
+      await expect(page.getByText("330+ automated tests", { exact: true })).toBeVisible();
+      await expect.poll(() => page.getByRole("dialog", { name: "Selected Work" }).evaluate(element => getComputedStyle(element).transform)).toBe("none");
+      await page.screenshot({ path: "docs/design/arjun-os/resume-buildstory.png" });
+    }
+  });
+}
+
+test("resume education and current role are readable, with CHI papers marked as submissions", async ({ page }, testInfo) => {
+  await page.goto("/");
+  await page.getByText("Technical skills", { exact: true }).click();
+  await expect(page.getByText("BSc Computer Science (AI Specialization)", { exact: true })).toBeVisible();
+  await expect(page.getByText("Commerce Minor · Expected May 2027", { exact: true })).toBeVisible();
+  await expect(page.locator(".pf-skills-grid")).toContainText("Databricks");
+  await expect(page.locator(".pf-skills-grid")).toContainText("MLX Swift");
+  await page.goto("/?app=experience&role=copperleaf");
+  await expect(page.getByText(/estimated 160\+ employee hours annually/)).toBeVisible();
+  await expect(page.getByText(/Oct 2025 – Present/).last()).toBeVisible();
+  if (testInfo.project.name === "desktop") {
+    await expect.poll(() => page.getByRole("dialog", { name: "Experience" }).evaluate(element => getComputedStyle(element).transform)).toBe("none");
+    await page.screenshot({ path: "docs/design/arjun-os/resume-experience.png" });
+  }
+  await page.goto("/?app=research");
+  await expect(page.getByRole("heading", { name: "Research submissions", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "WRAP", exact: true })).toBeVisible();
+  await expect(page.getByText("Second author · Submitted to ACM CHI 2027", { exact: true })).toBeVisible();
+});
+
+test("Roadpack opens with the launch film and plays it on demand", async ({ page }, testInfo) => {
+  const movies: string[] = [];
+  page.on("request", request => { if (request.url().endsWith(".mp4")) movies.push(request.url()); });
+  await page.goto("/?app=work&project=roadpack");
+  await expect(page.getByRole("heading", { name: "Separate cars. One shared adventure." })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Get Roadpack", exact: true }).first()).toHaveAttribute("href", "https://apps.apple.com/app/roadpack-travel-together/id6801922780");
+  await expect(page.locator("video")).toHaveCount(0);
+  expect(movies).toHaveLength(0);
+  await expect(page.getByRole("button", { name: "Join the pack" })).toHaveCount(0);
+  const film = page.locator(".pf-media-hero .pf-media-frame");
+  await expect.poll(() => film.evaluate(element => {
+    const window = element.closest(".os-window");
+    return window ? getComputedStyle(window).transform : "none";
+  })).toBe("none");
+  await expect.poll(() => film.evaluate(element => {
+    const frame = element.getBoundingClientRect();
+    const viewport = element.closest(".os-window") ?? element.closest(".os-app-viewport");
+    return frame.top >= 0 && frame.bottom <= (viewport?.getBoundingClientRect().bottom ?? innerHeight);
+  })).toBe(true);
+  if (testInfo.project.name === "desktop") await page.screenshot({ path: "docs/design/arjun-os/sprint-roadpack-hero.png" });
+  await page.getByRole("button", { name: "Play Roadpack launch film" }).press("Enter");
+  await expect(page.locator("video")).toHaveAttribute("controls", "");
+  await expect(page.locator("video")).toBeFocused();
+  await expect.poll(() => page.locator("video").evaluate((video: HTMLVideoElement) => video.readyState)).toBeGreaterThanOrEqual(2);
+  expect(await page.locator("video").evaluate((video: HTMLVideoElement) => video.duration)).toBeCloseTo(64.8, 0);
+  await expect(page.locator("video track")).toHaveAttribute("src", "/roadpack/launch-captions.vtt");
+  await expect.poll(() => page.locator("video track").evaluate((track: HTMLTrackElement) => track.readyState)).toBe(2);
+  expect(await page.locator("video track").evaluate((track: HTMLTrackElement) => track.track.cues?.length ?? 0)).toBeGreaterThan(0);
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.getByRole("link", { name: "Visit the website", exact: true }).focus();
+  await page.getByRole("button", { name: "Home", exact: true }).click();
+  await expect(page).toHaveURL("/");
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "Apps that ship. Agents that show their work." })).toBeVisible();
+});
+
+test("home highlights recent work and the research walkthrough exposes its limits", async ({ page }, testInfo) => {
+  await page.goto("/");
+  await expect(page.getByRole("heading", { name: "Apps that ship. Agents that show their work." })).toBeVisible();
+  if (testInfo.project.name === "desktop") {
+    await expect.poll(() => page.getByRole("dialog", { name: "About Arjun" }).evaluate(element => getComputedStyle(element).transform)).toBe("none");
+    await page.screenshot({ path: "docs/design/arjun-os/sprint-home.png" });
+  }
+  await page.getByRole("button", { name: /Can an AI audit/ }).click();
+  await expect(page.getByRole("heading", { name: "Accessibility audits that show their work." })).toBeVisible();
+  await expect(page.locator(".pf-research-metrics").getByText("56%", { exact: true })).toBeVisible();
+  await expect(page.getByText(/not a guarantee for every website/)).toBeVisible();
+  for (let step = 0; step < 3; step++) await page.getByRole("button", { name: "Next step", exact: true }).press("Enter");
+  await expect(page.getByRole("link", { name: "Inspect the source trace" })).toBeFocused();
+  await expect(page.getByText(/individual image correctness was not independently adjudicated/)).toBeVisible();
+  await expect(page.getByRole("link", { name: "Inspect the source trace" })).toHaveAttribute("href", /worked_trace.json/);
+});
+
+for (const surface of [
+  { name: "Home", url: "/", selector: ".pf-home" },
+  { name: "Roadpack", url: "/?app=work&project=roadpack", selector: ".roadpack-case" },
+  { name: "Research", url: "/?app=research", selector: ".pf-research" },
+  { name: "Work", url: "/?app=work", selector: ".pf-work-list, .pf-phone-work" },
+  { name: "Experience", url: "/?app=experience&role=copperleaf", selector: ".pf-experience-document" },
+  { name: "Life", url: "/?app=life", selector: ".os-photos-desktop, .os-photos-screen" },
+]) {
+  for (const theme of ["dusk", "dawn"]) {
+    test(`${surface.name} has no serious automatically detectable accessibility violations in ${theme}`, async ({ page }) => {
+      await page.goto(surface.url);
+      await expect(page.locator(surface.selector)).toBeVisible();
+      if (theme === "dawn") await page.getByRole("button", { name: "Switch to dawn theme" }).click();
+      // Wait for the window animation before checking rendered color contrast.
+      await expect.poll(() => page.locator(surface.selector).evaluate(element => {
+        const window = element.closest(".os-window");
+        return window ? getComputedStyle(window).opacity : "1";
+      })).toBe("1");
+      // Theme colors transition independently of the opening window.
+      await expect(page.locator(surface.selector)).toHaveCSS("background-color", theme === "dawn" ? "rgb(245, 245, 247)" : "rgb(28, 28, 30)");
+      await expect(page.locator(surface.selector).locator(".pf-eyebrow, .os-phone-eyebrow").first()).toHaveCSS("color", theme === "dawn" ? "rgb(104, 104, 112)" : "rgb(164, 164, 173)");
+      if (surface.name === "Home") await page.getByText("Technical skills", { exact: true }).click();
+      const results = await new AxeBuilder({ page }).include(surface.selector).analyze();
+      const serious = results.violations.filter(violation => violation.impact === "critical" || violation.impact === "serious");
+      expect(serious.map(violation => ({ id: violation.id, nodes: violation.nodes.map(node => ({ target: node.target, reason: node.failureSummary })) }))).toEqual([]);
+    });
+  }
+}
 
 test("navigates canonical app states and restores them with browser history", async ({ page }) => {
   await page.goto("/?app=profile");
@@ -105,8 +297,10 @@ test("AI Island auto-opens Life + Play for fun questions", async ({ page }, test
   await expect(page.getByText(/For fun I build LEGO/)).toBeVisible();
   await expect.poll(() => page.url()).toMatch(/app=life/);
   if (testInfo.project.name !== "mobile") {
+    await page.getByRole("button", { name: "Close AI Island" }).click();
     await expect(page.getByRole("dialog", { name: "Life + Play" })).toBeVisible();
   }
+  await expect(page.getByRole("button", { name: /^Interests/ })).toHaveCount(0);
 });
 
 test("default desktop has no serious automatically detectable accessibility violations", async ({ page }, testInfo) => {
@@ -115,7 +309,7 @@ test("default desktop has no serious automatically detectable accessibility viol
   // Spotify owns the cross-origin embed document. Its internal ARIA tree is not
   // actionable from this app, so audit the portfolio surface around it.
   const results = await new AxeBuilder({ page })
-    .exclude('iframe[title="Lofi Girl focus playlist on Spotify"]')
+    .exclude('iframe[title="Focus Radio Spotify player"]')
     .analyze();
   expect(results.violations.filter((violation) => violation.impact === "critical" || violation.impact === "serious")).toEqual([]);
 });
@@ -123,6 +317,9 @@ test("default desktop has no serious automatically detectable accessibility viol
 test("desktop activity stack switches while social and weather cards stay independent", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "desktop widget deck coverage");
   await page.goto("/", { waitUntil: "domcontentloaded" });
+  // The foreground Home window can cover the widget rail. Minimize it before
+  // interacting with the background desktop, as a visitor would.
+  await page.getByRole("dialog", { name: "About Arjun" }).getByRole("button", { name: "Minimize", exact: true }).click();
   await expect(page.getByRole("region", { name: "Vancouver weather and today's date" })).toBeVisible();
   await expect(page.getByRole("region", { name: "Focus Radio" })).toBeVisible();
   const spotify = page.locator('iframe[title="Focus Radio Spotify player"]');
@@ -150,7 +347,7 @@ test("desktop widgets use a responsive single-column rail with natural card size
   const panel = page.locator("#desktop-widget-stack");
   await expect(panel).toBeVisible();
   const mediumSlots = panel.locator(":scope > .os-widget-medium-slot");
-  await expect(mediumSlots).toHaveCount(3);
+  await expect(mediumSlots).toHaveCount(4);
   const boxes = await mediumSlots.evaluateAll((items) => items.map((item) => ({
     width: item.clientWidth,
     height: item.clientHeight,
@@ -175,8 +372,7 @@ test("desktop removes the system rail and places controls in the right dock", as
   await expect(page.locator("header.os-top-rail")).toHaveCount(0);
   const dock = page.getByLabel("Arjun OS dock");
   await expect(dock.getByLabel(/Switch to .* theme/)).toBeVisible();
-  const skipIntro = page.getByRole("button", { name: "Skip intro" });
-  if (await skipIntro.isVisible()) await skipIntro.click();
+  await expect(page.getByRole("button", { name: "Skip intro" })).toHaveCount(0);
   await dock.getByLabel("Open accessibility settings").click();
   await expect(page.getByRole("region", { name: "Accessibility" })).toBeVisible();
 });
@@ -200,7 +396,7 @@ test("reduce transparency keeps the window blur layer stable while its backgroun
   await page.getByRole("button", { name: "Open accessibility settings" }).click();
   await page.getByRole("switch", { name: "Reduce transparency" }).click();
 
-  await expect.poll(() => window.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe("rgb(13, 21, 32)");
+  await expect.poll(() => window.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe("rgb(28, 28, 30)");
   await expect.poll(() => window.evaluate((element) => getComputedStyle(element).backdropFilter)).toBe(filterBefore);
 });
 
@@ -237,16 +433,44 @@ test("desktop window keyboard and dock lifecycle remains usable", async ({ page 
   const workWindow = page.getByRole("dialog", { name: "Selected Work" });
   await expect(workWindow).toBeVisible();
   const titleRail = workWindow.getByLabel(/Selected Work window controls/);
+  await expect.poll(() => workWindow.evaluate(element => getComputedStyle(element).transform)).toBe("none");
+  const original = await workWindow.boundingBox();
+  const rail = await titleRail.boundingBox();
+  await page.mouse.move(rail!.x + 220, rail!.y + rail!.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(rail!.x + 250, rail!.y + rail!.height / 2 + 20, { steps: 5 });
+  await page.mouse.up();
+  await expect.poll(async () => (await workWindow.boundingBox())!.x).toBeCloseTo(original!.x + 30, 0);
+  await expect.poll(async () => (await workWindow.boundingBox())!.y).toBeCloseTo(original!.y + 20, 0);
   await titleRail.focus();
   await page.keyboard.press("Alt+ArrowRight");
-  const snapped = await workWindow.boundingBox();
-  expect(snapped!.x).toBeGreaterThan(700);
+  // The right dock reserves part of the viewport. Assert right-side placement
+  // and half-width sizing after the opening animation, not an old pixel offset.
+  const viewportWidth = page.viewportSize()!.width;
+  await expect.poll(async () => (await workWindow.boundingBox())?.x ?? 0).toBeGreaterThan(viewportWidth * 0.45);
+  await expect.poll(async () => (await workWindow.boundingBox())?.width ?? viewportWidth).toBeLessThan(viewportWidth / 2);
   await page.keyboard.press("Alt+Enter");
   await expect(workWindow.getByRole("button", { name: "Restore" })).toBeVisible();
   await page.keyboard.press("Alt+m");
-  await expect(workWindow).toBeHidden();
+  const minimized = page.locator('.os-window[aria-hidden="true"]').filter({ has: page.locator('#window-title-work') });
+  await expect(minimized).toHaveAttribute("inert", "");
+  await expect.poll(() => minimized.evaluate(element => getComputedStyle(element).opacity)).toBe("0");
+  const target = await page.locator("#dock-work").boundingBox();
+  const tuckedAway = await minimized.boundingBox();
+  expect(Math.abs(tuckedAway!.x + tuckedAway!.width / 2 - target!.x - target!.width / 2)).toBeLessThan(8);
+  expect(Math.abs(tuckedAway!.y + tuckedAway!.height / 2 - target!.y - target!.height / 2)).toBeLessThan(8);
   await page.getByLabel("Work", { exact: true }).click();
   await expect(workWindow).toBeVisible();
+  await expect.poll(() => workWindow.evaluate(element => getComputedStyle(element).transform)).toBe("none");
+  const beforeMinimize = await workWindow.boundingBox();
+  await workWindow.getByRole("button", { name: "Minimize", exact: true }).click();
+  await expect.poll(() => minimized.evaluate(element => getComputedStyle(element).opacity)).toBe("0");
+  await page.getByLabel("Work", { exact: true }).click();
+  await expect.poll(() => workWindow.evaluate(element => getComputedStyle(element).transform)).toBe("none");
+  const restored = await workWindow.boundingBox();
+  expect(restored!.x).toBeCloseTo(beforeMinimize!.x, 0);
+  expect(restored!.y).toBeCloseTo(beforeMinimize!.y, 0);
+  expect(restored!.width).toBeCloseTo(beforeMinimize!.width, 0);
   await workWindow.getByRole("button", { name: "Close" }).click();
   await expect(workWindow).toBeHidden();
 });
@@ -257,7 +481,7 @@ test("recruiter tour exits back to the previous workspace", async ({ page }, tes
   await page.getByRole("button", { name: "Recruiter tour" }).click();
   await expect(page.getByText(/Recruiter tour 01/)).toBeVisible();
   await page.getByRole("button", { name: "Exit", exact: true }).click();
-  if (testInfo.project.name === "mobile") await expect(page.getByRole("region", { name: "Research" })).toBeVisible();
+  if (testInfo.project.name === "mobile") await expect(page.getByRole("region", { name: "Research", exact: true })).toBeVisible();
   else await expect(page.getByRole("dialog", { name: "Research" })).toBeVisible();
   await expect(page).toHaveURL(/app=research/);
 });
@@ -309,13 +533,23 @@ test("dawn semantic colors retain readable contrast", async ({ page }, testInfo)
   expect(ratios.every(({ ratio }) => ratio >= 4.5)).toBe(true);
 });
 
-test("reduced motion skips boot and continuous model animation", async ({ browser }, testInfo) => {
+test("reduced motion skips boot and window travel", async ({ browser }, testInfo) => {
   test.skip(testInfo.project.name === "mobile", "covered once at desktop size");
   const context = await browser.newContext({ reducedMotion: "reduce" });
   const page = await context.newPage();
-  await page.goto("/?app=life");
+  await page.goto("/?app=work&project=roadpack");
   await expect(page.locator(".os-boot")).toBeHidden();
-  await expect(page.locator("[data-model-animated]")).toHaveAttribute("data-model-animated", "false");
+  await expect(page.getByRole("button", { name: "Play Roadpack launch film" })).toBeVisible();
+  const window = page.getByRole("dialog", { name: "Selected Work" });
+  await expect.poll(() => window.evaluate(element => getComputedStyle(element).opacity)).toBe("1");
+  const before = await window.boundingBox();
+  await window.getByRole("button", { name: "Minimize", exact: true }).click();
+  const minimized = page.locator('.os-window[aria-hidden="true"]').filter({ has: page.locator('#window-title-work') });
+  await expect.poll(() => minimized.evaluate(element => getComputedStyle(element).opacity)).toBe("0");
+  const after = await minimized.boundingBox();
+  expect(after!.x).toBeCloseTo(before!.x, 0);
+  expect(after!.y).toBeCloseTo(before!.y, 0);
+  expect(after!.width).toBeCloseTo(before!.width, 0);
   await context.close();
 });
 
@@ -354,7 +588,7 @@ test("widget stack collapse is animated, accessible, and session-scoped", async 
   await expect(toggle).toHaveAttribute("aria-expanded", "true");
   const rail = page.locator("#desktop-widget-stack");
   const mediumSlots = rail.locator(":scope > .os-widget-medium-slot");
-  await expect(mediumSlots).toHaveCount(3);
+  await expect(mediumSlots).toHaveCount(4);
   await expect(rail.locator(":scope > .os-widget-compact-slot")).toHaveCount(0);
   await expect(rail.locator(":scope > .os-widget-player-slot")).toHaveCount(1);
   const geometry = await mediumSlots.evaluateAll((elements) => elements.map((element) => {

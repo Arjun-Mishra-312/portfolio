@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { useDrag } from "@use-gesture/react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useOSActions, useOSState } from "@/lib/arjun-os/os-context";
 import { EDGE_SNAP_THRESHOLD, MIN_WINDOW_HEIGHT, MIN_WINDOW_WIDTH } from "@/lib/arjun-os/constants";
 import { getDockOrigin, useOsReducedMotion, windowOpenVariants } from "@/lib/arjun-os/motion";
@@ -87,7 +87,7 @@ export function AppWindow({
   appId: AppId;
   children: React.ReactNode;
 }) {
-  const { windows, activeAppId, workArea, layoutMode, accessibility } = useOSState();
+  const { windows, activeAppId, workArea, layoutMode } = useOSState();
   const isMobile = layoutMode === "phone" || layoutMode === "tabletPortrait";
   const isTabletLandscape = layoutMode === "tabletLandscape";
   const { dispatch, focusApp, closeApp, minimizeApp, maximizeApp } = useOSActions();
@@ -96,21 +96,23 @@ export function AppWindow({
   const dragOrigin = useRef({ x: 0, y: 0 });
   const resizeOrigin = useRef<Bounds | null>(null);
   const windowRef = useRef<HTMLElement>(null);
-  const [transformOrigin, setTransformOrigin] = useState("50% 100%");
-  const variants = windowOpenVariants(reduced || accessibility.reduceMotion);
+  const [dockOrigin, setDockOrigin] = useState<{ x: number; y: number } | null>(null);
+  const dockOffset = dockOrigin ? { x: dockOrigin.x - win.bounds.x - win.bounds.width / 2, y: dockOrigin.y - win.bounds.y - win.bounds.height / 2 } : undefined;
+  const variants = windowOpenVariants(reduced, dockOffset);
 
   useEffect(() => {
     if (win.mode === "minimized") windowRef.current?.setAttribute("inert", "");
     else windowRef.current?.removeAttribute("inert");
   }, [win.mode]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const origin = getDockOrigin(appId);
-    if (origin) setTransformOrigin(`${origin.x - win.bounds.x}px ${origin.y - win.bounds.y}px`);
-  }, [appId, win.bounds.x, win.bounds.y]);
+    if (origin) setDockOrigin(origin);
+  }, [appId, win.isOpen, win.mode, win.bounds.x, win.bounds.y, win.bounds.width, win.bounds.height, workArea.width, workArea.height]);
 
   const bind = useDrag(
-    ({ first, last, movement: [mx, my], xy: [px], event, cancel }) => {
+    ({ first, last, tap, movement: [mx, my], xy: [px], event, cancel }) => {
+      if (tap) return;
       if (isMobile || win.mode === "maximized") {
         cancel();
         return;
@@ -147,7 +149,9 @@ export function AppWindow({
         }
       }
     },
-    { filterTaps: true, pointer: { capture: true } },
+    // Handle taps above; the gesture library's click capture would also swallow
+    // clicks on the title-bar buttons whose pointer-down does not start a drag.
+    { filterTaps: false, pointer: { capture: true, keys: false } },
   );
 
   const onResize = (edge: ResizeEdge, mx: number, my: number, last: boolean) => {
@@ -157,7 +161,7 @@ export function AppWindow({
     if (last) resizeOrigin.current = null;
   };
 
-  if (!win.isOpen || (isMobile && win.mode === "minimized")) return null;
+  if (isMobile && (!win.isOpen || win.mode === "minimized")) return null;
 
   const isActive = activeAppId === appId;
   const titleId = `window-title-${appId}`;
@@ -192,7 +196,9 @@ export function AppWindow({
   }
 
   return (
-    <motion.section
+    <AnimatePresence>
+    {win.isOpen && <motion.section
+      key={appId}
       ref={windowRef}
       role="dialog"
       aria-labelledby={titleId}
@@ -207,17 +213,15 @@ export function AppWindow({
         width: win.bounds.width,
         height: win.bounds.height,
         zIndex: win.zIndex,
-        transformOrigin,
-      }}
+        transformOrigin: "50% 50%",
+        pointerEvents: win.mode === "minimized" ? "none" : "auto",
+        willChange: "transform, opacity",
+        "--os-window-height": `${win.bounds.height}px`,
+      } as CSSProperties}
       variants={variants}
-      initial="initial"
-      animate={
-        win.mode === "minimized"
-          ? { opacity: 0, scale: 0.12, y: Math.max(40, workArea.height - win.bounds.y), pointerEvents: "none" }
-          : "animate"
-      }
+      initial={dockOrigin ? "portal" : "initial"}
+      animate={win.mode === "minimized" ? "minimized" : "animate"}
       exit="exit"
-      transition={{ duration: reduced ? 0.12 : 0.34, ease: [0.22, 1, 0.36, 1] }}
       onMouseDown={() => focusApp(appId)}
       aria-hidden={win.mode === "minimized"}
       data-active={isActive}
@@ -274,6 +278,7 @@ export function AppWindow({
       {(["n", "s", "e", "w", "ne", "nw", "se", "sw"] as ResizeEdge[]).map((edge) => (
         <ResizeHandle key={edge} edge={edge} onResize={onResize} disabled={!canResize} />
       ))}
-    </motion.section>
+    </motion.section>}
+    </AnimatePresence>
   );
 }

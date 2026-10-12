@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { useTheme } from '@/lib/theme-context';
+import { portfolioData } from '@/lib/arjun-os/portfolio-data';
 import {
   IconDownload,
   IconMail,
@@ -21,7 +22,7 @@ const actions: Action[] = [
   {
     label: 'Resume',
     icon: <IconDownload className="w-4 h-4" />,
-    href: '/Resume.pdf',
+    href: portfolioData.profile.contact.resume,
     primary: true,
     external: true,
   },

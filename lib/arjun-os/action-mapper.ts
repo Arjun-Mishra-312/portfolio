@@ -79,7 +79,15 @@ export function inferActionsFromAnswer(answer: string): IslandAction[] {
   const lower = answer.toLowerCase();
   const actions: IslandAction[] = [];
 
-  if (
+  if (/\broadpack\b/.test(lower)) {
+    actions.push({ id: "open-roadpack", label: "Explore Roadpack", type: "open-project", projectId: "roadpack" });
+  } else if (/\bbuildstory\b/.test(lower)) {
+    actions.push({ id: "open-buildstory", label: "Explore BuildStory", type: "open-project", projectId: "buildstory" });
+  } else if (/\bmune\b/.test(lower)) {
+    actions.push({ id: "open-mune", label: "Explore Mune", type: "open-project", projectId: "mune" });
+  } else if (/\b(preprint|arxiv|paper|publication|wrap)\b/.test(lower)) {
+    actions.push({ id: "open-paper", label: "Explore the research", type: "open-app", appId: "research" });
+  } else if (
     lower.includes("life + play") ||
     lower.includes("for fun") ||
     lower.includes("lego") ||

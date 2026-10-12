@@ -1,5 +1,10 @@
 import { defineConfig, devices } from "@playwright/test";
 
+// Reuse the active preview without starting two Next processes in one .next directory.
+const port = Number(process.env.PORTFOLIO_TEST_PORT ?? 3005);
+if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error("Invalid PORTFOLIO_TEST_PORT");
+const baseURL = `http://127.0.0.1:${port}`;
+
 export default defineConfig({
   testDir: "./tests/e2e",
   fullyParallel: true,
@@ -7,7 +12,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: "list",
   use: {
-    baseURL: "http://127.0.0.1:3005",
+    baseURL,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },
@@ -22,8 +27,8 @@ export default defineConfig({
     { name: "ipad-pro-landscape", testMatch: /adaptive-responsive\.spec\.ts/, use: { browserName: "webkit", viewport: { width: 1366, height: 1024 }, hasTouch: true } },
   ],
   webServer: {
-    command: "npm run dev -- --port 3005",
-    url: "http://127.0.0.1:3005",
+    command: `${process.platform === "win32" ? "npm.cmd" : "npm"} run dev -- --port ${port}`,
+    url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

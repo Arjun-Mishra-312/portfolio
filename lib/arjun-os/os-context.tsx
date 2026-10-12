@@ -12,7 +12,7 @@ import React, {
 } from "react";
 import { LayoutGroup, LazyMotion, MotionConfig, domMax } from "motion/react";
 import { A11Y_STORAGE_KEY, ISLAND_REQUEST_COLLAPSE_EVENT, THEME_STORAGE_KEY, WIDGETS_SESSION_KEY, createInitialState, defaultWorkArea, getLayoutMode } from "./constants";
-import { isAppId, isProjectId } from "./portfolio-data";
+import { isAppId, isProjectId, portfolioData } from "./portfolio-data";
 import { osReducer } from "./reducer";
 import type { AppId, IslandAction, OSAction, OSState, ProjectId } from "./types";
 
@@ -61,6 +61,7 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(osReducer, undefined, () => createInitialState());
   const hydratedRef = useRef(false);
   const applyingUrlRef = useRef(false);
+  const appliedLocationRef = useRef<string | null>(null);
   const [preferencesReady, setPreferencesReady] = useState(false);
 
   useEffect(() => {
@@ -142,6 +143,11 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
           normalizedQuery ? `/?${normalizedQuery}` : "/",
         );
       }
+      const location = `${window.location.pathname}${window.location.search}`;
+      // In-page anchors also emit popstate. They only scroll the current app;
+      // rehydrating them can leave the next app change's URL update suppressed.
+      if (appliedLocationRef.current === location) return;
+      appliedLocationRef.current = location;
       applyingUrlRef.current = true;
       dispatch({
         type: "HYDRATE_FROM_URL",
@@ -177,6 +183,7 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
     if (next !== current) {
       window.history.pushState({ arjunOS: true }, "", next);
     }
+    appliedLocationRef.current = next;
   }, [
     state.activeAppId,
     state.activeProjectId,
@@ -212,7 +219,7 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
   }, [state.island.expanded, state.island.mode]);
 
   const openResume = useCallback(() => {
-    window.open("/Resume.pdf", "_blank", "noopener,noreferrer");
+    window.open(portfolioData.profile.contact.resume, "_blank", "noopener,noreferrer");
   }, []);
 
   const runIslandAction = useCallback(

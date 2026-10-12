@@ -32,7 +32,7 @@ export function defaultWorkArea(
     left: 0,
     top: TOP_RAIL_HEIGHT,
     width: Math.max(320, viewportWidth - rightInset),
-    height: Math.max(320, viewportHeight - TOP_RAIL_HEIGHT - DOCK_CLEARANCE),
+    height: Math.max(320, viewportHeight - TOP_RAIL_HEIGHT - (sideDock ? 72 : DOCK_CLEARANCE)),
   };
 }
 
@@ -40,19 +40,19 @@ export function defaultBoundsFor(
   appId: AppId,
   workArea: WorkArea,
 ): Bounds {
-  const presets: Record<AppId, { width: number; height: number; offsetX: number; offsetY: number }> = {
-    profile: { width: 860, height: 560, offsetX: 0, offsetY: 0 },
-    work: { width: 920, height: 620, offsetX: 40, offsetY: 20 },
-    experience: { width: 880, height: 580, offsetX: -30, offsetY: 30 },
-    research: { width: 840, height: 560, offsetX: 50, offsetY: -10 },
-    life: { width: 900, height: 600, offsetX: -20, offsetY: 40 },
+  const presets: Record<AppId, { width: number; offsetX: number; offsetY: number }> = {
+    profile: { width: 960, offsetX: 0, offsetY: 0 },
+    work: { width: 1040, offsetX: 20, offsetY: 8 },
+    experience: { width: 960, offsetX: -16, offsetY: 12 },
+    research: { width: 1000, offsetX: 16, offsetY: -8 },
+    life: { width: 1000, offsetX: -12, offsetY: 16 },
   };
 
   const preset = presets[appId];
   const width = Math.min(preset.width, workArea.width - 48);
-  const height = Math.min(preset.height, workArea.height - 48);
+  const height = Math.min(1080, workArea.height - 32);
   const x = workArea.left + Math.max(16, (workArea.width - width) / 2 + preset.offsetX);
-  const y = workArea.top + Math.max(16, (workArea.height - height) / 2 + preset.offsetY);
+  const y = workArea.top + Math.min(workArea.height - height - 16, Math.max(16, (workArea.height - height) / 2 + preset.offsetY));
 
   return clampBounds({ x, y, width, height }, workArea);
 }

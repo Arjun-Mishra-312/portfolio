@@ -19,7 +19,12 @@ export function WindowControls({
     "inline-flex h-8 w-8 items-center justify-center rounded-md text-[var(--os-text-secondary)] transition hover:bg-os-hover hover:text-[var(--os-text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--os-accent-cobalt)]";
 
   return (
-    <div className="flex items-center gap-0.5" role="toolbar" aria-label="Window controls">
+    <div
+      className="flex items-center gap-0.5"
+      role="toolbar"
+      aria-label="Window controls"
+      onPointerDown={event => event.stopPropagation()}
+    >
       <button type="button" className={btn} onClick={onMinimize} aria-label="Minimize">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
           <path d="M3 7h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
