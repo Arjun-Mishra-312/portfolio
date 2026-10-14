@@ -9,7 +9,7 @@ import { ChevronRight, FileText, ArrowUpRight } from "lucide-react";
 import { PhoneLargeTitle, PhoneSection } from "@/components/arjun-os/phone-ui";
 
 const roleFeatures: Record<string, { headline: string; value: string; label: string; detail: string }> = {
-  copperleaf: { headline: "AI, from prototype to practice.", value: "160+", label: "employee hours / year", detail: "Estimated annual time savings from the Data Validation Portal." },
+  copperleaf: { headline: "AI, from prototype to practice.", value: "2", label: "production AI portals", detail: "An ROI Analytics Portal adopted by Senior Leadership, and a Data Validation Portal that checks data before AI ingestion." },
   socius: { headline: "Better AI starts with people.", value: "86%", label: "recall in the study", detail: "Accessibility auditing research: 56% precision on the audited page–criterion records." },
   ta: { headline: "Making complex ideas click.", value: "250+", label: "students supported", detail: "Computer systems, networking, and hands-on C/C++ tutorials." },
 };
@@ -23,7 +23,7 @@ function ExperienceDocument({ active, openResume, phone }: { active: PortfolioEx
       <h3>{feature.headline}</h3><p className="pf-role-title">{active.role}</p>
       <p className="os-note-metadata">{active.period} · {active.location}</p>
     </header>
-    <div className="pf-role-feature"><strong>{feature.value}</strong><div><span>{feature.label}</span><p>{feature.detail}</p></div></div>
+    <div className={"pf-role-feature" + (active.id === "copperleaf" ? " is-ifs" : "")}><strong>{feature.value}</strong><div><span>{feature.label}</span><p>{feature.detail}</p></div></div>
     <p className="os-note-summary">{active.summary}</p>
     <section className="pf-role-section"><p className="pf-eyebrow">The work</p><h3>Highlights</h3><ul>{active.responsibilities.map(item => <li key={item}>{item}</li>)}</ul></section>
     <section className="pf-role-section"><p className="pf-eyebrow">How I work</p><h3>Tools & methods</h3><div className="os-note-tags">{active.tools.map(tool => <span key={tool}>{tool}</span>)}</div></section>

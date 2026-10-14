@@ -40,3 +40,7 @@ next-env.d.ts
 # local scratch and stale build copies
 /tmp/
 /.next-stale-*/
+/videos/
+
+# private outreach context (personal facts for Arjun's outreach agent)
+/docs/outreach/

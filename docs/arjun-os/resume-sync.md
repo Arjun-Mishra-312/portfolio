@@ -7,7 +7,7 @@ SHA-256: `bba60f0548f9d77e00e9c7f4707e484184d53b7bfdf7f6daf98da06df3c221d0`.
 ## Content
 
 - Updated Home, Experience, Selected Work, Research, technical skills, education, site metadata, the recruiter tour, and the AI guide's data and navigation.
-- IFS Copperleaf: AI Engineering Co-op followed by Jr. AI Implementations Engineer (part-time), October 2025–present. ROI Analytics Portal leadership adoption; Data Validation Portal savings remain **estimated** at 160+ employee hours annually.
+- IFS Copperleaf: AI Engineering Co-op followed by Jr. AI Implementations Engineer (part-time), October 2025–present. ROI Analytics Portal leadership adoption; The Data Validation Portal is described by what it does (data-quality checks before AI ingestion). **Never use the "160+ employee hours" figure: it was never measured.** The current Resume.pdf still contains it and needs a new export.
 - UBC SOCIUS: February 2025–present; 40 WCAG-specific agents, 31 shared tools, 250 page–criterion records across 11 platforms. Recall and precision remain paired (86% / 56%); recall baselines are 36% axe-core and 67% uncued VLM.
 - First-author Agentic Web Accessibility Auditing and second-author WRAP are **submitted to ACM CHI 2027**. The existing public preprint is retained; neither submission is represented as accepted.
 - Teaching: September 2024–June 2025, 250+ students, and redesigned tutorials contributing to a 20% attendance increase.

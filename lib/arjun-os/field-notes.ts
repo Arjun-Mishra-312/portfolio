@@ -31,12 +31,12 @@ export interface FieldPlace {
 const photo = (name: string, alt: string, portrait = false): FieldPhoto => ({ src: `/life/photos/${name}.webp`, alt, portrait });
 
 export const fieldFilms: FieldFilm[] = [
-  { id: "fuji-kawaguchiko", src: "/life/films/fuji-kawaguchiko.mp4", poster: "/life/films/fuji-kawaguchiko.webp", title: "Lake Kawaguchiko and Mount Fuji", credit: "Flown and filmed by me" },
+  { id: "fuji-kawaguchiko", src: "/life/films/fuji-kawaguchiko.mp4", poster: "/life/films/fuji-kawaguchiko.webp", title: "Lake Kawaguchiko and Mount Fuji", credit: "Shot by me · DJI Flip" },
   { id: "tokyo-night-drive", src: "/life/films/tokyo-night-drive.mp4", poster: "/life/films/tokyo-night-drive.webp", title: "Tokyo night drive", credit: "Edited by me", portrait: true },
-  { id: "seoul-han-river", src: "/life/films/seoul-han-river.mp4", poster: "/life/films/seoul-han-river.webp", title: "Han River, Seoul", credit: "Flown and filmed by me" },
-  { id: "ubc-campus", src: "/life/films/ubc-campus.mp4", poster: "/life/films/ubc-campus.webp", title: "UBC campus at golden hour", credit: "Flown and filmed by me" },
-  { id: "toronto-cn-tower", src: "/life/films/toronto-cn-tower.mp4", poster: "/life/films/toronto-cn-tower.webp", title: "Toronto and the CN Tower", credit: "Flown and filmed by me" },
-  { id: "vancouver-fireworks", src: "/life/films/vancouver-fireworks.mp4", poster: "/life/films/vancouver-fireworks.webp", title: "Fireworks over Vancouver", credit: "Flown and filmed by me", portrait: true },
+  { id: "seoul-han-river", src: "/life/films/seoul-han-river.mp4", poster: "/life/films/seoul-han-river.webp", title: "Han River, Seoul", credit: "Shot by me · DJI Flip" },
+  { id: "ubc-campus", src: "/life/films/ubc-campus.mp4", poster: "/life/films/ubc-campus.webp", title: "UBC campus at golden hour", credit: "Shot by me · DJI Flip" },
+  { id: "toronto-cn-tower", src: "/life/films/toronto-cn-tower.mp4", poster: "/life/films/toronto-cn-tower.webp", title: "Toronto and the CN Tower", credit: "Shot by me · DJI Flip" },
+  { id: "vancouver-fireworks", src: "/life/films/vancouver-fireworks.mp4", poster: "/life/films/vancouver-fireworks.webp", title: "Fireworks over Vancouver", credit: "Shot by me · DJI Flip", portrait: true },
 ];
 
 export const fieldPlaces: FieldPlace[] = [
@@ -82,6 +82,14 @@ export const fieldPlaces: FieldPlace[] = [
     photos: [photo("tokyo-r34-tower", "Arjun beside a blue Nissan Skyline R34 GT-R under the lit Tokyo Tower at night", true), photo("tokyo-gtr-convoy", "Two Nissan GT-Rs' round tail lights glowing on a Tokyo expressway ramp at night"), photo("tokyo-shibuya", "Arjun with arms wide at Shibuya Crossing at dusk", true), photo("japan-shinkansen", "Arjun beside a Shinkansen bullet train on the platform", true), photo("tokyo-ginza", "A quiet Ginza street lined with trees and Japanese flags"), photo("tokyo-disneysea", "Arjun in front of the SS Columbia at Tokyo DisneySea", true)],
   },
 ];
+
+/** Behind the wheel: the F1 simulator clip sits after the LEGO cars in Builds. */
+export const fieldDrive = {
+  src: "/life/films/f1-sim.mp4",
+  poster: "/life/films/f1-sim.webp",
+  title: "Driving an F1 simulator",
+  note: "From LEGO Technic to the wheel: an F1 racing simulator.",
+};
 
 export const fieldBuilds = {
   intro: "LEGO Technic supercars. The red one started life as the Daytona SP3 set: I took it apart and rebuilt its parts into a LaFerrari using fan-designed instructions (MOC-194680 by ConstructionsByDonat).",

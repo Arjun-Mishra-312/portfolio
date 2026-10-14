@@ -1,0 +1,219 @@
+/* The films' motion language, brought into Arjun OS: the intro film, the status island, the brand-field
+   fold, Roadpack's surfaces, grow-checks, the research rings and chip, the tour dot, and the drone dive.
+   Device and film stages stay dark in both themes, as the films do; everything else uses the pf tokens. */
+
+:root { --im-ember-a: #FFC08A; --im-ember-b: #FF7A2F; --im-ember-c: #E2470B; --im-ok: #30D158; }
+
+/* ---------- Home: a quieter second button ---------- */
+.pf-button-quiet { background: var(--pf-card); color: var(--pf-ink); box-shadow: inset 0 0 0 1px var(--pf-line); }
+.pf-button-quiet:hover { filter: none; background: color-mix(in srgb, var(--pf-card) 88%, var(--pf-ink)); }
+
+/* ---------- Intro film: the card on Home ---------- */
+.if-card { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; margin: 4px 0 28px; overflow: hidden; border: 0; border-radius: 24px; background: #000; color: #f5f5f7; text-align: left; isolation: isolate; cursor: pointer; }
+.if-card-media { position: absolute; inset: 0; transition: transform .9s cubic-bezier(.22,1,.36,1), filter .9s; }
+.if-card-media img { object-position: center 42%; }
+.if-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 52%, rgba(0,0,0,.72)); pointer-events: none; }
+.if-card:hover .if-card-media, .if-card:focus-visible .if-card-media { transform: scale(1.025); filter: brightness(1.08); }
+.if-card-copy { position: absolute; left: clamp(18px, 3.4cqw, 30px); right: 18px; bottom: clamp(16px, 3cqw, 26px); z-index: 1; display: flex; align-items: center; gap: 14px; }
+.if-card-copy strong { display: block; font-size: clamp(17px, 2.4cqw, 22px); font-weight: 600; letter-spacing: -.02em; }
+.if-card-copy small { display: block; margin-top: 3px; color: rgba(245,245,247,.72); font-size: 12px; line-height: 1.45; }
+.if-card-play { display: grid; flex-shrink: 0; width: 46px; height: 46px; place-items: center; border-radius: 50%; background: rgba(255,255,255,.16); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.28); transition: transform .3s, background .3s; }
+.if-card-play svg { margin-left: 2px; }
+.if-card:hover .if-card-play { transform: scale(1.08); background: rgba(255,255,255,.26); }
+.if-card:focus-visible { outline: 2px solid var(--pf-blue); outline-offset: 4px; }
+@container (max-width: 560px) {
+  .if-card { aspect-ratio: auto; }
+  .if-card-media { position: relative; display: block; aspect-ratio: 16 / 9; }
+  .if-card::after { display: none; }
+  .if-card-copy { position: static; padding: 14px 16px 16px; }
+}
+
+/* ---------- Intro film: the player ---------- */
+.if-overlay { position: fixed; inset: 0; z-index: 180; display: grid; place-items: center; padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom)); background: rgba(0,0,0,.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.if-player { position: relative; width: min(1180px, 100%); margin: 0; }
+.if-frame { overflow: hidden; border-radius: 18px; background: #000; box-shadow: 0 40px 120px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08); }
+.if-frame video { display: block; width: 100%; aspect-ratio: 16 / 9; max-height: calc(100dvh - 150px); background: #000; outline: none; }
+.if-caption { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; margin-top: 14px; color: #f5f5f7; }
+.if-caption strong { display: block; font-size: 15px; font-weight: 600; }
+.if-caption span { display: block; margin-top: 2px; color: rgba(245,245,247,.6); font-size: 12px; }
+.if-switch { min-height: 40px; padding: 8px 16px; border-radius: 999px; background: rgba(255,255,255,.1); color: #f5f5f7; font-size: 13px; font-weight: 500; box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); }
+.if-switch:hover { background: rgba(255,255,255,.18); }
+.if-close { position: absolute; top: -52px; right: 0; display: grid; width: 40px; height: 40px; place-items: center; border-radius: 50%; background: rgba(255,255,255,.12); color: #f5f5f7; }
+.if-close:hover { background: rgba(255,255,255,.22); }
+.if-close svg { width: 18px; height: 18px; }
+.if-overlay :is(button, video):focus-visible { outline: 2px solid #71b7ff; outline-offset: 3px; }
+@media (max-width: 640px) { .if-close { top: auto; bottom: calc(100% + 10px); } .if-frame { border-radius: 12px; } }
+
+/* ---------- Status island (desktop) ---------- */
+.si-root { position: fixed; top: 9px; left: 50%; z-index: 86; transform: translateX(-50%); }
+.si-island { overflow: hidden; background: #000; color: #f5f5f7; box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 12px 34px rgba(0,0,0,.35); }
+.si-compact { display: flex; height: 36px; align-items: center; gap: 9px; padding: 0 14px 0 7px; color: inherit; font-size: 12.5px; font-weight: 500; white-space: nowrap; }
+.si-avatar { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; }
+.si-avatar.is-large { width: 44px; height: 44px; }
+.si-label { letter-spacing: -.005em; }
+.si-live { display: inline-flex; align-items: center; gap: 6px; margin-left: 4px; color: var(--im-ok); font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.si-live i { width: 7px; height: 7px; border-radius: 50%; background: var(--im-ok); box-shadow: 0 0 0 0 rgba(48,209,88,.6); animation: si-pulse 2.4s ease-out infinite; }
+.si-live.is-large { margin-left: auto; align-self: flex-start; padding: 4px 9px; border-radius: 999px; background: rgba(48,209,88,.14); }
+@keyframes si-pulse { 0% { box-shadow: 0 0 0 0 rgba(48,209,88,.55); } 70%, 100% { box-shadow: 0 0 0 7px rgba(48,209,88,0); } }
+.si-expanded { width: min(420px, calc(100vw - 32px)); padding: 16px 16px 14px; }
+.si-head { display: flex; align-items: center; gap: 12px; }
+.si-head strong { display: block; font-size: 15px; font-weight: 600; letter-spacing: -.015em; }
+.si-head span:not(.si-live) { display: block; margin-top: 2px; color: rgba(245,245,247,.62); font-size: 12px; }
+.si-roles { margin-top: 12px; color: rgba(245,245,247,.86); font-size: 13px; line-height: 1.5; }
+.si-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.si-actions :is(button, a) { display: inline-flex; min-height: 34px; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 999px; background: rgba(255,255,255,.12); color: #f5f5f7; font-size: 12.5px; font-weight: 500; }
+.si-actions :is(button, a):first-child { background: #f5f5f7; color: #000; }
+.si-actions :is(button, a):hover { filter: brightness(1.15); }
+.si-root :is(button, a):focus-visible { outline: 2px solid #71b7ff; outline-offset: 2px; }
+
+/* ---------- Brand field fold (project opening) ---------- */
+.bt-root { position: fixed; inset: 0; z-index: 140; pointer-events: none; }
+.bt-frame, .bt-field { position: absolute; inset: 0; }
+.bt-mark { position: fixed; display: grid; justify-items: center; gap: 10px; color: #fff; text-align: center; transform: translate(-50%, -50%); will-change: transform, opacity, filter; }
+.bt-mark img { width: 72px; height: 72px; border-radius: 17px; box-shadow: 0 18px 44px rgba(0,0,0,.28); }
+.bt-mark strong { font-size: clamp(34px, 4.4vw, 60px); font-weight: 700; line-height: 1; letter-spacing: -.045em; }
+.bt-mark span { color: rgba(255,255,255,.78); font-size: 13px; font-weight: 500; }
+
+/* ---------- Grow-check: dot → ring → tick ---------- */
+.gc { flex-shrink: 0; overflow: visible; color: var(--pf-blue); }
+.gc-ring { fill: none; stroke: currentColor; stroke-width: 2; transform-origin: 12px 12px; transform: scale(.18); opacity: .9; stroke-dasharray: 63; stroke-dashoffset: 0; }
+.gc-tick { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 16; stroke-dashoffset: 16; opacity: 0; }
+.is-in .gc-ring { animation: gc-ring .55s cubic-bezier(.22,1,.36,1) var(--gc-delay, 0ms) forwards; }
+.is-in .gc-tick { animation: gc-tick .42s cubic-bezier(.65,0,.35,1) calc(var(--gc-delay, 0ms) + 380ms) forwards; }
+@keyframes gc-ring { 0% { transform: scale(.18); stroke-width: 9; } 60% { transform: scale(1.08); stroke-width: 2; } 100% { transform: scale(1); stroke-width: 2; } }
+@keyframes gc-tick { from { stroke-dashoffset: 16; opacity: 1; } to { stroke-dashoffset: 0; opacity: 1; } }
+/* the release pipeline toggles its verbs with .is-done instead */
+.mo-verbs { display: flex; flex-wrap: wrap; gap: 6px 18px; width: 100%; }
+.mo-verb { display: inline-flex; align-items: center; gap: 7px; color: var(--mo-faint); font: 600 14px/1.3 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing: -.01em; transition: color .3s; }
+.mo-verb .gc { color: var(--mo-ok); }
+.mo-verb.is-done { color: var(--mo-ink); }
+.mo-verb.is-done .gc-ring { animation: gc-ring .5s cubic-bezier(.22,1,.36,1) forwards; }
+.mo-verb.is-done .gc-tick { animation: gc-tick .36s cubic-bezier(.65,0,.35,1) .3s forwards; }
+.mo-verb:last-child.is-done { color: var(--mo-accent-ink); }
+
+/* ---------- Case studies: screen recordings ---------- */
+.pf-story-recording .pf-story-image { position: relative; padding: 0; background: #000; }
+.pf-story-recording .fn-video, .pf-story-recording .fn-video.is-portrait { width: 100%; height: 100%; max-height: none; aspect-ratio: auto; border-radius: 0; object-fit: cover; }
+.pf-story-live { position: absolute; top: 12px; left: 50%; display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; border-radius: 999px; background: rgba(0,0,0,.6); color: #f5f5f7; font-size: 10px; font-weight: 600; letter-spacing: .02em; transform: translateX(-50%); backdrop-filter: blur(8px); white-space: nowrap; pointer-events: none; }
+.pf-story-live i { width: 6px; height: 6px; border-radius: 50%; background: #ff453a; }
+
+/* ---------- Roadpack: it lives where you look ---------- */
+.rs-section { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 28px 40px; padding: clamp(24px, 4cqw, 40px); border-radius: 28px; background: #0b0d12; color: #f5f5f7; overflow: hidden; }
+.rs-section .pf-eyebrow { color: #8e9aa8; }
+.rs-section h3 { margin-top: 10px; font-size: clamp(30px, 4.6cqw, 46px); line-height: 1.06; }
+.rs-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.rs-tabs button { position: relative; min-height: 38px; overflow: hidden; padding: 8px 15px; border-radius: 999px; background: rgba(255,255,255,.08); color: rgba(245,245,247,.75); font-size: 13px; font-weight: 500; transition: background .25s, color .25s; }
+.rs-tabs button.is-active { background: #f5f5f7; color: #0b0d12; }
+.rs-tabs button:focus-visible { outline: 2px solid #71b7ff; outline-offset: 3px; }
+.rs-tab-timer { position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: #1E62DA; transform-origin: left; animation: rs-timer linear forwards; }
+@keyframes rs-timer { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.rs-detail { min-height: 132px; margin-top: 20px; }
+.rs-detail h4 { font-size: 19px; font-weight: 600; letter-spacing: -.02em; }
+.rs-detail p { max-width: 440px; margin-top: 8px; color: rgba(245,245,247,.72); font-size: 14px; line-height: 1.65; }
+.rs-spec { margin-top: 10px; color: #8e9aa8; font: 400 11px/1.6 var(--font-mono), ui-monospace, monospace; }
+.rs-stage { display: grid; justify-items: center; gap: 14px; }
+.rs-phone { position: relative; width: min(280px, 78vw); aspect-ratio: 738 / 1600; padding: 9px; border-radius: 46px; background: linear-gradient(150deg, #5a6170, #23262d 40%, #121418); box-shadow: 0 40px 80px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.12); }
+.rs-screen { position: relative; height: 100%; overflow: hidden; border-radius: 38px; background: #000; }
+.rs-wall { object-fit: cover; transition: filter .6s, transform .8s cubic-bezier(.22,1,.36,1); }
+.rs-wall.is-dim { filter: blur(14px) brightness(.45) saturate(1.2); transform: scale(1.08); }
+.rs-la-ring { position: absolute; left: 3%; top: 66%; width: 94%; height: 19.4%; border-radius: 22px; box-shadow: 0 0 0 2px rgba(74,168,255,.95), 0 0 34px rgba(74,168,255,.55); animation: rs-glow 2.2s ease-in-out infinite; pointer-events: none; }
+@keyframes rs-glow { 50% { box-shadow: 0 0 0 2px rgba(74,168,255,.7), 0 0 18px rgba(74,168,255,.3); } }
+.rs-island { position: absolute; top: 2%; left: 33%; width: 34%; height: 4.8%; overflow: hidden; border-radius: 16px; background: #000; box-shadow: 0 10px 28px rgba(0,0,0,.35); }
+.rs-island-compact, .rs-island-open { position: absolute; inset: 0; }
+.rs-island-compact { display: flex; align-items: center; justify-content: space-between; padding: 0 9px; color: var(--im-ok); font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.rs-island-compact img { border-radius: 5px; }
+.rs-island-open img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.rs-siri { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 12px; padding: 16px 14px 34px; }
+.rs-siri-glow { position: absolute; inset: 0; border-radius: 38px; padding: 4px; background: conic-gradient(from var(--rs-a, 0deg), #ff4fa3, #a35bff, #3d8bff, #33d6c9, #ffb44f, #ff4fa3); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; filter: blur(3px); animation: rs-spin 3.2s linear infinite; }
+@property --rs-a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@keyframes rs-spin { to { --rs-a: 360deg; } }
+.rs-siri-answer { position: relative; display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 18px; background: rgba(40,40,46,.86); backdrop-filter: blur(12px); }
+.rs-siri-answer img { border-radius: 7px; }
+.rs-siri-answer p { color: #f5f5f7; font-size: 12.5px; font-weight: 500; line-height: 1.4; }
+.rs-siri-ask { position: relative; color: rgba(245,245,247,.92); font-size: 15px; font-weight: 600; line-height: 1.35; text-align: center; }
+.rs-note { max-width: 300px; color: #8e9aa8; font-size: 11px; line-height: 1.55; text-align: center; }
+@container (max-width: 700px) { .rs-section { grid-template-columns: 1fr; } .rs-detail { min-height: 0; } }
+
+/* ---------- Research: the headline rings and the chip ---------- */
+.rh-stage { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); align-items: center; gap: 28px 36px; margin-top: 30px; padding: clamp(22px, 4cqw, 36px); border-radius: 28px; background: #070b14; color: #f5f5f7; }
+.rh-stage .pf-eyebrow { color: #8e9aa8; }
+.rh-copy h3 { margin-top: 10px; font-size: clamp(25px, 3.4cqw, 34px); line-height: 1.14; }
+.rh-accent { background: linear-gradient(100deg, #8ec5ff, #3d86e8); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.rh-foot { margin-top: 14px; color: #8e9aa8; font-size: 12px; line-height: 1.6; }
+.rh-visuals { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: center; gap: 18px; }
+.rh-rings { display: flex; gap: 18px; }
+.rh-ring { position: relative; display: grid; justify-items: center; gap: 10px; width: 118px; margin: 0; text-align: center; }
+.rh-ring svg { width: 118px; height: 118px; transform: rotate(-90deg); }
+.rh-track { fill: none; stroke: rgba(255,255,255,.08); stroke-width: 10; }
+.rh-arc { fill: none; stroke: #6b7787; stroke-width: 10; stroke-linecap: round; stroke-dashoffset: var(--rh-full); transition: stroke-dashoffset 1.4s cubic-bezier(.22,1,.36,1) var(--rh-delay, 0ms); }
+.rh-ring.is-lead .rh-arc { stroke: #4aa8ff; filter: drop-shadow(0 0 6px rgba(74,168,255,.45)); }
+.rh-stage.is-in .rh-arc { stroke-dashoffset: var(--rh-off); }
+.rh-value { position: absolute; top: 0; left: 0; display: grid; width: 118px; height: 118px; place-items: center; font-size: 30px; font-weight: 700; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.rh-ring:not(.is-lead) .rh-value { color: #aab3bf; font-size: 24px; }
+.rh-ring figcaption strong { display: block; font-size: 12px; font-weight: 600; }
+.rh-ring figcaption span { display: block; margin-top: 2px; color: #8e9aa8; font: 400 11px/1.4 var(--font-mono), ui-monospace, monospace; }
+.rh-chip { display: grid; justify-items: center; gap: 8px; width: 150px; margin: 0; text-align: center; }
+.rh-chip svg { width: 124px; height: 124px; }
+.rh-pins rect { fill: #3b4352; }
+.rh-package { fill: #161b25; stroke: #2a3242; stroke-width: 2; }
+.rh-die { fill: #0c1018; stroke: #253047; }
+.rh-core { fill: #1d2636; transition: fill .35s; }
+.rh-stage.is-in .rh-core { animation: rh-core 1.8s cubic-bezier(.22,1,.36,1) calc(var(--rh-i) * 38ms + 300ms) forwards, rh-hum 4s ease-in-out calc(var(--rh-i) * 97ms + 2.4s) infinite; }
+@keyframes rh-core { 0% { fill: #1d2636; } 30% { fill: #8ec5ff; } 100% { fill: #2f6fd1; } }
+@keyframes rh-hum { 0%, 100% { fill: #2f6fd1; } 50% { fill: #4aa8ff; } }
+.rh-chip figcaption strong { display: block; font-size: 13px; font-weight: 600; }
+.rh-chip figcaption span { display: block; margin-top: 2px; color: #8e9aa8; font-size: 11px; line-height: 1.45; }
+@container (max-width: 760px) { .rh-stage { grid-template-columns: 1fr; } }
+@container (max-width: 420px) { .rh-ring, .rh-ring svg, .rh-value { width: 104px; } .rh-ring svg, .rh-value { height: 104px; } .rh-rings { gap: 10px; } }
+
+/* ---------- Home and Experience: IFS Copperleaf's purple field ---------- */
+.pf-home-notes .pf-home-ifs { display: grid; }
+.pf-home-ifs-field { position: relative; display: grid !important; aspect-ratio: 16 / 9; margin: 0 0 18px !important; place-content: center; justify-items: center; gap: 10px; overflow: hidden; border-radius: 18px; background: radial-gradient(120% 110% at 28% 18%, #B477FF 0%, #8427E2 42%, #2A0A55 100%); color: rgba(255,255,255,.82) !important; }
+.pf-home-ifs-field img { width: clamp(120px, 40%, 190px); height: auto; filter: brightness(0) invert(1); }
+.pf-home-ifs-field small { font-size: 11px; font-weight: 600; letter-spacing: .03em; }
+.pf-role-feature.is-ifs { background: radial-gradient(120% 110% at 28% 18%, #B477FF 0%, #8427E2 42%, #2A0A55 100%); color: #fff; }
+.pf-role-feature.is-ifs > strong { color: #fff; }
+.pf-role-feature.is-ifs p { color: rgba(255,255,255,.8); }
+
+/* ---------- Life: behind the wheel ---------- */
+.fn-drive { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); align-items: center; gap: 18px 24px; margin: 18px 0; padding: 16px; border-radius: 20px; background: var(--pf-card); }
+.fn-drive .fn-drive-video { aspect-ratio: 4 / 5; max-height: none; }
+.fn-drive h4 { margin-top: 6px; font-size: 20px; font-weight: 600; letter-spacing: -.02em; color: var(--pf-ink); }
+.fn-drive p:not(.pf-eyebrow) { margin-top: 6px; color: var(--pf-secondary); font-size: 14px; line-height: 1.6; }
+@media (max-width: 560px) { .fn-drive { grid-template-columns: 1fr; } }
+
+/* ---------- Life: the drone dive ---------- */
+.dd-figure { display: grid; gap: 10px; margin: 0 0 22px; }
+.dd-figure figcaption { display: grid; gap: 3px; color: var(--pf-muted); font-size: 12px; line-height: 1.55; }
+.dd-figure figcaption strong { color: var(--pf-ink); font-size: 13px; font-weight: 600; }
+.dd-stage { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 20px; background: radial-gradient(90% 80% at 50% 45%, #15171c, #020203 70%); isolation: isolate; }
+.dd-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+.dd-lens { position: absolute; inset: 0; z-index: 2; }
+.dd-lens video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dd-stage.is-idle .dd-lens, .dd-stage.is-loading .dd-lens { clip-path: none !important; opacity: .32 !important; filter: blur(2px) saturate(.8); }
+.dd-ring { position: absolute; left: 0; top: 0; z-index: 3; width: 1000px; height: 1000px; margin: -500px 0 0 -500px; border-radius: 50%; box-shadow: inset 0 0 0 10px rgba(0,0,0,.85), inset 0 0 60px 30px rgba(0,0,0,.65), 0 0 0 2px rgba(255,255,255,.08); opacity: 0; pointer-events: none; transform-origin: center; }
+.dd-play, .dd-replay, .dd-status { position: absolute; z-index: 4; display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; color: #fff; font-size: 13px; font-weight: 600; }
+.dd-play { left: 50%; top: 50%; min-height: 46px; padding: 0 20px; background: rgba(255,255,255,.16); backdrop-filter: blur(14px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.3); transform: translate(-50%, -50%); }
+.dd-play:hover { background: rgba(255,255,255,.26); }
+.dd-status { left: 50%; top: 50%; padding: 8px 14px; background: rgba(0,0,0,.5); transform: translate(-50%, -50%); font-weight: 500; }
+.dd-replay { right: 12px; bottom: 12px; min-height: 34px; padding: 0 12px; background: rgba(0,0,0,.45); backdrop-filter: blur(10px); font-weight: 500; font-size: 12px; opacity: .85; }
+.dd-replay:hover { opacity: 1; }
+.dd-stage :is(.dd-play, .dd-replay):focus-visible { outline: 2px solid #71b7ff; outline-offset: 3px; }
+
+/* ---------- The tour's dot ---------- */
+.td-root { position: fixed; inset: 0; z-index: 120; pointer-events: none; }
+.td-dot { position: absolute; left: 0; top: 0; width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, var(--im-ember-a), var(--im-ember-b) 55%, var(--im-ember-c)); box-shadow: 0 0 18px rgba(255,122,47,.75), 0 0 2px rgba(255,255,255,.6); }
+.td-ring { position: absolute; border: 2px solid rgba(255,122,47,.9); box-shadow: 0 0 24px rgba(255,122,47,.35); opacity: 0; }
+
+/* ---------- Reduced motion: everything rests in its final state ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .gc-ring, .gc-tick, .mo-verb .gc-ring, .mo-verb .gc-tick { animation: none !important; transform: none; stroke-dashoffset: 0; opacity: 1; }
+  .rh-arc { transition: none; stroke-dashoffset: var(--rh-off); }
+  .rh-core { animation: none !important; fill: #2f6fd1; }
+  .si-live i, .rs-la-ring, .rs-siri-glow, .rs-tab-timer { animation: none !important; }
+  .if-card-media { transition: none; }
+}
+html[data-reduce-motion="true"] :is(.gc-ring, .gc-tick) { animation: none !important; transform: none; stroke-dashoffset: 0; opacity: 1; }
+html[data-reduce-motion="true"] .rh-arc { transition: none; stroke-dashoffset: var(--rh-off); }
+html[data-reduce-motion="true"] .rh-core { animation: none !important; fill: #2f6fd1; }
+html[data-reduce-motion="true"] :is(.si-live i, .rs-la-ring, .rs-siri-glow, .rs-tab-timer) { animation: none !important; }

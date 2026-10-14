@@ -17,6 +17,10 @@ import { AiIsland } from "./ai-island";
 import { TopRail } from "./top-rail";
 import { DesktopWidgets, MobileConnectedWidgets } from "./widgets/desktop-widgets";
 import { ProfileApp } from "./apps/profile-app";
+import { IntroFilmHost } from "./intro-film";
+import { BrandTransitionHost } from "./brand-transition";
+import { StatusIsland } from "./status-island";
+import { TourDot } from "./tour-dot";
 import { cn } from "@/utils/cn";
 
 const WorkApp = dynamic(() => import("./apps/work-app").then((m) => m.WorkApp), {
@@ -323,6 +327,8 @@ export function ArjunOSShell() {
       </main>
 
       {isMobile ? <PhoneTabBar /> : !isTabletPortrait && <Dock onOpenAccessibility={() => setA11yOpen((v) => !v)} />}
+      {layoutMode === "desktop" && booted && <StatusIsland />}
+      <TourDot />
 
       {!isMobile && (
         <p className="pointer-events-none fixed bottom-1 right-3 z-[5] font-mono text-[10px] text-os-muted">
@@ -355,6 +361,8 @@ export function ArjunOSShell() {
         </motion.div>
       )}
       </motion.div>
+      <IntroFilmHost />
+      <BrandTransitionHost />
     </div>
   );
 }

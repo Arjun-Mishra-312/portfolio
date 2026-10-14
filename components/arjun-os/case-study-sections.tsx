@@ -1,17 +1,26 @@
 import Image from "next/image";
-import { ArrowUpRight, Check, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, ShieldCheck } from "lucide-react";
 import { type PortfolioProject } from "@/lib/arjun-os/portfolio-data";
 import { projectCaseStudies, type CaseMedia, type DetailedProjectId } from "@/lib/arjun-os/project-case-studies";
 import dimensions from "@/public/case-studies/dimensions.json";
 import { ProjectArt, projectEditorial } from "./project-art";
 import { EngineeringStories } from "./engineering-stories";
+import { LoopVideo } from "./motion/loop-video";
+import { GrowCheck } from "./motion/grow-check";
+import { InView } from "./motion/in-view";
 
 type Chapter = "Overview" | "Problem" | "Role" | "Process" | "Architecture" | "Results" | "Learnings" | "Links";
 
 function CaseFigure({ media }: { media: CaseMedia }) {
   const size = dimensions[media.asset as keyof typeof dimensions];
-  return <figure className={"pf-story-figure" + (media.portrait ? " pf-story-portrait" : "")}>
-    <div className="pf-story-image"><Image src={"/case-studies/" + media.asset + ".webp"} alt={media.alt} width={size.width} height={size.height} sizes={media.portrait ? "(max-width: 640px) 80vw, 400px" : "(max-width: 640px) 100vw, 1000px"} /></div>
+  const poster = "/case-studies/" + media.asset + ".webp";
+  return <figure className={"pf-story-figure" + (media.portrait ? " pf-story-portrait" : "") + (media.video ? " pf-story-recording" : "")}>
+    <div className="pf-story-image" style={media.video ? { aspectRatio: `${size.width} / ${size.height}` } : undefined}>
+      {media.video
+        ? <LoopVideo src={media.video} poster={poster} label={media.alt} portrait={media.portrait} />
+        : <Image src={poster} alt={media.alt} width={size.width} height={size.height} sizes={media.portrait ? "(max-width: 640px) 80vw, 400px" : "(max-width: 640px) 100vw, 1000px"} />}
+      {media.video && <span className="pf-story-live" aria-hidden><i />Screen recording</span>}
+    </div>
     <figcaption>{media.caption}</figcaption>
   </figure>;
 }
@@ -21,7 +30,7 @@ function SourceNotes({ id }: { id: DetailedProjectId }) {
 }
 
 function ResultWidgets({ project }: { project: PortfolioProject }) {
-  return <div className="pf-glass-stage pf-summary-stage"><div className="pf-case-outcomes">{project.results.slice(0, 3).map(result => <div className="pf-glass-widget" key={result}><Check size={17} aria-hidden /><p>{result}</p></div>)}</div></div>;
+  return <div className="pf-glass-stage pf-summary-stage"><InView className="pf-case-outcomes">{project.results.slice(0, 3).map((result, index) => <div className="pf-glass-widget" key={result}><GrowCheck delay={index * 140} /><p>{result}</p></div>)}</InView></div>;
 }
 
 export function CaseStudyChapter({ project, chapter }: { project: PortfolioProject; chapter: Chapter }) {
@@ -42,7 +51,7 @@ export function CaseStudyChapter({ project, chapter }: { project: PortfolioProje
   </>;
   if (chapter === "Process") return <>
     <div className="pf-chapter-intro"><h4>{study.process.title}</h4><p>{study.process.body}</p></div>
-    <ol className="pf-decision-grid" aria-label={project.title + " design decisions"}>{study.process.decisions.map((decision, index) => <li key={decision.title}><span className="pf-step-number">{String(index + 1).padStart(2, "0")}</span><h4>{decision.title}</h4><p>{decision.body}</p><div className="pf-decision-consequence"><Check size={16} aria-hidden /><span>{decision.consequence}</span></div></li>)}</ol>
+    <InView><ol className="pf-decision-grid" aria-label={project.title + " design decisions"}>{study.process.decisions.map((decision, index) => <li key={decision.title}><span className="pf-step-number">{String(index + 1).padStart(2, "0")}</span><h4>{decision.title}</h4><p>{decision.body}</p><div className="pf-decision-consequence"><GrowCheck size={16} delay={index * 140} /><span>{decision.consequence}</span></div></li>)}</ol></InView>
     {study.process.media && <CaseFigure media={study.process.media} />}<SourceNotes id={id} />
   </>;
   if (chapter === "Architecture") return <>

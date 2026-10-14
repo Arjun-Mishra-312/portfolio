@@ -63,9 +63,9 @@ export const engineeringStories: Partial<Record<ProjectId, EngineeringStory[]>> 
     {
       title: "Small models describe instead of acting",
       problem: "On-device models small enough for a phone often describe a tool call in prose instead of making it, then invent the numbers.",
-      constraint: "Financial answers must be correct, run on the phone, and fit phones with very different amounts of memory.",
-      move: "Built the on-device Gemma pipeline on LiteRT-LM with a corrective retry when a model narrates instead of calling a tool. Answers come from finance tool results, and phones under 8 GB default to a 2B model.",
-      proof: "Live on the App Store with on-device Gemma and Qwen models and production Plaid connectivity.",
+      constraint: "Financial answers must be correct, and the model has to run on the phone itself: Qwen3.5 4B with 4-bit weights on Apple’s MLX.",
+      move: "Hardened tool calling with a corrective retry when a model narrates instead of calling a tool, so answers come from one of 22 finance tools. I also built a second runtime for Gemma models on LiteRT-LM.",
+      proof: "Live on the App Store: it checks what you can afford, builds budgets, and sets goals from one conversation.",
       visual: "model-fit",
     },
   ],

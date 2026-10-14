@@ -2510,6 +2510,9 @@ body {
 }
 
 /* Full sequence: lid → hold → zoom → overlay out */
+/* Deep links and returning visits skip the intro before React hydrates (see the preferences script in layout.tsx). */
+html[data-skip-boot="true"] .os-boot { display: none !important; }
+
 .os-boot-playing {
   animation: os-boot-overlay-out 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
 }

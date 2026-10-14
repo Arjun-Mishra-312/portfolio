@@ -93,5 +93,25 @@
     "width": 2000,
     "height": 1266,
     "bytes": 142718
+  },
+  "mune-insights": {
+    "width": 600,
+    "height": 1300,
+    "bytes": 34088
+  },
+  "mune-budgets": {
+    "width": 600,
+    "height": 1300,
+    "bytes": 32604
+  },
+  "mune-doordash": {
+    "width": 600,
+    "height": 1300,
+    "bytes": 33812
+  },
+  "mune-ask": {
+    "width": 600,
+    "height": 1300,
+    "bytes": 50332
   }
 }

@@ -1,15 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight, MapPin } from "lucide-react";
+import { ArrowRight, ArrowUpRight, MapPin, Play } from "lucide-react";
 import { portfolioData } from "@/lib/arjun-os/portfolio-data";
 import { useOSActions } from "@/lib/arjun-os/os-context";
 import { ProjectArt } from "../project-art";
+import { IntroFilmCard, openIntroFilm } from "../intro-film";
+import { brandOpen } from "../brand-transition";
 
 export function ProfileApp() {
   const { openApp, openResume, startTour, runIslandAction } = useOSActions();
   const { profile } = portfolioData;
-  const openProject = (id: "roadpack" | "buildstory" | "mune") => runIslandAction({ id: "home-" + id, label: "Explore " + id, type: "open-project", projectId: id });
+  const openProject = (id: "roadpack" | "buildstory" | "mune", from?: Element | null) =>
+    brandOpen(from ?? null, id, () => runIslandAction({ id: "home-" + id, label: "Explore " + id, type: "open-project", projectId: id }));
   return (
     <div className="pf-document pf-home">
       <header className="pf-person">
@@ -22,15 +25,17 @@ export function ProfileApp() {
         <h2>Apps that ship.<br />Agents that show their work.</h2>
         <p>{profile.positioning}</p>
         <div className="pf-actions">
-          <button className="pf-button" onClick={startTour}>Take a quick tour<ArrowRight size={16} aria-hidden /></button>
+          <button className="pf-button" onClick={() => openIntroFilm("short")}><Play size={15} fill="currentColor" aria-hidden />Watch the 1-minute intro</button>
+          <button className="pf-button pf-button-quiet" onClick={startTour}>Take a quick tour<ArrowRight size={16} aria-hidden /></button>
           <button className="pf-link" onClick={openResume}>Open Resume<ArrowUpRight size={15} aria-hidden /></button>
           <a className="pf-link" href={"mailto:" + profile.contact.email}>Say hello<ArrowUpRight size={15} aria-hidden /></a>
         </div>
         <dl className="pf-proof" aria-label="At a glance">{profile.proof.map(item => <div key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>
       </section>
+      <IntroFilmCard />
       <div className="pf-section-heading"><h3>A little of what I’ve been building</h3><button className="pf-link" onClick={() => openApp("work")}>All work<ArrowRight size={14} aria-hidden /></button></div>
       <div className="pf-home-features">
-        <button className="pf-feature pf-feature-roadpack" onClick={() => openProject("roadpack")}>
+        <button className="pf-feature pf-feature-roadpack" onClick={(event) => openProject("roadpack", event.currentTarget)}>
           <div className="pf-feature-copy"><p className="pf-eyebrow">Shipped · iPhone & iPad</p><h3>Roadpack</h3><p>Separate cars.<br />One shared adventure.</p><span className="pf-link">Watch the launch film<ArrowRight size={15} aria-hidden /></span></div>
           <ProjectArt id="roadpack" />
         </button>
@@ -40,15 +45,15 @@ export function ProfileApp() {
         </button>
       </div>
       <section className="pf-recent-products" aria-label="More recent products">
-        {[{ id: "buildstory" as const, title: "BuildStory", detail: "Open-source tooling · 330+ automated tests" }, { id: "mune" as const, title: "Mune", detail: "Shipped on iOS · On-device finance AI" }].map(item => (
-          <button key={item.id} className="pf-feature" onClick={() => openProject(item.id)}>
+        {[{ id: "buildstory" as const, title: "BuildStory", detail: "Open-source tooling · 330+ automated tests" }, { id: "mune" as const, title: "Mune", detail: "Qwen3.5 4B on the iPhone · 22 finance tools" }].map(item => (
+          <button key={item.id} className="pf-feature" onClick={(event) => openProject(item.id, event.currentTarget)}>
             <div className="pf-feature-copy"><p className="pf-eyebrow">{item.id === "mune" ? "Personal finance" : "Developer tools"}</p><h3>{item.title}</h3><p>{item.detail}</p><span className="pf-link">Explore the project<ArrowRight size={15} aria-hidden /></span></div>
             <ProjectArt id={item.id} />
           </button>
         ))}
       </section>
       <div className="pf-home-notes">
-        <button onClick={() => openApp("experience")}><span className="pf-eyebrow">In practice</span><strong>AI implementations<br />at IFS Copperleaf.</strong><span>Part-time engineer. HCI/AI research at UBC.<ArrowRight size={15} aria-hidden /></span></button>
+        <button onClick={() => openApp("experience")} className="pf-home-ifs"><span className="pf-home-ifs-field" aria-hidden><Image src="/copperleaf-logo.png" alt="" width={507} height={160} /><small>AI co-op → part-time engineer</small></span><span className="pf-eyebrow">In practice</span><strong>AI implementations<br />at IFS Copperleaf.</strong><span>Data pipelines and an ROI portal for senior leadership.<ArrowRight size={15} aria-hidden /></span></button>
         <button onClick={() => openApp("life")} className="pf-home-life"><span className="pf-home-life-photo"><Image src="/life/photos/fuji-fujiyoshida.webp" alt="" fill sizes="(max-width: 640px) 100vw, 420px" className="object-cover" /></span><span className="pf-eyebrow">Away from the keyboard</span><strong>Drone films, LEGO supercars,<br />and a good chai.</strong><span>Meet the person behind the projects.<ArrowRight size={15} aria-hidden /></span></button>
       </div>
       <section className="pf-credentials" aria-labelledby="education-heading">

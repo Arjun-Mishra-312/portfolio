@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import "./portfolio.css";
+import "./immersive.css";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -19,6 +20,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://arjunmishra.site"),
   title: "Arjun OS | Arjun Mishra — Software Engineer + HCI/AI Researcher",
   description:
     "Meet Arjun Mishra: software engineer and HCI/AI researcher in Vancouver. Explore Roadpack, Mune, BuildStory, production AI at IFS Copperleaf, and accessibility research at UBC.",
@@ -80,7 +82,7 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <Script id="arjun-os-preferences" strategy="beforeInteractive">
-          {`(function(){try{var d=document.documentElement;var t=localStorage.getItem('arjun-os-theme');if(t!=='dawn'&&t!=='dusk')t='dusk';d.dataset.arjunTheme=t;d.classList.toggle('dark',t==='dusk');var a={};try{a=JSON.parse(localStorage.getItem('arjun-os-a11y')||'{}')||{}}catch(e){}var systemReduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;var reduceMotion=Boolean(a.reduceMotion||systemReduce);d.dataset.reduceMotion=String(reduceMotion);d.dataset.reduceTransparency=String(Boolean(a.reduceTransparency));d.dataset.highContrast=String(Boolean(a.highContrast));}catch(e){}})();`}
+          {`(function(){try{var d=document.documentElement;var t=localStorage.getItem('arjun-os-theme');if(t!=='dawn'&&t!=='dusk')t='dusk';d.dataset.arjunTheme=t;d.classList.toggle('dark',t==='dusk');var a={};try{a=JSON.parse(localStorage.getItem('arjun-os-a11y')||'{}')||{}}catch(e){}var systemReduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;var reduceMotion=Boolean(a.reduceMotion||systemReduce);d.dataset.reduceMotion=String(reduceMotion);d.dataset.reduceTransparency=String(Boolean(a.reduceTransparency));d.dataset.highContrast=String(Boolean(a.highContrast));var q=new URLSearchParams(location.search);var f=q.get('boot')==='1'||q.get('boot')==='force';var app=q.get('app');var direct=(app!==null&&app!=='profile')||q.has('project')||q.has('ai')||q.has('tour');if(!f&&(direct||reduceMotion||sessionStorage.getItem('arjun-os-booted')==='true'))d.dataset.skipBoot='true';}catch(e){}})();`}
         </Script>
       </head>
       <body className={`${inter.className} ${jetbrainsMono.variable} antialiased`} suppressHydrationWarning>

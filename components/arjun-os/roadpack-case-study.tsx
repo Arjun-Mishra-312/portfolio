@@ -6,6 +6,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { getProject } from "@/lib/arjun-os/portfolio-data";
 import { MediaPlayer } from "./media-player";
 import { EngineeringStories } from "./engineering-stories";
+import { RoadpackSurfaces } from "./roadpack-surfaces";
 import launchTranscript from "@/lib/arjun-os/roadpack-launch-transcript.json";
 
 const captures = [
@@ -50,6 +51,7 @@ export function RoadpackCaseStudy({ onBack }: { onBack: () => void }) {
         </div>
         <figure className="pf-device-shot"><Image key={capture.id} src={`/roadpack/screens/${capture.id}.webp`} alt={`Roadpack — ${capture.label}. ${capture.description}`} width={780} height={1690} sizes="(max-width: 640px) 80vw, 300px" /></figure>
       </section>
+      <RoadpackSurfaces />
       <section className="pf-section"><p className="pf-eyebrow">From a real trip</p><h3>Built for the road.<br />And everything along it.</h3>
         <div className="pf-recordings">
           <MediaPlayer portrait src="/roadpack/trip-demo.mp4" poster="/roadpack/trip-poster.jpg" title="A shared trip in Vancouver" description="A 38-second screen recording of the live trip interface, pack coordination, and stops along the route." />

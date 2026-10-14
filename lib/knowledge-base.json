@@ -44,7 +44,7 @@
     },
     "pro-4": {
       "question": "Where are you working now?",
-      "answer": "Since October 2025, my IFS Copperleaf work has progressed from an AI Engineering Co-op to a part-time Jr. AI Implementations Engineer role. I take production AI and data applications from stakeholder discovery to deployment using Databricks, Spark, Delta Lake, and LLM APIs. I owned an ROI Analytics Portal adopted by Department Leaders and Senior Leadership, and built a Data Validation Portal saving an estimated 160+ employee hours annually. I also research HCI/AI at UBC SOCIUS Lab under Professor Dongwook Yoon, since February 2025."
+      "answer": "Since October 2025, my IFS Copperleaf work has progressed from an AI Engineering Co-op to a part-time Jr. AI Implementations Engineer role. I take production AI and data applications from stakeholder discovery to deployment using Databricks, Spark, Delta Lake, and LLM APIs. I owned an ROI Analytics Portal adopted by Department Leaders and Senior Leadership, and built a Data Validation Portal that runs enterprise data-quality checks before AI ingestion. I also research HCI/AI at UBC SOCIUS Lab under Professor Dongwook Yoon, since February 2025."
     },
     "pro-5": {
       "question": "What's your educational background?",
@@ -82,7 +82,7 @@
     },
     "proj-3": {
       "question": "Tell me about your AI/ML projects",
-      "answer": "My AI work spans production enterprise applications at IFS Copperleaf, agentic accessibility research, and on-device models in Mune. The accessibility framework has 40 WCAG-specific agents and a shared 31-tool browser/accessibility library. On 250 page–criterion records across 11 platforms, it achieved 86% recall at 56% precision; findings require human review. In Mune I built the on-device Gemma pipeline and made small models call finance tools reliably. BuildStory normalizes coding-session data from Claude Code, Codex, Cursor, and Gemini Antigravity."
+      "answer": "My AI work spans production enterprise applications at IFS Copperleaf, agentic accessibility research, and on-device models in Mune. The accessibility framework has 40 WCAG-specific agents and a shared 31-tool browser/accessibility library. On 250 page–criterion records across 11 platforms, it achieved 86% recall at 56% precision; findings require human review. Mune's assistant runs Qwen3.5 4B (4-bit) on the iPhone with Apple's MLX and acts through 22 finance tools; I hardened tool calling so small on-device models make real tool calls, and built a second runtime for Gemma models on LiteRT-LM. BuildStory normalizes coding-session data from Claude Code, Codex, Cursor, and Gemini Antigravity."
     },
     "proj-4": {
       "question": "What's your biggest technical challenge?",
@@ -114,7 +114,7 @@
     },
     "proj-mune": {
       "question": "Tell me about Mune and its on-device AI",
-      "answer": "I co-founded Mune, a personal finance iPhone app started in May 2026 and live on the App Store. It includes Safe-to-Spend, budgets, goals, subscriptions, notifications, and production Plaid bank connectivity. I built the on-device Gemma pipeline on LiteRT-LM and hardened tool calling for small models. Tiny models often describe a tool call in prose instead of making it, so I added a corrective retry, and the assistant answers from finance tool results rather than the model's own arithmetic. Phones under 8 GB default to a 2B model. Pranav and I were both iOS developers on the app. A Node.js/Vercel backend handles Plaid token exchange, webhooks, transaction refresh, authentication, and account lifecycle; RevenueCat supports subscriptions. App Store: https://apps.apple.com/app/mune-private-finance-ai/id6777609206."
+      "answer": "I co-founded Mune, a personal finance iPhone app started in May 2026 and live on the App Store. It includes Safe-to-Spend, budgets, goals, subscriptions, notifications, and production Plaid bank connectivity. Its assistant runs Qwen3.5 4B with 4-bit weights on the iPhone using Apple's MLX, and it acts through 22 finance tools: checking what you can afford, building budgets, and setting goals from one conversation. I hardened tool calling for small on-device models: they often describe a tool call in prose instead of making it, so I added a corrective retry, and the assistant answers from finance tool results rather than the model's own arithmetic. I also built a second on-device runtime for Gemma models on LiteRT-LM. Pranav and I were both iOS developers on the app. A Node.js/Vercel backend handles Plaid token exchange, webhooks, transaction refresh, authentication, and account lifecycle; RevenueCat supports subscriptions. App Store: https://apps.apple.com/app/mune-private-finance-ai/id6777609206."
     },
     "proj-wrap": {
       "question": "What is WRAP and your CHI research?",
@@ -162,7 +162,7 @@
     },
     "fun-4": {
       "question": "What are your hobbies?",
-      "answer": "I’m a collector and a builder. I spend a lot of my free time building complex LEGO Technic sets and collecting Transformers figures—I'm still amazed by the engineering behind the transformation mechanics. I also play Chess. I'm moderately good with just a few specific openings, but I play enthusiastically! And as mentioned, I've recently started exploring Vancouver's hiking trails to disconnect from the screen."
+      "answer": "I’m a collector and a builder. I spend a lot of my free time building complex LEGO Technic sets and collecting Transformers figures—I'm still amazed by the engineering behind the transformation mechanics. I also play Chess. I'm moderately good with just a few specific openings, but I play enthusiastically! And as mentioned, I've recently started exploring Vancouver's hiking trails to disconnect from the screen. I also fly a DJI Flip drone and cut the footage myself: Mount Fuji over Lake Kawaguchiko, the Han River in Seoul, UBC at golden hour, and fireworks over Vancouver. And I've driven an F1 racing simulator, wheel in hand."
     },
     "fun-5": {
       "question": "Got any adventure stories?",
@@ -170,7 +170,7 @@
     },
     "fun-6": {
       "question": "Mac or PC?",
-      "answer": "I am a PC guy at heart because I need the raw GPU power for training models and the flexibility to upgrade hardware. That said, I appreciate the Mac ecosystem for its Unix-based terminal and battery life when I'm coding on the go. But if I had to pick one island to live on? PC."
+      "answer": "I am a PC guy at heart because I need the raw GPU power for training models and the flexibility to upgrade hardware. That said, I appreciate the Mac ecosystem for its Unix-based terminal and battery life when I'm coding on the go. But if I had to pick one island to live on? PC. Fittingly, I shipped Roadpack to the App Store from a Windows PC, building and signing it on GitHub's macOS runners."
     },
     "fun-7": {
       "question": "Coffee or tea?",

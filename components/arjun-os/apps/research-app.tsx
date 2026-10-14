@@ -6,6 +6,7 @@ import { portfolioData } from "@/lib/arjun-os/portfolio-data";
 import { accessibilityPublication as paper, researchSubmissions } from "@/lib/arjun-os/research-data";
 import { ProjectArt } from "../project-art";
 import { RecallRace } from "../motion/recall-race";
+import { ResearchHeadline } from "../motion/research-headline";
 
 export function ResearchApp() {
   const [step, setStep] = useState(0);
@@ -22,6 +23,7 @@ export function ResearchApp() {
         <p className="pf-paper-title">{paper.title}</p><p className="pf-caption">{paper.authors.join(" · ")}</p>
         <p className="pf-caption">{paper.authorship} · {paper.submission}</p>
       </header>
+      <ResearchHeadline />
       <div className="pf-research-metrics">{paper.metrics.map(metric => <div key={metric.label}><strong>{metric.value}</strong><span>{metric.label}</span><small>{metric.detail}</small></div>)}</div>
       <RecallRace />
       <p className="pf-research-limitation">{paper.limitation} <a className="pf-link" href={paper.url} target="_blank" rel="noreferrer">Source: preprint v2<ArrowUpRight size={12} aria-hidden /></a></p>

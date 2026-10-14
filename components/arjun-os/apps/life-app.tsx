@@ -7,7 +7,7 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { ArrowUpRight, Box, ChevronLeft, ChevronRight, Clapperboard, Images, MapPin, Trophy, X } from "lucide-react";
 import { portfolioData } from "@/lib/arjun-os/portfolio-data";
-import { fieldBuilds, fieldFilms, fieldPlaces, fieldWins, type FieldPhoto } from "@/lib/arjun-os/field-notes";
+import { fieldBuilds, fieldDrive, fieldFilms, fieldPlaces, fieldWins, type FieldPhoto } from "@/lib/arjun-os/field-notes";
 import { PHOTO_VIEWER_EVENT } from "@/lib/arjun-os/constants";
 import { cinematicItem, staggerContainer, useOsReducedMotion } from "@/lib/arjun-os/motion";
 import { useOSState } from "@/lib/arjun-os/os-context";
@@ -22,6 +22,12 @@ const ModelViewerCard = dynamic(
   () => import("@/components/ui/model-viewer-card").then((mod) => mod.ModelViewerCard),
   { ssr: false, loading: () => <div className="h-[240px] animate-pulse rounded-2xl border border-os-hairline bg-os-fill" /> },
 );
+
+// Three.js and the drone model load only when the Films album is opened.
+const DroneDive = dynamic(() => import("@/components/arjun-os/drone-dive").then((mod) => mod.DroneDive), {
+  ssr: false,
+  loading: () => <div className="dd-stage is-idle" aria-hidden />,
+});
 
 const DomeGalleryServer = dynamic(() => import("@/components/ui/dome-gallery-server"), {
   ssr: false,
@@ -165,7 +171,7 @@ function PlacesAlbum({ onOpenVancouver }: { onOpenVancouver: () => void }) {
   const place = fieldPlaces.find((item) => item.id === placeId) ?? fieldPlaces[0];
   return (
     <>
-      <div className="pf-life-heading"><p className="pf-eyebrow">On the map</p><h3>Everywhere the<br />camera has been.</h3><p>Pick a place on the route. Drone footage I flew and filmed, and photos from the road.</p></div>
+      <div className="pf-life-heading"><p className="pf-eyebrow">On the map</p><h3>Everywhere the<br />camera has been.</h3><p>Pick a place on the route. Drone footage I shot on my DJI Flip, and photos from the road.</p></div>
       <PlacesMap places={fieldPlaces} selected={place.id} onSelect={setPlaceId} />
       <section className="fn-place" aria-live="polite" aria-label={place.name}>
         <header><h4>{place.name}</h4><p>{place.note}</p></header>
@@ -180,8 +186,12 @@ function PlacesAlbum({ onOpenVancouver }: { onOpenVancouver: () => void }) {
 function FilmsAlbum() {
   return (
     <>
-      <div className="pf-life-heading"><p className="pf-eyebrow">From the drone</p><h3>I fly a drone and<br />cut the footage.</h3><p>Short loops from the original files. They play while they’re on screen.</p></div>
-      <div className="fn-film-grid">{fieldFilms.map((film) => <FilmTile key={film.id} id={film.id} />)}</div>
+      <div className="pf-life-heading"><p className="pf-eyebrow">From the drone</p><h3>I fly a drone and<br />cut the footage.</h3><p>Shot on my DJI Flip. Short loops from the original files; they play while they’re on screen.</p></div>
+      <figure className="dd-figure">
+        <DroneDive film={filmById("fuji-kawaguchiko").src} poster={filmById("fuji-kawaguchiko").poster} />
+        <figcaption><strong>Into the lens, over Lake Kawaguchiko</strong><span>Footage shot by me · DJI Flip. The 3D drone is a DJI Mini 3 Pro model by wishmaster88 (CC BY 4.0), standing in for the Flip.</span></figcaption>
+      </figure>
+      <div className="fn-film-grid">{fieldFilms.filter((film) => film.id !== "fuji-kawaguchiko").map((film) => <FilmTile key={film.id} id={film.id} />)}</div>
     </>
   );
 }
@@ -191,6 +201,10 @@ function BuildsAlbum({ onOpenLego }: { onOpenLego: () => void }) {
     <>
       <div className="pf-life-heading"><p className="pf-eyebrow">Made by hand</p><h3>One piece.<br />Then another.</h3><p>{fieldBuilds.intro}</p></div>
       <PhotoGrid photos={fieldBuilds.photos} label="LEGO Technic builds" />
+      <section className="fn-drive" aria-label={fieldDrive.title}>
+        <LoopVideo src={fieldDrive.src} poster={fieldDrive.poster} label={fieldDrive.title} className="fn-drive-video" />
+        <div><p className="pf-eyebrow">Behind the wheel</p><h4>{fieldDrive.title}</h4><p>{fieldDrive.note}</p></div>
+      </section>
       <ModelCard kind="lego" onOpen={onOpenLego} />
     </>
   );

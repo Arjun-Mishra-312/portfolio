@@ -6,6 +6,8 @@ export interface CaseMedia {
   alt: string;
   caption: string;
   portrait?: boolean;
+  /** A short muted screen recording that loops while on screen; `asset` is its poster. */
+  video?: string;
 }
 interface CaseFeature {
   eyebrow: string;
@@ -99,25 +101,25 @@ export const projectCaseStudies: Record<DetailedProjectId, ProjectCaseStudy> = {
   mune: {
     premise: {
       title: "From transactions to everyday decisions.",
-      body: "Mune puts an everyday finance dashboard and a private assistant in the same native app. The experience moves from a quick glance at what is safe to spend to a question grounded in the user’s local financial records.",
+      body: "Mune puts an everyday finance dashboard and an assistant in the same native app. The assistant runs Qwen3.5 4B on the iPhone with Apple’s MLX, and it doesn’t just answer: it acts through 22 finance tools.",
     },
     features: [
       {
-        eyebrow: "Glance, then ask",
-        title: "Clarity without a spreadsheet.",
-        body: "Net totals, recent transactions, and Safe-to-Spend make the current picture readable. A conversation can then explore that picture using finance tools running on the device.",
+        eyebrow: "It doesn’t just answer. It acts.",
+        title: "Can I afford it? Ask.",
+        body: "The assistant checks what you can afford, builds budgets, and sets goals from one conversation. Every number in the answer comes from a finance tool’s result, not from the model’s own arithmetic.",
         media: [
-          { asset: "mune-dashboard", alt: "Mune App Store artwork showing the home dashboard, recent transactions, and Safe-to-Spend", caption: "Dashboard · original App Store artwork.", portrait: true },
-          { asset: "mune-chat", alt: "Mune App Store artwork showing a private finance conversation with a spending chart", caption: "Private assistant · original App Store artwork.", portrait: true },
+          { asset: "mune-ask", video: "/case-studies/mune-ask.mp4", alt: "Screen recording of Mune: the question “Can I afford a $1000 trip next month?” is answered with liquid cash, Safe-to-Spend, and a “Looks affordable” card", caption: "A real affordability check, recorded on an iPhone. The model’s reasoning is trimmed for length.", portrait: true },
+          { asset: "mune-budgets", alt: "Mune's assistant answering with budget progress for overall, food, and shopping spending", caption: "Budgets, from the same conversation. Real app capture.", portrait: true },
         ],
       },
       {
         eyebrow: "Look a little further",
         title: "See patterns. Plan what’s next.",
-        body: "Category trends and recurring charges bring longer-term context into the daily view. They complement budgets and goals so the app can support both an immediate decision and a plan for the month.",
+        body: "Insights bring the year into view: net totals, income against spending, and where the money went. Ask about any of it, like last month’s DoorDash orders, and the answer lists the actual transactions.",
         media: [
-          { asset: "mune-trends", alt: "Mune App Store artwork showing weekly spending bars and a category breakdown", caption: "Spending insights · original App Store artwork.", portrait: true },
-          { asset: "mune-recurring", alt: "Mune App Store artwork showing subscriptions, renewal dates, and recurring charges", caption: "Recurring charges · original App Store artwork.", portrait: true },
+          { asset: "mune-insights", alt: "Mune Insights showing net for 2026, monthly spending bars, and a ring of total spending by category", caption: "Insights. Real app capture.", portrait: true },
+          { asset: "mune-doordash", alt: "Mune's assistant listing last month's two DoorDash transactions with a total and a trend chart", caption: "“Show me my last month DoorDash transactions.” Real app capture.", portrait: true },
         ],
       },
     ],
@@ -132,7 +134,7 @@ export const projectCaseStudies: Record<DetailedProjectId, ProjectCaseStudy> = {
       decisions: [
         { title: "Make the daily view useful on its own.", body: "Safe-to-Spend, budgets, goals, and subscriptions provide a concrete finance experience before someone opens a conversation.", consequence: "A quick answer when a chat is unnecessary." },
         { title: "Ground answers in finance tools.", body: "The local assistant gathers structured finance results before writing its response. Bounded tool rounds and deterministic fallbacks handle incomplete model outputs.", consequence: "Numbers come from tool results rather than free-form invention." },
-        { title: "Fit inference to the device.", body: "MLX Swift and LiteRT-LM support local models with device-aware selection and managed model downloads.", consequence: "Local AI has to account for memory, storage, and runtime behavior." },
+        { title: "Fit inference to the device.", body: "Release builds run Qwen3.5 4B with 4-bit weights on MLX Swift. A second runtime on LiteRT-LM supports Gemma models, with memory-aware model choice and managed downloads.", consequence: "A 4-billion-parameter model that fits a phone’s memory and storage." },
         { title: "Make the connection boundary explicit.", body: "The Node.js service supports authenticated Plaid connectivity. The code also provides a stateless development path with access tokens in Keychain; finance records power the local assistant.", consequence: "On-device AI and bank connectivity have different data flows." },
       ],
     },
@@ -140,7 +142,7 @@ export const projectCaseStudies: Record<DetailedProjectId, ProjectCaseStudy> = {
       title: "An assistant that works where the data lives.",
       groups: [
         { label: "Native experience", title: "Your daily finances", body: "Swift screens bring transactions, budgets, goals, and subscriptions into the local product.", tools: ["Swift", "Core Data", "Finance tools"] },
-        { label: "On-device intelligence", title: "Tools before answers", body: "The model requests finance tools, then responds from their verified results.", tools: ["MLX Swift", "LiteRT-LM", "Local tool loop"] },
+        { label: "On-device intelligence", title: "Tools before answers", body: "The model requests finance tools, then responds from their verified results.", tools: ["Qwen3.5 4B · MLX", "22 finance tools", "LiteRT-LM"] },
         { label: "Connected services", title: "The bank bridge", body: "A Node.js service supports Plaid connectivity and account lifecycle. RevenueCat supports subscriptions.", tools: ["Plaid", "Node.js / Vercel", "RevenueCat"] },
       ],
       stages: [
@@ -152,7 +154,7 @@ export const projectCaseStudies: Record<DetailedProjectId, ProjectCaseStudy> = {
       ],
       boundary: "The AI conversation runs on the device. Bank connectivity still uses Plaid and the proxy; on-device AI does not mean every app service is offline.",
     },
-    resultNote: "Shipped on the App Store with local inference and production bank connectivity. The images are the project’s original App Store presentation, rather than newly generated app screens.",
+    resultNote: "Shipped on the App Store with on-device inference and production bank connectivity. Screens are real app captures with a clean 9:41 status bar; the recording is trimmed for length.",
     sources: [{ label: "Mune website", href: "https://askmune.app" }, { label: "App Store", href: "https://apps.apple.com/app/mune-private-finance-ai/id6777609206" }],
   },
   "ai-accessibility-analyzer": {

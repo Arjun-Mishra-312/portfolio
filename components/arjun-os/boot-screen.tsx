@@ -41,7 +41,8 @@ export function BootScreen({
       (appDestination !== null && appDestination !== "profile") ||
       ["project", "ai", "tour"].some((key) => params.has(key));
 
-    if (!forceBoot && (hasDirectDestination || sessionStorage.getItem("arjun-os-booted") === "true" || window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {
+    const skipped = document.documentElement.dataset.skipBoot === "true";
+    if (!forceBoot && (skipped || hasDirectDestination || sessionStorage.getItem("arjun-os-booted") === "true" || window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {
       finish();
       return;
     }

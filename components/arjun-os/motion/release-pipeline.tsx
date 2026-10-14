@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { MotionFigure } from "./motion-figure";
+import { GrowCheck } from "./grow-check";
 import { useFrameLoop } from "./use-frame-loop";
 
 const STAGES = [
@@ -22,6 +23,10 @@ const LOG = [
   "✓ keychain deleted · build ready for review",
 ];
 
+// The film's word swap: each verb earns its check as the release reaches the stage that does it
+// (built, tested and signed around the archive; shipped on arrival), at these points in the cycle.
+const VERBS = [["Built", 0.5], ["Tested", 0.58], ["Signed", 0.66], ["Shipped", 0.9]] as const;
+
 const CYCLE = 9;
 const X = STAGES.map((_, index) => 60 + index * 104);
 
@@ -31,6 +36,7 @@ export function ReleasePipeline() {
   const packet = useRef<SVGCircleElement>(null);
   const nodes = useRef<(SVGCircleElement | null)[]>([]);
   const lines = useRef<(HTMLSpanElement | null)[]>([]);
+  const verbs = useRef<(HTMLSpanElement | null)[]>([]);
 
   useFrameLoop(root, (t) => {
     const phase = (t % CYCLE) / CYCLE;
@@ -44,11 +50,19 @@ export function ReleasePipeline() {
     lines.current.forEach((line, index) => {
       if (line) line.hidden = index > reached;
     });
+    verbs.current.forEach((verb, index) => verb?.classList.toggle("is-done", phase >= VERBS[index][1] && phase < 0.985));
   }, 8.5);
 
   return (
     <div ref={root}>
-      <MotionFigure title="Shipping iOS from Windows" note="Release path, simplified" className="mo-pipeline">
+      <MotionFigure
+        title="Shipping iOS from Windows"
+        note="Release path, simplified"
+        className="mo-pipeline"
+        readout={<span className="mo-verbs" aria-label="Built, tested, signed, and shipped">{VERBS.map(([verb], index) => (
+          <span key={verb} ref={(el) => { verbs.current[index] = el; }} className="mo-verb"><GrowCheck size={14} />{verb}.</span>
+        ))}</span>}
+      >
         <svg viewBox="0 0 640 120" role="img" aria-label="A release moves from a Windows PC through a GitHub Actions macOS runner, a temporary signing keychain, an Xcode archive and App Store Connect to the App Store.">
           <line x1={X[0]} y1="56" x2={X[X.length - 1]} y2="56" className="mo-wire" />
           {STAGES.map(([name, detail], index) => (

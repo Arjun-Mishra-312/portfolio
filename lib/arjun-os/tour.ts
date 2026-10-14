@@ -42,7 +42,7 @@ export const RECRUITER_TOUR_STEPS: TourStep[] = [
   {
     id: "experience-impact",
     title: "Experience + impact",
-    summary: "Part-time AI implementations at IFS Copperleaf: production portals, leadership adoption, and an estimated 160+ employee hours saved annually.",
+    summary: "Retained part-time at IFS Copperleaf after an AI co-op: an ROI Analytics Portal adopted by Senior Leadership, and a Data Validation Portal for data-quality checks.",
     appId: "experience",
     arrange: (workArea) => ({
       profile: { isOpen: false },
