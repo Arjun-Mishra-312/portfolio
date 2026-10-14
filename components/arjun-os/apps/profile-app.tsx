@@ -25,7 +25,7 @@ export function ProfileApp() {
         <h2>Apps that ship.<br />Agents that show their work.</h2>
         <p>{profile.positioning}</p>
         <div className="pf-actions">
-          <button className="pf-button" onClick={() => openIntroFilm("short")}><Play size={15} fill="currentColor" aria-hidden />Watch the 1-minute intro</button>
+          <button className="pf-button" onClick={() => openIntroFilm("short")}><Play size={15} fill="currentColor" aria-hidden />Watch the intro film</button>
           <button className="pf-button pf-button-quiet" onClick={startTour}>Take a quick tour<ArrowRight size={16} aria-hidden /></button>
           <button className="pf-link" onClick={openResume}>Open Resume<ArrowUpRight size={15} aria-hidden /></button>
           <a className="pf-link" href={"mailto:" + profile.contact.email}>Say hello<ArrowUpRight size={15} aria-hidden /></a>
@@ -53,7 +53,7 @@ export function ProfileApp() {
         ))}
       </section>
       <div className="pf-home-notes">
-        <button onClick={() => openApp("experience")} className="pf-home-ifs"><span className="pf-home-ifs-field" aria-hidden><Image src="/copperleaf-logo.png" alt="" width={507} height={160} /><small>AI co-op → part-time engineer</small></span><span className="pf-eyebrow">In practice</span><strong>AI implementations<br />at IFS Copperleaf.</strong><span>Data pipelines and an ROI portal for senior leadership.<ArrowRight size={15} aria-hidden /></span></button>
+        <button onClick={() => openApp("experience")} className="pf-home-ifs"><span className="pf-home-ifs-field" aria-hidden><Image src="/copperleaf-logo.png" alt="" width={507} height={160} /><small>AI internship → part-time engineer</small></span><span className="pf-eyebrow">In practice</span><strong>AI implementations<br />at IFS Copperleaf.</strong><span>Data pipelines and an ROI portal for senior leadership.<ArrowRight size={15} aria-hidden /></span></button>
         <button onClick={() => openApp("life")} className="pf-home-life"><span className="pf-home-life-photo"><Image src="/life/photos/fuji-fujiyoshida.webp" alt="" fill sizes="(max-width: 640px) 100vw, 420px" className="object-cover" /></span><span className="pf-eyebrow">Away from the keyboard</span><strong>Drone films, LEGO supercars,<br />and a good chai.</strong><span>Meet the person behind the projects.<ArrowRight size={15} aria-hidden /></span></button>
       </div>
       <section className="pf-credentials" aria-labelledby="education-heading">

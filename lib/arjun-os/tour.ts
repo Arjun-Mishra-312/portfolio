@@ -42,7 +42,7 @@ export const RECRUITER_TOUR_STEPS: TourStep[] = [
   {
     id: "experience-impact",
     title: "Experience + impact",
-    summary: "Retained part-time at IFS Copperleaf after an AI co-op: an ROI Analytics Portal adopted by Senior Leadership, and a Data Validation Portal for data-quality checks.",
+    summary: "Offered a part-time role at IFS Copperleaf when his AI engineering internship ended: an ROI Analytics Portal adopted by Senior Leadership, and a Data Validation Portal for data-quality checks.",
     appId: "experience",
     arrange: (workArea) => ({
       profile: { isOpen: false },

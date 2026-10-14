@@ -1,3 +1,16 @@
+# Resume content sync — October 14, 2026
+
+Source: Arjun's October 14 `Arjun_Resume.pdf`, copied unchanged to `public/Resume.pdf` (68,579 bytes), served as `/Resume.pdf?v=2026-10-14`.
+
+SHA-256: `ec84f61fdb231ebd34fcb478b6d0a7c32fe51eb677f4e6ad8336322d062eb373`.
+
+- Fixes the two errors in the September export: Hack the North 2024 is now the "Codegen Sponsor Prize" (not "Winner"), and the Data Validation Portal no longer claims "160+ employee hours".
+- IFS Copperleaf is now "AI Engineering Intern → Jr. AI Implementations Engineer (Part-time)": "Offered a part-time role after the internship to keep building as a forward-deployed engineer". The site, tour and AI guide say "internship" to match (no "co-op").
+- "Dean's Honours List" spelling, as on the résumé.
+- The e2e test pins the new URL and SHA-256.
+
+---
+
 # Resume content sync — October 5, 2026
 
 Source: the user-provided September 2026 `Arjun_Resume.pdf`. The downloadable `public/Resume.pdf` is an unchanged copy (68,578 bytes).

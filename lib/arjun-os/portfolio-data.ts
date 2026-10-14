@@ -59,7 +59,7 @@ export const portfolioData = {
     ],
     focusAreas: ["Production AI systems", "Accessibility research", "Native iOS + distributed systems", "Developer tooling"],
     quickFacts: [
-      "Jr. AI Implementations Engineer (part-time) at IFS Copperleaf, following an AI Engineering Co-op",
+      "Jr. AI Implementations Engineer (part-time) at IFS Copperleaf, offered when his AI Engineering internship ended",
       "HCI/AI Research Assistant at UBC SOCIUS Lab",
       "Roadpack and Mune live on the App Store; BuildStory’s scanner is open source",
       "First author of Agentic Web Accessibility Auditing; second author of WRAP — both submitted to ACM CHI 2027",
@@ -72,7 +72,7 @@ export const portfolioData = {
       minor: "Commerce Minor",
       period: "Sep 2022 – May 2027",
       graduation: "Expected May 2027",
-      awards: ["youCode 2025 — 1st Place, SAP Stream", "Hack the North 2024 — Codegen sponsor prize", "Work Learn International Undergraduate Research Award", "Faculty of Science International Student Scholar", "Dean’s Honors List"],
+      awards: ["youCode 2025 — 1st Place, SAP Stream", "Hack the North 2024 — Codegen sponsor prize", "Work Learn International Undergraduate Research Award", "Faculty of Science International Student Scholar", "Dean’s Honours List"],
     },
     skills: [
       { title: "Languages", items: ["Swift", "TypeScript / JavaScript", "Python", "C / C++", "SQL", "Java", "Dart"] },
@@ -84,7 +84,7 @@ export const portfolioData = {
       email: "arjunmishra31204@gmail.com",
       github: "https://github.com/Arjun-Mishra-312",
       linkedin: "https://linkedin.com/in/-arjun-mishra/",
-      resume: "/Resume.pdf?v=2026-10-05",
+      resume: "/Resume.pdf?v=2026-10-14",
     },
     avatar: "/arjun-lake-avatar.webp",
   },
@@ -263,11 +263,11 @@ export const portfolioData = {
     {
       id: "copperleaf",
       organization: "IFS Copperleaf",
-      role: "Jr. AI Implementations Engineer (part-time) · previously AI Engineering Co-op",
+      role: "Jr. AI Implementations Engineer (part-time) · previously AI Engineering Intern",
       period: "Oct 2025 – Present",
       location: "Vancouver, BC",
       summary:
-        "Retained part-time after my co-op as a forward-deployed engineer, taking production AI and data applications from stakeholder discovery to deployment.",
+        "Offered a part-time role when my internship ended, to keep building as a forward-deployed engineer: production AI and data applications, from stakeholder discovery to deployment.",
       responsibilities: [
         "Owned the AI-powered ROI Analytics Portal end-to-end, combining a conversational assistant and interactive analytics adopted by Department Leaders and Senior Leadership.",
         "Built a Data Validation Portal that runs enterprise data-quality checks before data reaches AI ingestion.",

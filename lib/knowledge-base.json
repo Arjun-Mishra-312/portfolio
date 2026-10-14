@@ -36,7 +36,7 @@
     },
     "pro-2": {
       "question": "Why should I hire you?",
-      "answer": "You should hire me because I combine the disciplined mindset of a researcher with the agility of a rapid learner. I treat engineering as a craft—prioritizing thorough scoping and scalable design—but I also possess the adaptability to pick up new tech stacks and pivot quickly as project needs evolve. My background in both academic research and industry co-ops has trained me to handle ambiguity effectively. I don't just solve the problem in front of me; I learn the context around it to ensure the solution fits the team's broader goals. I am ready to hit the ground running, bringing both technical expertise and a hunger to grow."
+      "answer": "You should hire me because I combine the disciplined mindset of a researcher with the agility of a rapid learner. I treat engineering as a craft—prioritizing thorough scoping and scalable design—but I also possess the adaptability to pick up new tech stacks and pivot quickly as project needs evolve. My background in both academic research and industry work has trained me to handle ambiguity effectively. I don't just solve the problem in front of me; I learn the context around it to ensure the solution fits the team's broader goals. I am ready to hit the ground running, bringing both technical expertise and a hunger to grow."
     },
     "pro-3": {
       "question": "What makes you a valuable team member?",
@@ -44,11 +44,11 @@
     },
     "pro-4": {
       "question": "Where are you working now?",
-      "answer": "Since October 2025, my IFS Copperleaf work has progressed from an AI Engineering Co-op to a part-time Jr. AI Implementations Engineer role. I take production AI and data applications from stakeholder discovery to deployment using Databricks, Spark, Delta Lake, and LLM APIs. I owned an ROI Analytics Portal adopted by Department Leaders and Senior Leadership, and built a Data Validation Portal that runs enterprise data-quality checks before AI ingestion. I also research HCI/AI at UBC SOCIUS Lab under Professor Dongwook Yoon, since February 2025."
+      "answer": "Since October 2025 I've worked at IFS Copperleaf: my AI Engineering internship ended with an offer to keep building part-time, as a Jr. AI Implementations Engineer, through my final year. I take production AI and data applications from stakeholder discovery to deployment using Databricks, Spark, Delta Lake, and LLM APIs. I owned an ROI Analytics Portal adopted by Department Leaders and Senior Leadership, and built a Data Validation Portal that runs enterprise data-quality checks before AI ingestion. I also research HCI/AI at UBC SOCIUS Lab under Professor Dongwook Yoon, since February 2025."
     },
     "pro-5": {
       "question": "What's your educational background?",
-      "answer": "I am pursuing a BSc in Computer Science with an AI Specialization and a Commerce Minor at the University of British Columbia, September 2022 to expected graduation in May 2027. My recognition includes the Work Learn International Undergraduate Research Award, Faculty of Science International Student Scholar, and Dean’s Honors List. I also won the Codegen sponsor prize at Hack the North 2024 and first place in the SAP Stream at youCode 2025."
+      "answer": "I am pursuing a BSc in Computer Science with an AI Specialization and a Commerce Minor at the University of British Columbia, September 2022 to expected graduation in May 2027. My recognition includes the Work Learn International Undergraduate Research Award, Faculty of Science International Student Scholar, and Dean’s Honours List. I also won the Codegen sponsor prize at Hack the North 2024 and first place in the SAP Stream at youCode 2025."
     },
     "pro-6": {
       "question": "Tell me about your work philosophy",

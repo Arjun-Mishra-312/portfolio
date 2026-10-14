@@ -9,8 +9,8 @@ import { useOsReducedMotion } from "@/lib/arjun-os/motion";
 
 /** The two cuts of "Introducing Arjun Mishra": web encodes of the launch film (see scripts/site-media.py). */
 export const INTRO_FILMS = {
-  short: { src: "/films/introducing-60.mp4", poster: "/films/introducing-60.jpg", captions: "/films/introducing-60.vtt", duration: "1:03", title: "Introducing Arjun Mishra", note: "The one-minute film" },
-  full: { src: "/films/introducing.mp4", poster: "/films/introducing.jpg", captions: "/films/introducing.vtt", duration: "2:04", title: "Introducing Arjun Mishra", note: "The full film" },
+  short: { src: "/films/introducing-60.mp4", poster: "/films/introducing-60.jpg", captions: "/films/introducing-60.vtt", duration: "1:12", title: "Introducing Arjun Mishra", note: "The short film" },
+  full: { src: "/films/introducing.mp4", poster: "/films/introducing.jpg", captions: "/films/introducing.vtt", duration: "2:26", title: "Introducing Arjun Mishra", note: "The full film" },
 } as const;
 export type IntroCut = keyof typeof INTRO_FILMS;
 
@@ -97,7 +97,7 @@ export function IntroFilmHost() {
                 <span>{film.note} · {film.duration} · Captions in the player (CC)</span>
               </div>
               <button type="button" className="if-switch" onClick={() => setCut(cut === "short" ? "full" : "short")}>
-                {cut === "short" ? `Watch the full film · ${INTRO_FILMS.full.duration}` : `Watch the one-minute cut · ${INTRO_FILMS.short.duration}`}
+                {cut === "short" ? `Watch the full film · ${INTRO_FILMS.full.duration}` : `Watch the short cut · ${INTRO_FILMS.short.duration}`}
               </button>
             </figcaption>
             <button type="button" className="if-close" onClick={close} aria-label="Close film"><X aria-hidden /></button>
@@ -120,8 +120,8 @@ export function IntroFilmCard() {
       <span className="if-card-copy">
         <span className="if-card-play" aria-hidden><Play size={18} fill="currentColor" /></span>
         <span>
-          <strong>Watch the 1-minute intro</strong>
-          <small>Roadpack, Mune, the research, and life away from the keyboard · {film.duration}</small>
+          <strong>Watch the intro film</strong>
+          <small>Roadpack, Mune, the research, IFS Copperleaf, and life away from the keyboard · {film.duration}</small>
         </span>
       </span>
     </button>

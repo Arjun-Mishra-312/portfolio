@@ -63,11 +63,11 @@ test("resume actions open the updated, byte-identical uploaded PDF", async ({ pa
   });
   await page.goto("/");
   await page.getByRole("button", { name: "Open Resume", exact: true }).click();
-  await expect(page.locator("html")).toHaveAttribute("data-resume-url", "/Resume.pdf?v=2026-10-05");
-  const response = await request.get("/Resume.pdf?v=2026-10-05");
+  await expect(page.locator("html")).toHaveAttribute("data-resume-url", "/Resume.pdf?v=2026-10-14");
+  const response = await request.get("/Resume.pdf?v=2026-10-14");
   expect(response.ok()).toBe(true);
   expect(response.headers()["content-type"]).toContain("application/pdf");
-  expect(createHash("sha256").update(await response.body()).digest("hex")).toBe("bba60f0548f9d77e00e9c7f4707e484184d53b7bfdf7f6daf98da06df3c221d0");
+  expect(createHash("sha256").update(await response.body()).digest("hex")).toBe("ec84f61fdb231ebd34fcb478b6d0a7c32fe51eb677f4e6ad8336322d062eb373");
 });
 
 for (const project of [

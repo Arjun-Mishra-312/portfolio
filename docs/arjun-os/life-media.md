@@ -29,7 +29,7 @@ For local film renders, use the originals in `C:\Users\arjun\Downloads`, not the
 
 Built by `scripts/site-media.py` from the film projects in `videos/` (gitignored source):
 
-- `public/films/introducing{,-60}.mp4/.jpg/.vtt`: 720p web encodes of the launch film (v11) and its 60-second cut (v3), posters from the "Introducing" title frame, and captions from the narration's word timings with the recorded script's text.
+- `public/films/introducing{,-60}.mp4/.jpg/.vtt`: 720p web encodes of the launch film (v13, 2:26, with the bento finale and the Apple-style end card) and its short cut (v4, 1:12, built by `videos/film-launch-60/tools/build75.py`, `short_finale.py` and `join75.py`), posters from the "Introducing" title frame, and captions from the narration's word timings with the recorded script's text. Rebuild just these with `python scripts/site-media.py films`.
 - `public/case-studies/mune-ask.mp4`: the affordability check from Arjun's screen recording (typing sped up 2.4x; the model's visible reasoning between question and answer is cut). `mune-insights`, `mune-budgets`, `mune-doordash`: real captures with a 9:41 status bar.
 - `public/roadpack/surfaces/`: the real Lock Screen capture (carrier name masked), the Live Activity capture, and the app icon. The Dynamic Island and Siri views on the site are recreated from that Live Activity; Siri phrases are the app's own App Shortcut phrases.
 - `public/life/films/f1-sim.mp4/.webp`: the F1 simulator clip (4.7 s, from Arjun's video).
